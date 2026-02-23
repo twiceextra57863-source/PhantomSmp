@@ -1,25 +1,32 @@
-name: SMPStarter
-version: 1.0.0
-main: com.yourname.smpstarter.SMPStarter
+name: PhantomSMP
+version: 2.0.0
+main: com.phantom.smp.PhantomSMP
 api-version: 1.21
-author: YourName
-description: Magical SMP Starter Plugin with cinematic effects
+author: PhantomDev
+description: Epic Phantom SMP Plugin with Magical Books
 
 commands:
   smpstart:
     description: Start SMP timer
     usage: /smpstart <seconds>
-    permission: smpstarter.admin
+    permission: phantomsmp.admin
   givebook:
     description: Give magical book to player
     usage: /givebook <player> [bookname]
-    permission: smpstarter.admin
+    permission: phantomsmp.admin
   randombook:
     description: Give random magical book to player
     usage: /randombook <player>
-    permission: smpstarter.admin
+    permission: phantomsmp.admin
+  reloadphantom:
+    description: Reload PhantomSMP plugin
+    usage: /reloadphantom
+    permission: phantomsmp.admin
 
 permissions:
-  smpstarter.admin:
-    description: Admin permissions for SMPStarter
+  phantomsmp.admin:
+    description: Admin permissions for PhantomSMP
     default: op
+  phantomsmp.use:
+    description: Use PhantomSMP books
+    default: true
