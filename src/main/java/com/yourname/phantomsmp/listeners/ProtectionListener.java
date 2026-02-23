@@ -1,6 +1,6 @@
-package com.yourname.smpstarter.listeners;
+package com.phantom.smp.listeners;
 
-import com.yourname.smpstarter.SMPStarter;
+import com.phantom.smp.PhantomSMP;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,9 +8,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class ProtectionListener implements Listener {
     
-    private final SMPStarter plugin;
+    private final PhantomSMP plugin;
     
-    public ProtectionListener(SMPStarter plugin) {
+    public ProtectionListener(PhantomSMP plugin) {
         this.plugin = plugin;
     }
     
