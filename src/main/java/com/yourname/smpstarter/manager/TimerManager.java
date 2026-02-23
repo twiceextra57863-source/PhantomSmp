@@ -1,8 +1,8 @@
 package com.yourname.smpstarter.manager;
 
 import com.yourname.smpstarter.SMPStarter;
+import com.yourname.smpstarter.models.MagicBook;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -10,6 +10,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -139,7 +140,8 @@ public class TimerManager {
             protectedPlayers.add(player.getUniqueId());
             
             // Start cinematic effect
-            new ParticleManager(plugin).startCircleEffect(player, () -> {
+            ParticleManager particleManager = new ParticleManager(plugin);
+            particleManager.startCircleEffect(player, () -> {
                 // Give random book after effect
                 MagicBook randomBook = MagicBook.getRandomBook();
                 player.getInventory().addItem(randomBook.createBook());
@@ -160,5 +162,9 @@ public class TimerManager {
     
     public boolean isProtected(Player player) {
         return protectedPlayers.contains(player.getUniqueId());
+    }
+    
+    public Set<UUID> getProtectedPlayers() {
+        return protectedPlayers;
     }
 }
