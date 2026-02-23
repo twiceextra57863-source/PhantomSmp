@@ -5,6 +5,7 @@ import com.yourname.smpstarter.models.MagicBook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
@@ -65,7 +66,7 @@ public class BookManager {
             Bukkit.broadcastMessage("§d§l" + player.getName() + " §ereceived: §6" + book.getDisplayName());
             
             // Play sound
-            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
             
             // Final effect
             for (int i = 0; i < 20; i++) {
@@ -200,7 +201,7 @@ public class BookManager {
     // 1. THOR - Lightning Strikes
     private void thorAbility(Player player) {
         player.sendMessage("§e§l⚡ THOR'S WRATH ⚡");
-        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1.0f, 1.0f);
         
         Location targetLoc = player.getTargetBlock(null, 50).getLocation().add(0, 1, 0);
         
@@ -246,7 +247,7 @@ public class BookManager {
     // 2. STORM - Tornado Effect
     private void stormAbility(Player player) {
         player.sendMessage("§b§l🌪️ STORM BREAKER 🌪️");
-        player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_WIND_BURST, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_WIND_BURST, 1.0f, 1.0f);
         
         Location center = player.getLocation();
         
@@ -291,7 +292,7 @@ public class BookManager {
     // 3. PHOENIX - Rebirth and Fire
     private void phoenixAbility(Player player) {
         player.sendMessage("§c§l🔥 PHOENIX FLAME 🔥");
-        player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
+        player.playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1.0f, 1.0f);
         
         // Heal player
         player.setHealth(player.getMaxHealth());
@@ -345,7 +346,7 @@ public class BookManager {
     // 4. ICE - Freeze Enemies
     private void iceAbility(Player player) {
         player.sendMessage("§3§l❄️ FROST WEAVER ❄️");
-        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1, 1);
+        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1.0f, 1.0f);
         
         for (Entity e : player.getWorld().getNearbyEntities(player.getLocation(), 10, 10, 10)) {
             if (e instanceof LivingEntity && e != player) {
@@ -385,7 +386,7 @@ public class BookManager {
     // 5. DRAGON - Dragon Breath
     private void dragonAbility(Player player) {
         player.sendMessage("§5§l🐉 DRAGON'S FURY 🐉");
-        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 1.0f);
         
         Location start = player.getLocation().add(0, 1.5, 0);
         Vector direction = player.getLocation().getDirection().normalize();
@@ -428,7 +429,7 @@ public class BookManager {
     // 6. VOID - Teleport and Phase
     private void voidAbility(Player player) {
         player.sendMessage("§8§l🌌 VOID WALKER 🌌");
-        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
         
         Location targetLoc = player.getTargetBlock(null, 30).getLocation().add(0, 1, 0);
         Location startLoc = player.getLocation();
@@ -455,14 +456,14 @@ public class BookManager {
         }
         
         // Give temporary invulnerability
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 4));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 100, 4));
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 1));
     }
     
     // 7. NATURE - Grow Trees and Heal
     private void natureAbility(Player player) {
         player.sendMessage("§2§l🌿 NATURE'S BLESSING 🌿");
-        player.playSound(player.getLocation(), Sound.BLOCK_GROWING_PLANT_CROP, 1, 1);
+        player.playSound(player.getLocation(), Sound.BLOCK_GROWING_PLANT_CROP, 1.0f, 1.0f);
         
         Location center = player.getLocation();
         
@@ -512,7 +513,7 @@ public class BookManager {
     // 8. COSMIC - Gravity Control
     private void cosmicAbility(Player player) {
         player.sendMessage("§d§l✨ COSMIC POWER ✨");
-        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 1.0f);
         
         Location center = player.getLocation();
         
@@ -557,7 +558,7 @@ public class BookManager {
     // 9. SHADOW - Invisibility and Backstab
     private void shadowAbility(Player player) {
         player.sendMessage("§7§l👻 SHADOW STRIKE 👻");
-        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 1.0f);
         
         // Invisibility and effects
         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 200, 1));
@@ -592,7 +593,7 @@ public class BookManager {
     // 10. LIGHT - Holy Healing and Blind
     private void lightAbility(Player player) {
         player.sendMessage("§e§l☀️ LIGHT BRINGER ☀️");
-        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1, 2);
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_POWER_SELECT, 1.0f, 2.0f);
         
         Location center = player.getLocation();
         
@@ -650,7 +651,7 @@ public class BookManager {
     // 11. EARTH - Earthquake and Walls
     private void earthAbility(Player player) {
         player.sendMessage("§6§l⛰️ EARTH SHAKER ⛰️");
-        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 0.5, 0.5);
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 0.5f, 0.5f);
         
         Location center = player.getLocation();
         
@@ -667,7 +668,7 @@ public class BookManager {
                 // Screen shake for nearby players
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (p.getLocation().distance(center) <= 20) {
-                        p.playSound(p.getLocation(), Sound.BLOCK_STONE_BREAK, 0.5, 0.5);
+                        p.playSound(p.getLocation(), Sound.BLOCK_STONE_BREAK, 0.5f, 0.5f);
                     }
                 }
                 
@@ -682,7 +683,7 @@ public class BookManager {
                     Location particleLoc = center.clone().add(x, 0.1, z);
                     
                     player.getWorld().spawnParticle(
-                        Particle.BLOCK,
+                        Particle.BLOCK_CRACK,
                         particleLoc,
                         5, 0.1, 0.1, 0.1, 0,
                         Bukkit.createBlockData(Material.STONE)
@@ -703,14 +704,14 @@ public class BookManager {
     // 12. WIND - Launch and Double Jump
     private void windAbility(Player player) {
         player.sendMessage("§f§l💨 WIND RUNNER 💨");
-        player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_WIND_BURST, 1, 2);
+        player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_WIND_BURST, 1.0f, 2.0f);
         
         // Launch player
         player.setVelocity(player.getLocation().getDirection().multiply(2).setY(1.5));
         
         // Allow double jump for next 10 seconds
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 200, 3));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 200, 2));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 200, 2));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 200, 1));
         
         // Wind particles trail
@@ -741,11 +742,11 @@ public class BookManager {
     // 13. TIME - Slow Time
     private void timeAbility(Player player) {
         player.sendMessage("§b§l⏰ TIME KEEPER ⏰");
-        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 1, 0.5);
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 1.0f, 0.5f);
         
         // Speed up self
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 4));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 2));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 100, 2));
         
         // Slow down enemies
         for (Entity e : player.getWorld().getNearbyEntities(player.getLocation(), 10, 10, 10)) {
@@ -786,7 +787,7 @@ public class BookManager {
     // 14. SOUL - Life Steal
     private void soulAbility(Player player) {
         player.sendMessage("§4§l💀 SOUL REAPER 💀");
-        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 0.8);
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.8f);
         
         for (Entity e : player.getWorld().getNearbyEntities(player.getLocation(), 8, 8, 8)) {
             if (e instanceof LivingEntity && e != player) {
@@ -837,10 +838,10 @@ public class BookManager {
     // 15. CRYSTAL - Crystal Shield and Projectiles
     private void crystalAbility(Player player) {
         player.sendMessage("§d§l💎 CRYSTAL MAGE 💎");
-        player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1, 2);
+        player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1.0f, 2.0f);
         
         // Crystal shield effect
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 200, 1));
         
         // Crystal particles
         new BukkitRunnable() {
@@ -883,7 +884,7 @@ public class BookManager {
     // 16. THUNDER - Chain Lightning
     private void thunderAbility(Player player) {
         player.sendMessage("§e§l🌩️ THUNDER GOD 🌩️");
-        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1.0f, 1.0f);
         
         List<Entity> targets = new ArrayList<>();
         
@@ -943,10 +944,10 @@ public class BookManager {
     // 17. FROST - Ice Armor
     private void frostAbility(Player player) {
         player.sendMessage("§3§l❄️ FROST KNIGHT ❄️");
-        player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1, 2);
+        player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1.0f, 2.0f);
         
         // Ice armor effect
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 2));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 200, 2));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 200, 1)); // Trade-off
         
         // Freeze aura
@@ -996,7 +997,7 @@ public class BookManager {
     // 18. FLAME - Fire Ring
     private void flameAbility(Player player) {
         player.sendMessage("§c§l🔥 FLAME EMPEROR 🔥");
-        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f);
         
         Location center = player.getLocation();
         
@@ -1046,7 +1047,7 @@ public class BookManager {
     // 19. SPIRIT - Summon Spirit Wolves
     private void spiritAbility(Player player) {
         player.sendMessage("§7§l👾 SPIRIT GUIDE 👾");
-        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 1.0f);
         
         // Summon 3 spirit wolves
         for (int i = 0; i < 3; i++) {
@@ -1092,7 +1093,7 @@ public class BookManager {
     // 20. NECRO - Raise Dead
     private void necroAbility(Player player) {
         player.sendMessage("§5§l⚰️ NECROMANCER ⚰️");
-        player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1, 0.5);
+        player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1.0f, 0.5f);
         
         // Find dead mobs nearby
         for (Entity e : player.getWorld().getNearbyEntities(player.getLocation(), 10, 10, 10)) {
@@ -1106,7 +1107,7 @@ public class BookManager {
                 undead.setGlowing(true);
                 
                 // Give them strength
-                undead.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 1));
+                undead.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, Integer.MAX_VALUE, 1));
                 
                 // Despawn after 20 seconds
                 Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -1145,7 +1146,7 @@ public class BookManager {
     // 21. ANGEL - Healing Aura
     private void angelAbility(Player player) {
         player.sendMessage("§f§l👼 ANGEL'S GRACE 👼");
-        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 2);
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 2.0f);
         
         // Slow falling and healing
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 200, 1));
@@ -1191,12 +1192,12 @@ public class BookManager {
     // 22. DEMON - Rage Mode
     private void demonAbility(Player player) {
         player.sendMessage("§4§l👿 DEMON'S RAGE 👿");
-        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 0.5);
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.5f);
         
         // Strength and fire
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 200, 2));
         player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 200, 1));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 200, 1));
         
         // Demon aura
         new BukkitRunnable() {
@@ -1246,21 +1247,21 @@ public class BookManager {
     // 23. CHAOS - Random Effects
     private void chaosAbility(Player player) {
         player.sendMessage("§5§l🌀 CHAOS MAGIC 🌀");
-        player.playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 1.0f, 1.0f);
         
         PotionEffectType[] effects = {
             PotionEffectType.SPEED,
             PotionEffectType.SLOWNESS,
-            PotionEffectType.FAST_DIGGING,
-            PotionEffectType.SLOW_DIGGING,
-            PotionEffectType.INCREASE_DAMAGE,
+            PotionEffectType.HASTE,
+            PotionEffectType.MINING_FATIGUE,
+            PotionEffectType.STRENGTH,
             PotionEffectType.WEAKNESS,
-            PotionEffectType.HEAL,
-            PotionEffectType.HARM,
-            PotionEffectType.JUMP,
-            PotionEffectType.CONFUSION,
+            PotionEffectType.INSTANT_HEALTH,
+            PotionEffectType.INSTANT_DAMAGE,
+            PotionEffectType.JUMP_BOOST,
+            PotionEffectType.NAUSEA,
             PotionEffectType.REGENERATION,
-            PotionEffectType.DAMAGE_RESISTANCE,
+            PotionEffectType.RESISTANCE,
             PotionEffectType.FIRE_RESISTANCE,
             PotionEffectType.WATER_BREATHING,
             PotionEffectType.INVISIBILITY,
@@ -1310,10 +1311,10 @@ public class BookManager {
     // 24. ORDER - Smite Evil
     private void orderAbility(Player player) {
         player.sendMessage("§b§l⚖️ ORDER'S JUDGEMENT ⚖️");
-        player.playSound(player.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, 1, 2);
+        player.playSound(player.getLocation(), Sound.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, 1.0f, 2.0f);
         
         // Protection for allies
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 2));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 200, 2));
         
         // Smite undead
         for (Entity e : player.getWorld().getNearbyEntities(player.getLocation(), 15, 15, 15)) {
@@ -1346,7 +1347,7 @@ public class BookManager {
     // 25. DREAM - Sleep Effect
     private void dreamAbility(Player player) {
         player.sendMessage("§d§l💭 DREAM WEAVER 💭");
-        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT, 1, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT, 1.0f, 1.0f);
         
         // Heal self
         player.setHealth(player.getMaxHealth());
@@ -1400,10 +1401,10 @@ public class BookManager {
     // 26. NIGHTMARE - Fear Effect
     private void nightmareAbility(Player player) {
         player.sendMessage("§8§l👹 NIGHTMARE 👹");
-        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_ROAR, 1, 0.8);
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_ROAR, 1.0f, 0.8f);
         
         // Give self strength
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 200, 1));
         
         // Fear effect on enemies
         for (Entity e : player.getWorld().getNearbyEntities(player.getLocation(), 10, 10, 10)) {
@@ -1449,11 +1450,11 @@ public class BookManager {
     // 27. AURORA - Colorful Lights
     private void auroraAbility(Player player) {
         player.sendMessage("§b§l🌈 AURORA 🌈");
-        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 2);
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1.0f, 2.0f);
         
         // Speed boost
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 200, 2));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 200, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 200, 1));
         
         // Aurora particles
         new BukkitRunnable() {
@@ -1478,13 +1479,6 @@ public class BookManager {
                     
                     Location particleLoc = center.clone().add(x, y, z);
                     
-                    // Color changing
-                    java.awt.Color color = java.awt.Color.getHSBColor(
-                        (float)((ticks + i) * 0.01 % 1.0),
-                        1.0f,
-                        1.0f
-                    );
-                    
                     player.getWorld().spawnParticle(
                         Particle.END_ROD,
                         particleLoc,
@@ -1504,7 +1498,7 @@ public class BookManager {
     // 28. GALAXY - Star Power
     private void galaxyAbility(Player player) {
         player.sendMessage("§d§l🌌 GALAXY 🌌");
-        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1.5);
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 1.5f);
         
         Location center = player.getLocation();
         
@@ -1556,7 +1550,7 @@ public class BookManager {
     // 29. INFERNO - Massive Fire Explosion
     private void infernoAbility(Player player) {
         player.sendMessage("§c§l🔥 INFERNO 🔥");
-        player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 0.8);
+        player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 0.8f);
         
         Location center = player.getLocation();
         
@@ -1613,7 +1607,7 @@ public class BookManager {
     // 30. AVALANCHE - Snow Barrage
     private void avalancheAbility(Player player) {
         player.sendMessage("§3§l🏔️ AVALANCHE 🏔️");
-        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1, 0.5);
+        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1.0f, 0.5f);
         
         Location center = player.getLocation();
         
