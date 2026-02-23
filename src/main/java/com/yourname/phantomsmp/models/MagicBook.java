@@ -1,174 +1,116 @@
-package com.yourname.smpstarter.models;
+package com.phantom.smp.models;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 
 public enum MagicBook {
     
-    // 30 Magical Books with unique names and abilities
-    THOR("⚡ Thor's Wrath", Material.ENCHANTED_BOOK, 
-         "Summon lightning strikes on enemies",
-         "§e§lRIGHT CLICK §7to unleash Thor's power!",
-         "thor"),
+    // 30 EPIC BOOK NAMES
+    STORMBRINGER("🌩️ Stormbringer", Material.ENCHANTED_BOOK, 
+         "Call down lightning from the skies", 30, "storm"),
     
-    STORM("🌪️ Storm Breaker", Material.ENCHANTED_BOOK,
-          "Create a tornado that throws enemies in air",
-          "§b§lRIGHT CLICK §7to summon a storm!",
-          "storm"),
+    SHADOWSTRIKE("👻 Shadowstrike", Material.ENCHANTED_BOOK,
+          "Vanish and strike from the darkness", 25, "shadow"),
     
-    PHOENIX("🔥 Phoenix Flame", Material.ENCHANTED_BOOK,
-            "Rise from ashes with regeneration and fire",
-            "§c§lRIGHT CLICK §7to be reborn in flames!",
-            "phoenix"),
+    FLAMEWALKER("🔥 Flamewalker", Material.ENCHANTED_BOOK,
+            "Walk through fire and leave destruction", 20, "flame"),
     
-    ICE("❄️ Frost Weaver", Material.ENCHANTED_BOOK,
-        "Freeze enemies in ice and create snow storms",
-        "§3§lRIGHT CLICK §7to freeze the battlefield!",
-        "ice"),
+    FROSTBITE("❄️ Frostbite", Material.ENCHANTED_BOOK,
+        "Freeze your enemies solid", 25, "frost"),
     
-    DRAGON("🐉 Dragon's Fury", Material.ENCHANTED_BOOK,
-           "Breathe fire and summon dragon spirits",
-           "§5§lRIGHT CLICK §7to unleash dragon wrath!",
-           "dragon"),
+    DRAGONSBREATH("🐉 Dragon's Breath", Material.ENCHANTED_BOOK,
+           "Exhale devastating dragon fire", 35, "dragon"),
     
-    VOID("🌌 Void Walker", Material.ENCHANTED_BOOK,
-         "Teleport through dimensions and avoid damage",
-         "§8§lRIGHT CLICK §7to phase through reality!",
-         "void"),
+    VOIDWALKER("🌌 Voidwalker", Material.ENCHANTED_BOOK,
+         "Phase through reality itself", 40, "void"),
     
-    NATURE("🌿 Nature's Blessing", Material.ENCHANTED_BOOK,
-           "Grow trees instantly and heal allies",
-           "§2§lRIGHT CLICK §7to embrace nature!",
-           "nature"),
+    LIFEBINDER("🌿 Lifebinder", Material.ENCHANTED_BOOK,
+           "Heal and nurture all life", 15, "life"),
     
-    COSMIC("✨ Cosmic Power", Material.ENCHANTED_BOOK,
-           "Manipulate gravity and throw enemies",
-           "§d§lRIGHT CLICK §7to control the cosmos!",
-           "cosmic"),
+    GRAVITY("⚡ Gravity", Material.ENCHANTED_BOOK,
+           "Control the pull of the earth", 30, "gravity"),
     
-    SHADOW("👻 Shadow Strike", Material.ENCHANTED_BOOK,
-           "Become invisible and deal bonus damage",
-           "§7§lRIGHT CLICK §7to fade into shadows!",
-           "shadow"),
+    PHANTOM("👤 Phantom", Material.ENCHANTED_BOOK,
+           "Become one with the shadows", 20, "phantom"),
     
-    LIGHT("☀️ Light Bringer", Material.ENCHANTED_BOOK,
-          "Blind enemies and heal with holy light",
-          "§e§lRIGHT CLICK §7to bring the light!",
-          "light"),
+    DAWNBRINGER("☀️ Dawnbringer", Material.ENCHANTED_BOOK,
+          "Bring light to the darkest places", 25, "dawn"),
     
-    EARTH("⛰️ Earth Shaker", Material.ENCHANTED_BOOK,
-          "Create earthquakes and raise walls",
-          "§6§lRIGHT CLICK §7to shake the ground!",
-          "earth"),
+    TERRASHAPER("⛰️ Terrashaper", Material.ENCHANTED_BOOK,
+          "Shape the earth at your will", 35, "terra"),
     
-    WIND("💨 Wind Runner", Material.ENCHANTED_BOOK,
-         "Launch yourself in air and double jump",
-         "§f§lRIGHT CLICK §7to ride the wind!",
-         "wind"),
+    ZEPHYR("💨 Zephyr", Material.ENCHANTED_BOOK,
+         "Ride the winds of fate", 15, "wind"),
     
-    TIME("⏰ Time Keeper", Material.ENCHANTED_BOOK,
-         "Slow time for enemies and speed yourself",
-         "§b§lRIGHT CLICK §7to control time!",
-         "time"),
+    TIMEWEAVER("⏳ Timeweaver", Material.ENCHANTED_BOOK,
+         "Bend time to your advantage", 45, "time"),
     
-    SOUL("💀 Soul Reaper", Material.ENCHANTED_BOOK,
-         "Steal health from enemies and summon souls",
-         "§4§lRIGHT CLICK §7to reap souls!",
-         "soul"),
+    SOULREAPER("💀 Soulreaper", Material.ENCHANTED_BOOK,
+         "Feast on the souls of enemies", 30, "soul"),
     
-    CRYSTAL("💎 Crystal Mage", Material.ENCHANTED_BOOK,
-            "Summon crystal shields and projectiles",
-            "§d§lRIGHT CLICK §7to crystallize!",
-            "crystal"),
+    CRYSTALMAGE("💎 Crystalmage", Material.ENCHANTED_BOOK,
+            "Summon crystals of pure power", 25, "crystal"),
     
-    THUNDER("🌩️ Thunder God", Material.ENCHANTED_BOOK,
-            "Chain lightning between enemies",
-            "§e§lRIGHT CLICK §7to thunder strike!",
-            "thunder"),
+    THUNDERGOD("⚡ Thundergod", Material.ENCHANTED_BOOK,
+            "Wield the power of storms", 35, "thunder"),
     
-    FROST("❄️ Frost Knight", Material.ENCHANTED_BOOK,
-          "Ice armor and freezing aura",
-          "§3§lRIGHT CLICK §7to freeze solid!",
-          "frost"),
+    ICEWARDEN("❄️ Icewarden", Material.ENCHANTED_BOOK,
+          "Command the frozen wastes", 25, "ice"),
     
-    FLAME("🔥 Flame Emperor", Material.ENCHANTED_BOOK,
-          "Fire rings and burning ground",
-          "§c§lRIGHT CLICK §7to ignite!",
-          "flame"),
+    PYROMANCER("🔥 Pyromancer", Material.ENCHANTED_BOOK,
+          "Master of living flame", 20, "pyro"),
     
-    SPIRIT("👾 Spirit Guide", Material.ENCHANTED_BOOK,
-           "Summon spirit wolves to fight",
-           "§7§lRIGHT CLICK §7to call spirits!",
-           "spirit"),
+    SPIRITWARDEN("👾 Spiritwarden", Material.ENCHANTED_BOOK,
+           "Call upon ancestral spirits", 30, "spirit"),
     
-    NECRO("⚰️ Necromancer", Material.ENCHANTED_BOOK,
-          "Raise dead mobs as allies",
-          "§5§lRIGHT CLICK §7to raise dead!",
-          "necro"),
+    NECROLORD("⚰️ Necrolord", Material.ENCHANTED_BOOK,
+          "Raise the dead to serve you", 40, "necro"),
     
-    ANGEL("👼 Angel's Grace", Material.ENCHANTED_BOOK,
-          "Slow falling and healing aura",
-          "§f§lRIGHT CLICK §7to feel grace!",
-          "angel"),
+    SERAPHIM("👼 Seraphim", Material.ENCHANTED_BOOK,
+          "Blessed with divine power", 25, "seraph"),
     
-    DEMON("👿 Demon's Rage", Material.ENCHANTED_BOOK,
-          "Strength boost and fire aura",
-          "§4§lRIGHT CLICK §7to unleash rage!",
-          "demon"),
+    ABYSS("🌑 Abyss", Material.ENCHANTED_BOOK,
+          "Embrace the endless darkness", 30, "abyss"),
     
-    CHAOS("🌀 Chaos Magic", Material.ENCHANTED_BOOK,
-          "Random effects on every use",
-          "§5§lRIGHT CLICK §7to embrace chaos!",
-          "chaos"),
+    CHAOSWEAVER("🌀 Chaosweaver", Material.ENCHANTED_BOOK,
+          "Unleash pure randomness", 20, "chaos"),
     
-    ORDER("⚖️ Order's Judgement", Material.ENCHANTED_BOOK,
-          "Smite evil and protect allies",
-          "§b§lRIGHT CLICK §7to judge!",
-          "order"),
+    JUDGEMENT("⚖️ Judgement", Material.ENCHANTED_BOOK,
+          "Smite the wicked", 35, "judge"),
     
-    DREAM("💭 Dream Weaver", Material.ENCHANTED_BOOK,
-          "Put enemies to sleep and heal",
-          "§d§lRIGHT CLICK §7to weave dreams!",
-          "dream"),
+    DREAMCATCHER("💫 Dreamcatcher", Material.ENCHANTED_BOOK,
+          "Weave dreams into reality", 25, "dream"),
     
-    NIGHTMARE("👹 Nightmare", Material.ENCHANTED_BOOK,
-              "Fear effect and damage over time",
-              "§8§lRIGHT CLICK §7to terrorize!",
-              "nightmare"),
+    NIGHTTERROR("👹 Nightterror", Material.ENCHANTED_BOOK,
+              "Instill fear in your foes", 30, "fear"),
     
     AURORA("🌈 Aurora", Material.ENCHANTED_BOOK,
-           "Colorful lights and speed boost",
-           "§b§lRIGHT CLICK §7to see lights!",
-           "aurora"),
+           "Paint the sky with light", 20, "aurora"),
     
-    GALAXY("🌌 Galaxy", Material.ENCHANTED_BOOK,
-           "Star projectiles and gravity wells",
-           "§d§lRIGHT CLICK §7to reach stars!",
-           "galaxy"),
+    STARFALL("✨ Starfall", Material.ENCHANTED_BOOK,
+           "Bring the heavens down", 35, "star"),
     
-    INFERNO("🔥 Inferno", Material.ENCHANTED_BOOK,
-            "Massive fire explosion",
-            "§c§lRIGHT CLICK §7to burn all!",
-            "inferno"),
+    INFERNUS("🔥 Infernus", Material.ENCHANTED_BOOK,
+            "Unleash hell on earth", 40, "inferno"),
     
     AVALANCHE("🏔️ Avalanche", Material.ENCHANTED_BOOK,
-              "Snowball barrage and freeze",
-              "§3§lRIGHT CLICK §7to avalanche!",
-              "avalanche");
+              "Overwhelm with frozen fury", 30, "avalanche");
 
     private final String displayName;
     private final Material material;
     private final String description;
-    private final String ability;
+    private final int cooldown;
     private final String abilityKey;
 
-    MagicBook(String displayName, Material material, String description, String ability, String abilityKey) {
+    MagicBook(String displayName, Material material, String description, int cooldown, String abilityKey) {
         this.displayName = displayName;
         this.material = material;
         this.description = description;
-        this.ability = ability;
+        this.cooldown = cooldown;
         this.abilityKey = abilityKey;
     }
 
@@ -176,15 +118,46 @@ public enum MagicBook {
         ItemStack book = new ItemStack(material);
         ItemMeta meta = book.getItemMeta();
         
-        meta.setDisplayName(displayName);
+        meta.setDisplayName("§r§6§l" + displayName);
         meta.setLore(Arrays.asList(
             "§7" + description,
             "",
-            ability,
+            "§e§lRIGHT CLICK §7to unleash power!",
+            "§8⏱️ Cooldown: §f" + cooldown + "s",
             "",
-            "§8§oMagical SMP Starter Book",
+            "§8§oPhantom SMP Artifact",
             "§8Ability: " + abilityKey
         ));
+        
+        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        
+        book.setItemMeta(meta);
+        return book;
+    }
+
+    public ItemStack createBookWithCooldown(long remainingSeconds) {
+        ItemStack book = new ItemStack(material);
+        ItemMeta meta = book.getItemMeta();
+        
+        String cooldownStatus = remainingSeconds > 0 
+            ? "§c❌ On Cooldown: §f" + remainingSeconds + "s" 
+            : "§a✅ Ready to use!";
+        
+        meta.setDisplayName("§r§6§l" + displayName);
+        meta.setLore(Arrays.asList(
+            "§7" + description,
+            "",
+            "§e§lRIGHT CLICK §7to unleash power!",
+            "§8⏱️ Cooldown: §f" + cooldown + "s",
+            cooldownStatus,
+            "",
+            "§8§oPhantom SMP Artifact",
+            "§8Ability: " + abilityKey
+        ));
+        
+        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         
         book.setItemMeta(meta);
         return book;
@@ -209,5 +182,13 @@ public enum MagicBook {
 
     public String getAbilityKey() {
         return abilityKey;
+    }
+    
+    public int getCooldown() {
+        return cooldown;
+    }
+    
+    public String getDescription() {
+        return description;
     }
 }
