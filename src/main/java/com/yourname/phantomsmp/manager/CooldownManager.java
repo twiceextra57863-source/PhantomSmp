@@ -58,7 +58,6 @@ public class CooldownManager {
         cooldowns.computeIfAbsent(playerId, k -> new HashMap<>())
                  .put(book.getAbilityKey(), cooldownEnd);
         
-        // Show boss bar
         showCooldownBar(player, book);
     }
     
@@ -81,7 +80,10 @@ public class CooldownManager {
             public void run() {
                 if (secondsLeft <= 0 || !isOnCooldown(player, book)) {
                     bar.removeAll();
-                    activeBars.getOrDefault(player.getUniqueId(), new HashMap<>()).remove(book.getAbilityKey());
+                    Map<String, BossBar> playerBars = activeBars.get(player.getUniqueId());
+                    if (playerBars != null) {
+                        playerBars.remove(book.getAbilityKey());
+                    }
                     cancel();
                     return;
                 }
