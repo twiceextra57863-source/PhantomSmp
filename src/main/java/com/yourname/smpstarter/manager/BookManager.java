@@ -648,7 +648,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 11. EARTH - Earthquake and Walls
+    // 11. EARTH - Earthquake and Walls (FIXED)
     private void earthAbility(Player player) {
         player.sendMessage("§6§l⛰️ EARTH SHAKER ⛰️");
         player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 0.5f, 0.5f);
@@ -682,8 +682,9 @@ public class BookManager {
                     
                     Location particleLoc = center.clone().add(x, 0.1, z);
                     
+                    // FIXED: Using Particle.BLOCK instead of Particle.BLOCK_CRACK
                     player.getWorld().spawnParticle(
-                        Particle.BLOCK_CRACK,
+                        Particle.BLOCK,
                         particleLoc,
                         5, 0.1, 0.1, 0.1, 0,
                         Bukkit.createBlockData(Material.STONE)
@@ -1344,10 +1345,11 @@ public class BookManager {
         }
     }
     
-    // 25. DREAM - Sleep Effect
+    // 25. DREAM - Sleep Effect (FIXED)
     private void dreamAbility(Player player) {
         player.sendMessage("§d§l💭 DREAM WEAVER 💭");
-        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT, 1.0f, 1.0f);
+        // FIXED: Using correct Allay sound
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_ITEM_GIVEN, 1.0f, 1.0f);
         
         // Heal self
         player.setHealth(player.getMaxHealth());
