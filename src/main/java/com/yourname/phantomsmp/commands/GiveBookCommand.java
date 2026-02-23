@@ -1,6 +1,6 @@
-package com.yourname.smpstarter.commands;
+package com.phantom.smp.commands;
 
-import com.yourname.smpstarter.SMPStarter;
+import com.phantom.smp.PhantomSMP;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class GiveBookCommand implements CommandExecutor {
     
-    private final SMPStarter plugin;
+    private final PhantomSMP plugin;
     
-    public GiveBookCommand(SMPStarter plugin) {
+    public GiveBookCommand(PhantomSMP plugin) {
         this.plugin = plugin;
     }
     
@@ -31,11 +31,9 @@ public class GiveBookCommand implements CommandExecutor {
         }
         
         if (args.length == 1) {
-            // Give random book
             plugin.getBookManager().giveRandomBook(target);
             sender.sendMessage("§aGiving random book to §e" + target.getName());
         } else {
-            // Give specific book
             String bookName = args[1];
             plugin.getBookManager().giveBookToPlayer(target, bookName);
             sender.sendMessage("§aGiving book §e" + bookName + " §ato §e" + target.getName());
