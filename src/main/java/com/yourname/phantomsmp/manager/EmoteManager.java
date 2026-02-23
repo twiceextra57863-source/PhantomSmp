@@ -18,8 +18,6 @@ public class EmoteManager {
     }
     
     public void playCeremonyEmote(Player player, Runnable onComplete) {
-        Location startLoc = player.getLocation();
-        
         new BukkitRunnable() {
             int tick = 0;
             String[] messages = {
@@ -32,7 +30,7 @@ public class EmoteManager {
             
             @Override
             public void run() {
-                if (tick >= 100) { // 5 seconds
+                if (tick >= 100) {
                     // Final emote
                     player.chat("§d✨ I have received the power of the Phantom! ✨");
                     
@@ -40,7 +38,6 @@ public class EmoteManager {
                     player.getWorld().strikeLightningEffect(player.getLocation());
                     player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
                     
-                    // Fireworks
                     for (int i = 0; i < 10; i++) {
                         player.getWorld().spawnParticle(
                             Particle.FIREWORK,
@@ -54,14 +51,12 @@ public class EmoteManager {
                     return;
                 }
                 
-                // Send action bar message every 20 ticks
                 if (tick % 20 == 0) {
                     int index = Math.min(tick / 20, messages.length - 1);
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, 
                         TextComponent.fromLegacyText(messages[index]));
                 }
                 
-                // Random emotes
                 if (tick % 10 == 0) {
                     String[] emotes = {
                         "§d*channels arcane energy*",
@@ -69,43 +64,10 @@ public class EmoteManager {
                         "§6*surrounded by magic*",
                         "§e*reaches for the stars*"
                     };
-                    player.chat(emotes[random(emotes.length)]);
+                    player.chat(emotes[tick/10 % emotes.length]);
                 }
                 
                 tick++;
-            }
-            
-            private int random(int max) {
-                return (int) (Math.random() * max);
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-    
-    public void playBookHoldEmote(Player player) {
-        new BukkitRunnable() {
-            int tick = 0;
-            
-            @Override
-            public void run() {
-                if (tick++ >= 40) { // 2 seconds
-                    cancel();
-                    return;
-                }
-                
-                // Subtle hold animation
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacyText("§d✨ Holding Phantom Artifact..."));
-                
-                // Particles around hand
-                Location handLoc = player.getLocation().add(
-                    player.getLocation().getDirection().multiply(1).add(0, 1, 0)
-                );
-                
-                player.getWorld().spawnParticle(
-                    Particle.END_ROD,
-                    handLoc,
-                    2, 0.1, 0.1, 0.1, 0
-                );
             }
         }.runTaskTimer(plugin, 0L, 1L);
     }
