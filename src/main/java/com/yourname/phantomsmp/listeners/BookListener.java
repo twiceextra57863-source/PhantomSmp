@@ -1,6 +1,6 @@
-package com.yourname.smpstarter.listeners;
+package com.phantom.smp.listeners;
 
-import com.yourname.smpstarter.SMPStarter;
+import com.phantom.smp.PhantomSMP;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class BookListener implements Listener {
     
-    private final SMPStarter plugin;
+    private final PhantomSMP plugin;
     
-    public BookListener(SMPStarter plugin) {
+    public BookListener(PhantomSMP plugin) {
         this.plugin = plugin;
     }
     
