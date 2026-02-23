@@ -43,17 +43,58 @@ public class TimerManager {
         
         // Add all online players
         for (Player player : Bukkit.getOnlinePlayers()) {
+package com.phantom.smp.manager;
+
+import com.phantom.smp.PhantomSMP;
+import com.phantom.smp.models.MagicBook;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+public class TimerManager {
+    
+    private final PhantomSMP plugin;
+    private BukkitTask timerTask;
+    private BossBar bossBar;
+    private int remainingSeconds;
+    private final Set<UUID> protectedPlayers = new HashSet<>();
+    
+    public TimerManager(PhantomSMP plugin) {
+        this.plugin = plugin;
+    }
+    
+    public void startTimer(int seconds) {
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
+        
+        this.remainingSeconds = seconds;
+        
+        bossBar = Bukkit.createBossBar(
+            "§6§lSMP Starting in: §e" + formatTime(seconds),
+            BarColor.YELLOW,
+            BarStyle.SOLID
+        );
+        
+        for (Player player : Bukkit.getOnlinePlayers()) {
             bossBar.addPlayer(player);
             protectedPlayers.add(player.getUniqueId());
         }
         
-        // Broadcast start message
         Bukkit.broadcastMessage("§6§l═══ SMP START TIMER ═══");
         Bukkit.broadcastMessage("§eThe SMP will start in §6" + seconds + "§e seconds!");
         Bukkit.broadcastMessage("§c§lNO PVP §7during this time!");
         Bukkit.broadcastMessage("§6§l══════════════════════");
         
-        // Play sound
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         }
@@ -67,19 +108,16 @@ public class TimerManager {
                     return;
                 }
                 
-                // Update boss bar
                 double progress = (double) remainingSeconds / seconds;
                 bossBar.setProgress(progress);
                 bossBar.setTitle("§6§lSMP Starting in: §e" + formatTime(remainingSeconds));
                 
-                // Warning sounds at specific times
                 if (remainingSeconds <= 10) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 1, 1);
                     }
                 }
                 
-                // Title messages at 10, 5, 4, 3, 2, 1
                 if (remainingSeconds <= 10 && remainingSeconds > 0) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendTitle(
@@ -96,13 +134,9 @@ public class TimerManager {
     }
     
     private void finishTimer() {
-        // Remove boss bar
         bossBar.removeAll();
-        
-        // Clear protection
         protectedPlayers.clear();
         
-        // Broadcast SMP start
         Bukkit.broadcastMessage("§6§l═══ SMP HAS STARTED! ═══");
         Bukkit.broadcastMessage("§aThe SMP is now active!");
         Bukkit.broadcastMessage("");
@@ -114,7 +148,6 @@ public class TimerManager {
         Bukkit.broadcastMessage("§d§l✨ MAY THE MAGIC BE WITH YOU! ✨");
         Bukkit.broadcastMessage("§6§l══════════════════════════");
         
-        // Play start sound
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
             player.sendTitle(
@@ -124,34 +157,27 @@ public class TimerManager {
             );
         }
         
-        // Start book giving ceremony after 1 minute
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 startBookCeremony(player);
             }
-        }, 1200L); // 60 seconds
+        }, 1200L);
     }
     
     private void startBookCeremony(Player player) {
         player.sendMessage("§d§l✨ The magic ceremony begins in 10 seconds! ✨");
         
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            // Protect players during ceremony
             protectedPlayers.add(player.getUniqueId());
             
-            // Start cinematic effect
             ParticleManager particleManager = new ParticleManager(plugin);
             particleManager.startCircleEffect(player, () -> {
-                // Give random book after effect
                 MagicBook randomBook = MagicBook.getRandomBook();
                 player.getInventory().addItem(randomBook.createBook());
-                
-                // Remove protection
                 protectedPlayers.remove(player.getUniqueId());
-                
                 player.sendMessage("§d§l✨ You received: " + randomBook.getDisplayName());
             });
-        }, 200L); // 10 seconds
+        }, 200L);
     }
     
     private String formatTime(int seconds) {
