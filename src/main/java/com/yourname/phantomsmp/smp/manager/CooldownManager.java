@@ -1,5 +1,4 @@
 package com.phantom.smp.manager;
-package com.phantom.smp.manager;
 
 import com.phantom.smp.PhantomSMP;
 import com.phantom.smp.models.MagicBook;
