@@ -1,30 +1,95 @@
 package com.yourname.smpstarter.manager;
 
+import com.yourname.smpstarter.SMPStarter;
 import com.yourname.smpstarter.models.MagicBook;
-import java.util.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class BookManager {
-    private final Map<String, MagicBook> registeredBooks = new HashMap<>();
-    private final Random random = new Random();
-
-    public BookManager() {
-        // Register default magical books
-        registerBook(new MagicBook("fireball", "§cTome of Fire", Arrays.asList("§7Right-click to cast a fireball!", "§cWarning: Highly flammable.")));
-        registerBook(new MagicBook("heal", "§aTome of Healing", Arrays.asList("§7Right-click to heal yourself!", "§aMends your wounds.")));
-        registerBook(new MagicBook("speed", "§bTome of Speed", Arrays.asList("§7Right-click to gain a speed boost!", "§bSwift as the wind.")));
+    
+    private final SMPStarter plugin;
+    
+    public BookManager(SMPStarter plugin) {
+        this.plugin = plugin;
     }
-
-    private void registerBook(MagicBook book) {
-        registeredBooks.put(book.getId().toLowerCase(), book);
+    
+    public void giveBookToPlayer(Player player, String bookName) {
+        // Find book by name
+        for (MagicBook book : MagicBook.values()) {
+            if (book.getDisplayName().contains(bookName) || 
+                book.name().equalsIgnoreCase(bookName)) {
+                giveBookWithCeremony(player, book);
+                return;
+            }
+        }
+        
+        // If not found, give random
+        giveRandomBook(player);
     }
-
-    public MagicBook getBook(String id) {
-        return registeredBooks.get(id.toLowerCase());
+    
+    public void giveRandomBook(Player player) {
+        MagicBook randomBook = MagicBook.getRandomBook();
+        giveBookWithCeremony(player, randomBook);
     }
-
-    public MagicBook getRandomBook() {
-        List<MagicBook> values = new ArrayList<>(registeredBooks.values());
-        if (values.isEmpty()) return null;
-        return values.get(random.nextInt(values.size()));
+    
+    private void giveBookWithCeremony(Player player, MagicBook book) {
+        // Protect player during ceremony
+        plugin.getTimerManager().protectedPlayers.add(player.getUniqueId());
+        
+        player.sendMessage("Â§dÂ§lâœ¨ Magical ceremony starting for Â§e" + player.getName() + " Â§dÂ§lâœ¨");
+        
+        // Start particle effect
+        new ParticleManager(plugin).startCircleEffect(player, () -> {
+            // Give book
+            player.getInventory().addItem(book.createBook());
+            
+            // Remove protection
+            plugin.getTimerManager().protectedPlayers.remove(player.getUniqueId());
+            
+            // Celebration message
+            Bukkit.broadcastMessage("Â§dÂ§l" + player.getName() + " Â§ereceived: Â§6" + book.getDisplayName());
+            
+            // Play sound
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
+        });
+    }
+    
+    public void useBookAbility(Player player, ItemStack book) {
+        if (book == null || !book.hasItemMeta()) return;
+        
+        String displayName = book.getItemMeta().getDisplayName();
+        
+        // Find which book it is
+        for (MagicBook magicBook : MagicBook.values()) {
+            if (magicBook.getDisplayName().equals(displayName)) {
+                executeAbility(player, magicBook);
+                break;
+            }
+        }
+    }
+    
+    private void executeAbility(Player player, MagicBook book) {
+        switch (book) {
+            case THOR:
+                // Lightning strike ability
+                player.getWorld().strikeLightningEffect(player.getTargetBlock(null, 50).getLocation());
+                player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);
+                break;
+                
+            case PHOENIX:
+                // Fire and regeneration
+                player.setFireTicks(100);
+                player.setHealth(player.getMaxHealth());
+                player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
+                break;
+                
+            // Add more abilities for each book
+            default:
+                player.sendMessage("Â§cAbility not implemented yet!");
+                break;
+        }
     }
 }
