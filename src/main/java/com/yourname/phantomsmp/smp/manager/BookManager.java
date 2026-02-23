@@ -46,18 +46,26 @@ public class BookManager {
     }
     
     private void giveBookWithCeremony(Player player, MagicBook book) {
-        plugin.getTimerManager().getProtectedPlayers().add(player.getUniqueId());
-        
         player.sendMessage("§d§l✨ PHANTOM CEREMONY ✨");
         player.sendMessage("§fThe ancient spirits have chosen you...");
         
-        ParticleManager particleManager = new ParticleManager(plugin);
-        particleManager.startCircleEffect(player, () -> {
+        // Use ceremony manager with freeze
+        plugin.getCeremonyManager().startCeremony(player, book, () -> {
+            // Give book after ceremony
             player.getInventory().addItem(book.createBook());
-            plugin.getTimerManager().getProtectedPlayers().remove(player.getUniqueId());
             
+            // Celebration message
             Bukkit.broadcastMessage("§d§l" + player.getName() + " §ehas awakened: §6" + book.getDisplayName());
             player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+            
+            // Final effect
+            for (int i = 0; i < 10; i++) {
+                player.getWorld().spawnParticle(
+                    Particle.FIREWORK,
+                    player.getLocation().add(0, 2, 0),
+                    20, 1, 1, 1, 0.1
+                );
+            }
         });
     }
     
@@ -80,6 +88,7 @@ public class BookManager {
         MagicBook magicBook = MagicBook.getByAbilityKey(abilityKey);
         if (magicBook == null) return;
         
+        // Check cooldown
         if (plugin.getCooldownManager().isOnCooldown(player, magicBook)) {
             long remaining = plugin.getCooldownManager().getRemainingCooldown(player, magicBook);
             player.sendMessage("§c❌ " + magicBook.getDisplayName() + " §7is on cooldown for §f" + remaining + "s");
@@ -87,11 +96,14 @@ public class BookManager {
             return;
         }
         
+        // Set cooldown
         plugin.getCooldownManager().setCooldown(player, magicBook);
         
+        // Activation message
         player.sendMessage("§d§l✨ " + magicBook.getDisplayName() + " §eAWAKENED! ✨");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.5f, 2.0f);
         
+        // Execute ability based on key
         executeAbility(player, magicBook);
     }
     
@@ -187,8 +199,13 @@ public class BookManager {
             case "avalanche":
                 avalancheAbility(player);
                 break;
+            default:
+                player.sendMessage("§cThis ability is not yet implemented!");
+                break;
         }
     }
+    
+    // ==================== 30 ABILITIES ====================
     
     // 1. STORM - Lightning Storm
     private void stormAbility(Player player) {
@@ -319,7 +336,7 @@ public class BookManager {
                     }
                 }
                 
-                player.setFireTicks(20); // Brief fire immunity
+                player.setFireTicks(20);
             }
         }.runTaskTimer(plugin, 0L, 2L);
     }
@@ -497,10 +514,8 @@ public class BookManager {
                         Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
                         
                         if (ticks < 20) {
-                            // Pull in
                             e.setVelocity(pull.multiply(0.5));
                         } else {
-                            // Push out
                             e.setVelocity(pull.multiply(-0.5));
                         }
                     }
