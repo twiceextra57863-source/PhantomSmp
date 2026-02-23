@@ -3,7 +3,6 @@ package com.phantom.smp.manager;
 import com.phantom.smp.PhantomSMP;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -31,10 +30,8 @@ public class EmoteManager {
             @Override
             public void run() {
                 if (tick >= 100) {
-                    // Final emote
                     player.chat("§d✨ I have received the power of the Phantom! ✨");
                     
-                    // Celebration effect
                     player.getWorld().strikeLightningEffect(player.getLocation());
                     player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
                     
