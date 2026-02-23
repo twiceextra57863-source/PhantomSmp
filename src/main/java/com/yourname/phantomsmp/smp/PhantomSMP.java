@@ -1,16 +1,8 @@
 package com.phantom.smp;
 
-import com.phantom.smp.commands.GiveBookCommand;
-import com.phantom.smp.commands.RandomBookCommand;
-import com.phantom.smp.commands.ReloadCommand;
-import com.phantom.smp.commands.SMPStartCommand;
-import com.phantom.smp.listeners.BookListener;
-import com.phantom.smp.listeners.HoldAnimationListener;
-import com.phantom.smp.listeners.ProtectionListener;
-import com.phantom.smp.manager.BookManager;
-import com.phantom.smp.manager.CooldownManager;
-import com.phantom.smp.manager.EmoteManager;
-import com.phantom.smp.manager.TimerManager;
+import com.phantom.smp.commands.*;
+import com.phantom.smp.listeners.*;
+import com.phantom.smp.manager.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PhantomSMP extends JavaPlugin {
@@ -20,6 +12,10 @@ public class PhantomSMP extends JavaPlugin {
     private BookManager bookManager;
     private CooldownManager cooldownManager;
     private EmoteManager emoteManager;
+    private ParticleManager particleManager;
+    private GUIManager guiManager;
+    private HoldParticleManager holdParticleManager;
+    private CeremonyManager ceremonyManager;
     
     @Override
     public void onEnable() {
@@ -30,10 +26,16 @@ public class PhantomSMP extends JavaPlugin {
         bookManager = new BookManager(this);
         cooldownManager = new CooldownManager(this);
         emoteManager = new EmoteManager(this);
+        particleManager = new ParticleManager(this);
+        guiManager = new GUIManager(this);
+        holdParticleManager = new HoldParticleManager(this);
+        ceremonyManager = new CeremonyManager(this);
         
         // Register commands
         getCommand("smpstart").setExecutor(new SMPStartCommand(this));
         getCommand("givebook").setExecutor(new GiveBookCommand(this));
+        getCommand("giveall").setExecutor(new GiveAllCommand(this));
+        getCommand("booklist").setExecutor(new BookListCommand(this));
         getCommand("randombook").setExecutor(new RandomBookCommand(this));
         getCommand("reloadphantom").setExecutor(new ReloadCommand(this));
         
@@ -41,9 +43,11 @@ public class PhantomSMP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BookListener(this), this);
         getServer().getPluginManager().registerEvents(new HoldAnimationListener(this), this);
         getServer().getPluginManager().registerEvents(new ProtectionListener(this), this);
+        getServer().getPluginManager().registerEvents(guiManager, this); // Register GUI listener
         
-        getLogger().info("§a§lPhantomSMP v2.0.0 has been enabled!");
+        getLogger().info("§a§lPhantomSMP v3.0.0 has been enabled!");
         getLogger().info("§e§l30 Epic Books Loaded!");
+        getLogger().info("§b§lNew Features: GiveAll, BookList GUI, Hold Particles, Ceremony Freeze!");
     }
     
     @Override
@@ -55,19 +59,36 @@ public class PhantomSMP extends JavaPlugin {
         return instance;
     }
     
-    public TimerManager getTimerManager() {
-        return timerManager;
+    // ========== GETTER METHODS ==========
+    public TimerManager getTimerManager() { 
+        return timerManager; 
     }
     
-    public BookManager getBookManager() {
-        return bookManager;
+    public BookManager getBookManager() { 
+        return bookManager; 
     }
     
-    public CooldownManager getCooldownManager() {
-        return cooldownManager;
+    public CooldownManager getCooldownManager() { 
+        return cooldownManager; 
     }
     
-    public EmoteManager getEmoteManager() {
-        return emoteManager;
+    public EmoteManager getEmoteManager() { 
+        return emoteManager; 
+    }
+    
+    public ParticleManager getParticleManager() { 
+        return particleManager; 
+    }
+    
+    public GUIManager getGuiManager() { 
+        return guiManager; 
+    }
+    
+    public HoldParticleManager getHoldParticleManager() { 
+        return holdParticleManager; 
+    }
+    
+    public CeremonyManager getCeremonyManager() { 
+        return ceremonyManager; 
     }
 }
