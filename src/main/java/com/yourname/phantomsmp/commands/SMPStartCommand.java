@@ -1,6 +1,6 @@
-package com.yourname.smpstarter.commands;
+package com.phantom.smp.commands;
 
-import com.yourname.smpstarter.SMPStarter;
+import com.phantom.smp.PhantomSMP;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 public class SMPStartCommand implements CommandExecutor {
     
-    private final SMPStarter plugin;
+    private final PhantomSMP plugin;
     
-    public SMPStartCommand(SMPStarter plugin) {
+    public SMPStartCommand(PhantomSMP plugin) {
         this.plugin = plugin;
     }
     
