@@ -1,0 +1,112 @@
+package com.phantom.smp.manager;
+
+import com.phantom.smp.PhantomSMP;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+public class EmoteManager {
+    
+    private final PhantomSMP plugin;
+    
+    public EmoteManager(PhantomSMP plugin) {
+        this.plugin = plugin;
+    }
+    
+    public void playCeremonyEmote(Player player, Runnable onComplete) {
+        Location startLoc = player.getLocation();
+        
+        new BukkitRunnable() {
+            int tick = 0;
+            String[] messages = {
+                "§d✨ §fChanneling power...",
+                "§5🔮 §fThe magic awakens...",
+                "§6⚡ §fEnergy flows through you...",
+                "§e🌟 §fAlmost there...",
+                "§a✅ §fPower acquired!"
+            };
+            
+            @Override
+            public void run() {
+                if (tick >= 100) { // 5 seconds
+                    // Final emote
+                    player.chat("§d✨ I have received the power of the Phantom! ✨");
+                    
+                    // Celebration effect
+                    player.getWorld().strikeLightningEffect(player.getLocation());
+                    player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+                    
+                    // Fireworks
+                    for (int i = 0; i < 10; i++) {
+                        player.getWorld().spawnParticle(
+                            Particle.FIREWORK,
+                            player.getLocation().add(0, 2, 0),
+                            20, 1, 1, 1, 0.1
+                        );
+                    }
+                    
+                    onComplete.run();
+                    cancel();
+                    return;
+                }
+                
+                // Send action bar message every 20 ticks
+                if (tick % 20 == 0) {
+                    int index = Math.min(tick / 20, messages.length - 1);
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, 
+                        TextComponent.fromLegacyText(messages[index]));
+                }
+                
+                // Random emotes
+                if (tick % 10 == 0) {
+                    String[] emotes = {
+                        "§d*channels arcane energy*",
+                        "§5*eyes glow with power*",
+                        "§6*surrounded by magic*",
+                        "§e*reaches for the stars*"
+                    };
+                    player.chat(emotes[random(emotes.length)]);
+                }
+                
+                tick++;
+            }
+            
+            private int random(int max) {
+                return (int) (Math.random() * max);
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    public void playBookHoldEmote(Player player) {
+        new BukkitRunnable() {
+            int tick = 0;
+            
+            @Override
+            public void run() {
+                if (tick++ >= 40) { // 2 seconds
+                    cancel();
+                    return;
+                }
+                
+                // Subtle hold animation
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                    TextComponent.fromLegacyText("§d✨ Holding Phantom Artifact..."));
+                
+                // Particles around hand
+                Location handLoc = player.getLocation().add(
+                    player.getLocation().getDirection().multiply(1).add(0, 1, 0)
+                );
+                
+                player.getWorld().spawnParticle(
+                    Particle.END_ROD,
+                    handLoc,
+                    2, 0.1, 0.1, 0.1, 0
+                );
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+}
