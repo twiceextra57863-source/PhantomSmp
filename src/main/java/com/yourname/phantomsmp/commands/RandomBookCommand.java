@@ -1,6 +1,6 @@
-package com.yourname.smpstarter.commands;
+package com.phantom.smp.commands;
 
-import com.yourname.smpstarter.SMPStarter;
+import com.phantom.smp.PhantomSMP;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class RandomBookCommand implements CommandExecutor {
     
-    private final SMPStarter plugin;
+    private final PhantomSMP plugin;
     
-    public RandomBookCommand(SMPStarter plugin) {
+    public RandomBookCommand(PhantomSMP plugin) {
         this.plugin = plugin;
     }
     
