@@ -1,6 +1,7 @@
 package com.phantom.smp.manager;
 
 import com.phantom.smp.PhantomSMP;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -25,17 +26,15 @@ public class ParticleManager {
             
             @Override
             public void run() {
-                if (ticks >= 200) { // 10 seconds
+                if (ticks >= 200) {
                     onComplete.run();
                     cancel();
                     return;
                 }
                 
-                // Spiral effect
                 for (int i = 0; i < 3; i++) {
                     double offset = ticks * 0.1 + (i * Math.PI * 2 / 3);
                     
-                    // Outer circle - electric
                     for (int j = 0; j < 360; j += 30) {
                         double angle = Math.toRadians(j + ticks * 5);
                         double x = radius * Math.cos(angle);
@@ -50,7 +49,6 @@ public class ParticleManager {
                         );
                     }
                     
-                    // Inner circle - colored dust
                     radius = 1.5 + Math.sin(ticks * 0.1) * 0.5;
                     
                     for (int j = 0; j < 360; j += 45) {
@@ -65,7 +63,7 @@ public class ParticleManager {
                             particleLoc,
                             1, 0, 0, 0, 0,
                             new Particle.DustOptions(
-                                org.bukkit.Color.fromRGB(
+                                Color.fromRGB(
                                     255, 
                                     100 + (int)(Math.sin(ticks * 0.1) * 100), 
                                     255
@@ -75,13 +73,11 @@ public class ParticleManager {
                     }
                 }
                 
-                // Levitate player slowly
                 if (ticks % 10 == 0 && ticks < 160) {
                     player.setVelocity(new Vector(0, 0.1, 0));
                     player.playSound(player.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 0.3f, 2.0f);
                 }
                 
-                // Title messages
                 if (ticks == 40) {
                     player.sendTitle("§d✨", "§fThe magic begins...", 0, 40, 0);
                 } else if (ticks == 80) {
