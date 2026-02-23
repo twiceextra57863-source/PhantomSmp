@@ -1,0 +1,24 @@
+name: SMPStarter
+version: 1.0-SNAPSHOT
+main: com.yourname.smpstarter.SMPStarter
+api-version: 1.20
+description: A plugin to start an SMP with magical books and protection!
+
+commands:
+  smpstart:
+    description: Start the SMP server countdown!
+    permission: smpstarter.admin
+    usage: /smpstart
+  givebook:
+    description: Give a specific magic book to a player
+    permission: smpstarter.admin
+    usage: /givebook <player> <fireball|heal|speed>
+  randombook:
+    description: Give a random magic book to a player
+    permission: smpstarter.admin
+    usage: /randombook <player>
+
+permissions:
+  smpstarter.admin:
+    description: Allows you to start the SMP and give magic books.
+    default: op
