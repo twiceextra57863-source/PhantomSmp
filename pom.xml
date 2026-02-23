@@ -5,9 +5,9 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yourname</groupId>
-    <artifactId>smpstarter</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.phantom.smp</groupId>
+    <artifactId>phantomsmp</artifactId>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -63,5 +63,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <finalName>PhantomSMP-${project.version}</finalName>
     </build>
 </project>
