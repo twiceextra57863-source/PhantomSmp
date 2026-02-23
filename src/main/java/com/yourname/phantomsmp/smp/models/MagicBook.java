@@ -73,122 +73,104 @@ public enum MagicBook {
     SERAPHIM("👼 Seraphim", Material.ENCHANTED_BOOK,
           "Blessed with divine power", 25, "seraph"),
     
-    ABYSS("🌑 Abyss", Material.ENCHANTED_BOOK,
-          "Embrace the endless darkness", 30, "abyss"),
-    
-    CHAOSWEAVER("🌀 Chaosweaver", Material.ENCHANTED_BOOK,
-          "Unleash pure randomness", 20, "chaos"),
-    
-    JUDGEMENT("⚖️ Judgement", Material.ENCHANTED_BOOK,
-          "Smite the wicked", 35, "judge"),
-    
-    DREAMCATCHER("💫 Dreamcatcher", Material.ENCHANTED_BOOK,
-          "Weave dreams into reality", 25, "dream"),
-    
-    NIGHTTERROR("👹 Nightterror", Material.ENCHANTED_BOOK,
-              "Instill fear in your foes", 30, "fear"),
-    
-    AURORA("🌈 Aurora", Material.ENCHANTED_BOOK,
-           "Paint the sky with light", 20, "aurora"),
-    
-    STARFALL("✨ Starfall", Material.ENCHANTED_BOOK,
-           "Bring the heavens down", 35, "star"),
-    
-    INFERNUS("🔥 Infernus", Material.ENCHANTED_BOOK,
-            "Unleash hell on earth", 40, "inferno"),
-    
-    AVALANCHE("🏔️ Avalanche", Material.ENCHANTED_BOOK,
-              "Overwhelm with frozen fury", 30, "avalanche");
+package com.phantom.smp.manager;
 
-    private final String displayName;
-    private final Material material;
-    private final String description;
-    private final int cooldown;
-    private final String abilityKey;
+import com.phantom.smp.PhantomSMP;
+import com.phantom.smp.models.MagicBook;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-    MagicBook(String displayName, Material material, String description, int cooldown, String abilityKey) {
-        this.displayName = displayName;
-        this.material = material;
-        this.description = description;
-        this.cooldown = cooldown;
-        this.abilityKey = abilityKey;
+import java.util.*;
+
+public class BookManager {
+    
+    private final PhantomSMP plugin;
+    private final Random random = new Random();
+    
+    public BookManager(PhantomSMP plugin) {
+        this.plugin = plugin;
     }
-
-    public ItemStack createBook() {
-        ItemStack book = new ItemStack(material);
-        ItemMeta meta = book.getItemMeta();
-        
-        meta.setDisplayName("§r§6§l" + displayName);
-        meta.setLore(Arrays.asList(
-            "§7" + description,
-            "",
-            "§e§lRIGHT CLICK §7to unleash power!",
-            "§8⏱️ Cooldown: §f" + cooldown + "s",
-            "",
-            "§8§oPhantom SMP Artifact",
-            "§8Ability: " + abilityKey
-        ));
-        
-        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        
-        book.setItemMeta(meta);
-        return book;
-    }
-
-    public ItemStack createBookWithCooldown(long remainingSeconds) {
-        ItemStack book = new ItemStack(material);
-        ItemMeta meta = book.getItemMeta();
-        
-        String cooldownStatus = remainingSeconds > 0 
-            ? "§c❌ On Cooldown: §f" + remainingSeconds + "s" 
-            : "§a✅ Ready to use!";
-        
-        meta.setDisplayName("§r§6§l" + displayName);
-        meta.setLore(Arrays.asList(
-            "§7" + description,
-            "",
-            "§e§lRIGHT CLICK §7to unleash power!",
-            "§8⏱️ Cooldown: §f" + cooldown + "s",
-            cooldownStatus,
-            "",
-            "§8§oPhantom SMP Artifact",
-            "§8Ability: " + abilityKey
-        ));
-        
-        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        
-        book.setItemMeta(meta);
-        return book;
-    }
-
-    public static MagicBook getRandomBook() {
-        return values()[(int) (Math.random() * values().length)];
-    }
-
-    public static MagicBook getByAbilityKey(String key) {
-        for (MagicBook book : values()) {
-            if (book.abilityKey.equalsIgnoreCase(key)) {
-                return book;
+    
+    public void giveBookToPlayer(Player player, String bookName) {
+        for (MagicBook book : MagicBook.values()) {
+            if (book.getDisplayName().contains(bookName) || 
+                book.name().equalsIgnoreCase(bookName) ||
+                book.getAbilityKey().equalsIgnoreCase(bookName)) {
+                giveBookWithCeremony(player, book);
+                return;
             }
         }
-        return null;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getAbilityKey() {
-        return abilityKey;
+        
+        giveRandomBook(player);
     }
     
-    public int getCooldown() {
-        return cooldown;
+    public void giveRandomBook(Player player) {
+        MagicBook randomBook = MagicBook.getRandomBook();
+        giveBookWithCeremony(player, randomBook);
     }
     
-    public String getDescription() {
-        return description;
+    private void giveBookWithCeremony(Player player, MagicBook book) {
+        plugin.getTimerManager().getProtectedPlayers().add(player.getUniqueId());
+        
+        player.sendMessage("§d§l✨ PHANTOM CEREMONY ✨");
+        player.sendMessage("§fThe ancient spirits have chosen you...");
+        
+        ParticleManager particleManager = new ParticleManager(plugin);
+        particleManager.startCircleEffect(player, () -> {
+            player.getInventory().addItem(book.createBook());
+            plugin.getTimerManager().getProtectedPlayers().remove(player.getUniqueId());
+            
+            Bukkit.broadcastMessage("§d§l" + player.getName() + " §ehas awakened: §6" + book.getDisplayName());
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+        });
+    }
+    
+    public void useBookAbility(Player player, ItemStack book) {
+        if (book == null || !book.hasItemMeta()) return;
+        
+        ItemMeta meta = book.getItemMeta();
+        if (!meta.hasLore()) return;
+        
+        String abilityKey = null;
+        for (String line : meta.getLore()) {
+            if (line.contains("Ability:")) {
+                abilityKey = ChatColor.stripColor(line).replace("Ability:", "").trim();
+                break;
+            }
+        }
+        
+        if (abilityKey == null) return;
+        
+        MagicBook magicBook = MagicBook.getByAbilityKey(abilityKey);
+        if (magicBook == null) return;
+        
+        if (plugin.getCooldownManager().isOnCooldown(player, magicBook)) {
+            long remaining = plugin.getCooldownManager().getRemainingCooldown(player, magicBook);
+            player.sendMessage("§c❌ " + magicBook.getDisplayName() + " §7is on cooldown for §f" + remaining + "s");
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 0.5f, 0.5f);
+            return;
+        }
+        
+        plugin.getCooldownManager().setCooldown(player, magicBook);
+        
+        player.sendMessage("§d§l✨ " + magicBook.getDisplayName() + " §eAWAKENED! ✨");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.5f, 2.0f);
+        
+        // Add your ability implementations here
+        switch (magicBook.getAbilityKey().toLowerCase()) {
+            case "storm":
+                player.sendMessage("§b§l⚡ Stormbringer calls the lightning!");
+                break;
+            case "shadow":
+                player.sendMessage("§7§l👻 You fade into the shadows!");
+                break;
+            default:
+                player.sendMessage("§cAbility not yet implemented!");
+                break;
+        }
     }
 }
