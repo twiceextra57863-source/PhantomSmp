@@ -1,5 +1,5 @@
 name: PhantomSMP
-version: 2.0.0
+version: 3.0.0
 main: com.phantom.smp.PhantomSMP
 api-version: 1.21
 author: PhantomDev
@@ -14,6 +14,14 @@ commands:
     description: Give magical book to player
     usage: /givebook <player> [bookname]
     permission: phantomsmp.admin
+  giveall:
+    description: Give random book to all online players
+    usage: /giveall
+    permission: phantomsmp.admin
+  booklist:
+    description: View all available books
+    usage: /booklist
+    permission: phantomsmp.use
   randombook:
     description: Give random magical book to player
     usage: /randombook <player>
@@ -28,5 +36,5 @@ permissions:
     description: Admin permissions for PhantomSMP
     default: op
   phantomsmp.use:
-    description: Use PhantomSMP books
+    description: Use PhantomSMP books and commands
     default: true
