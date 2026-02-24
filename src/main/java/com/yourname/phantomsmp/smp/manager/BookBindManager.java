@@ -30,12 +30,32 @@ public class BookBindManager implements Listener {
     
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        
         // Remove books from drops
         event.getDrops().removeIf(item -> isPhantomBook(item));
         
-        // Keep books in inventory
-        Player player = event.getEntity();
-        player.sendMessage("§d✨ Your Phantom Books remain with you even in death!");
+        // Keep books in inventory - give them back
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (isPhantomBook(item)) {
+                // Book will stay in inventory due to keepInventory
+                player.sendMessage("§d✨ Your Phantom Book remains with you in death!");
+            }
+        }
+        
+        // Force keep inventory for phantom books
+        if (!event.getKeepInventory()) {
+            // Save books before clear
+            ItemStack[] contents = player.getInventory().getContents();
+            player.getInventory().clear();
+            
+            // Restore only phantom books
+            for (int i = 0; i < contents.length; i++) {
+                if (contents[i] != null && isPhantomBook(contents[i])) {
+                    player.getInventory().setItem(i, contents[i]);
+                }
+            }
+        }
     }
     
     @EventHandler
@@ -47,7 +67,8 @@ public class BookBindManager implements Listener {
         
         // Prevent moving to chests/containers
         if (event.getInventory().getType() != InventoryType.PLAYER && 
-            event.getInventory().getType() != InventoryType.CRAFTING) {
+            event.getInventory().getType() != InventoryType.CRAFTING &&
+            event.getInventory().getType() != InventoryType.CREATIVE) {
             
             if (isPhantomBook(current)) {
                 event.setCancelled(true);
@@ -58,7 +79,8 @@ public class BookBindManager implements Listener {
         // Prevent moving with cursor into containers
         if (isPhantomBook(cursor) && 
             event.getInventory().getType() != InventoryType.PLAYER && 
-            event.getInventory().getType() != InventoryType.CRAFTING) {
+            event.getInventory().getType() != InventoryType.CRAFTING &&
+            event.getInventory().getType() != InventoryType.CREATIVE) {
             event.setCancelled(true);
             event.getWhoClicked().sendMessage("§c❌ You cannot store Phantom Books in containers!");
         }
