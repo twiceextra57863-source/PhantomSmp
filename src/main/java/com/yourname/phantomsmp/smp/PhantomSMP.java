@@ -94,6 +94,7 @@ public class PhantomSMP extends JavaPlugin {
         getLogger().info("§a§l║  ✓ Trade System with Heads        ║");
         getLogger().info("§a§l║  ✓ Screen Animation Ready         ║");
         getLogger().info("§a§l║  ✓ 3D Book Renderer               ║");
+        getLogger().info("§a§l║  ✓ Title Animation System         ║");
         getLogger().info("§a§l╚════════════════════════════════════╝");
     }
     
