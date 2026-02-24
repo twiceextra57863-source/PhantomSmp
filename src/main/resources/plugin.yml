@@ -1,9 +1,9 @@
 name: PhantomSMP
-version: 4.0.0
+version: 5.0.0
 main: com.phantom.smp.PhantomSMP
 api-version: 1.21
 author: PhantomDev
-description: Epic Phantom SMP Plugin with Magical Books
+description: Epic Phantom SMP Plugin with 3-Level Book System
 
 commands:
   smpstart:
@@ -26,6 +26,14 @@ commands:
     description: View all available books
     usage: /booklist
     permission: phantomsmp.use
+  bookinfo:
+    description: View detailed info about your book
+    usage: /bookinfo
+    permission: phantomsmp.use
+  levelbook:
+    description: Open level management GUI
+    usage: /levelbook
+    permission: phantomsmp.admin
   randombook:
     description: Give random magical book to player
     usage: /randombook <player>
