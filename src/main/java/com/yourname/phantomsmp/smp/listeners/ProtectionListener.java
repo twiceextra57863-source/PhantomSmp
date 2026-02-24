@@ -20,10 +20,19 @@ public class ProtectionListener implements Listener {
             Player damaged = (Player) event.getEntity();
             Player damager = (Player) event.getDamager();
             
+            // Check timer protection
             if (plugin.getTimerManager().isProtected(damaged) || 
                 plugin.getTimerManager().isProtected(damager)) {
                 event.setCancelled(true);
                 damager.sendMessage("§cYou cannot attack during SMP protection period!");
+                return;
+            }
+            
+            // Check grace period protection
+            if (plugin.getGraceManager().isProtected(damaged) || 
+                plugin.getGraceManager().isProtected(damager)) {
+                event.setCancelled(true);
+                damager.sendMessage("§cYou cannot attack during grace period!");
             }
         }
     }
