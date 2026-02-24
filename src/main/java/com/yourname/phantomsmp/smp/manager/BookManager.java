@@ -22,6 +22,50 @@ public class BookManager {
         this.plugin = plugin;
     }
     
+    // ========== BOOK GIVING METHODS ==========
+    
+    public void giveBookToPlayer(Player player, String bookName) {
+        for (MagicBook book : MagicBook.values()) {
+            if (book.getDisplayName().contains(bookName) || 
+                book.name().equalsIgnoreCase(bookName) ||
+                book.getAbilityKey().equalsIgnoreCase(bookName)) {
+                giveBookWithCeremony(player, book);
+                return;
+            }
+        }
+        
+        giveRandomBook(player);
+    }
+    
+    public void giveRandomBook(Player player) {
+        MagicBook randomBook = MagicBook.getRandomBook();
+        giveBookWithCeremony(player, randomBook);
+    }
+    
+    public void giveBookWithCeremony(Player player, MagicBook book) {
+        player.sendMessage("§d§l✨ PHANTOM CEREMONY ✨");
+        player.sendMessage("§fThe ancient spirits have chosen you...");
+        
+        // Use ceremony manager with freeze and floating
+        plugin.getCeremonyManager().startCeremony(player, book, () -> {
+            // Give book after ceremony
+            player.getInventory().addItem(book.createBook());
+            
+            // Celebration message
+            Bukkit.broadcastMessage("§d§l" + player.getName() + " §ehas awakened: §6" + book.getDisplayName());
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+            
+            // Final effect
+            for (int i = 0; i < 10; i++) {
+                player.getWorld().spawnParticle(
+                    Particle.FIREWORK,
+                    player.getLocation().add(0, 2, 0),
+                    20, 1, 1, 1, 0.1
+                );
+            }
+        });
+    }
+    
     // ========== MAIN ABILITY EXECUTION METHODS ==========
     
     public void useBookAbility(Player player, ItemStack book) {
@@ -2522,7 +2566,7 @@ public class BookManager {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (p.getLocation().distance(center) <= 7) {
                         p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 40, level));
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 40, level - 1));
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 40, level - 1));
                     }
                 }
                 
