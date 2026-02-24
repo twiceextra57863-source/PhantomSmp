@@ -2,6 +2,8 @@ package com.phantom.smp.manager;
 
 import com.phantom.smp.PhantomSMP;
 import com.phantom.smp.models.MagicBook;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -50,8 +52,9 @@ public class AbilityMenuManager implements Listener {
         crouchCount.put(playerId, count);
         lastCrouchTime.put(playerId, currentTime);
         
-        // Show progress
-        player.sendActionBar("§d⚡ Crouches: §f" + count + "§7/3");
+        // Show progress using spigot's sendMessage with ChatMessageType
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, 
+            TextComponent.fromLegacyText("§d⚡ Crouches: §f" + count + "§7/3"));
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.5f, 1.0f);
         
         // If 3 crouches reached, open menu
