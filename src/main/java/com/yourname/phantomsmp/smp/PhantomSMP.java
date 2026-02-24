@@ -16,6 +16,8 @@ public class PhantomSMP extends JavaPlugin {
     private GUIManager guiManager;
     private HoldParticleManager holdParticleManager;
     private CeremonyManager ceremonyManager;
+    private GraceManager graceManager;
+    private BookBindManager bookBindManager;
     
     @Override
     public void onEnable() {
@@ -30,9 +32,12 @@ public class PhantomSMP extends JavaPlugin {
         guiManager = new GUIManager(this);
         holdParticleManager = new HoldParticleManager(this);
         ceremonyManager = new CeremonyManager(this);
+        graceManager = new GraceManager(this);
+        bookBindManager = new BookBindManager(this);
         
         // Register commands
         getCommand("smpstart").setExecutor(new SMPStartCommand(this));
+        getCommand("grace").setExecutor(new GraceCommand(this));
         getCommand("givebook").setExecutor(new GiveBookCommand(this));
         getCommand("giveall").setExecutor(new GiveAllCommand(this));
         getCommand("booklist").setExecutor(new BookListCommand(this));
@@ -43,11 +48,13 @@ public class PhantomSMP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BookListener(this), this);
         getServer().getPluginManager().registerEvents(new HoldAnimationListener(this), this);
         getServer().getPluginManager().registerEvents(new ProtectionListener(this), this);
-        getServer().getPluginManager().registerEvents(guiManager, this); // Register GUI listener
+        getServer().getPluginManager().registerEvents(new JoinListener(this), this);
+        getServer().getPluginManager().registerEvents(guiManager, this);
+        getServer().getPluginManager().registerEvents(bookBindManager, this);
         
-        getLogger().info("§a§lPhantomSMP v3.0.0 has been enabled!");
+        getLogger().info("§a§lPhantomSMP v4.0.0 has been enabled!");
         getLogger().info("§e§l30 Epic Books Loaded!");
-        getLogger().info("§b§lNew Features: GiveAll, BookList GUI, Hold Particles, Ceremony Freeze!");
+        getLogger().info("§b§lNew: Book Binding, Grace Period, Auto-Join Books, Floating Ceremony!");
     }
     
     @Override
@@ -60,35 +67,14 @@ public class PhantomSMP extends JavaPlugin {
     }
     
     // ========== GETTER METHODS ==========
-    public TimerManager getTimerManager() { 
-        return timerManager; 
-    }
-    
-    public BookManager getBookManager() { 
-        return bookManager; 
-    }
-    
-    public CooldownManager getCooldownManager() { 
-        return cooldownManager; 
-    }
-    
-    public EmoteManager getEmoteManager() { 
-        return emoteManager; 
-    }
-    
-    public ParticleManager getParticleManager() { 
-        return particleManager; 
-    }
-    
-    public GUIManager getGuiManager() { 
-        return guiManager; 
-    }
-    
-    public HoldParticleManager getHoldParticleManager() { 
-        return holdParticleManager; 
-    }
-    
-    public CeremonyManager getCeremonyManager() { 
-        return ceremonyManager; 
-    }
+    public TimerManager getTimerManager() { return timerManager; }
+    public BookManager getBookManager() { return bookManager; }
+    public CooldownManager getCooldownManager() { return cooldownManager; }
+    public EmoteManager getEmoteManager() { return emoteManager; }
+    public ParticleManager getParticleManager() { return particleManager; }
+    public GUIManager getGuiManager() { return guiManager; }
+    public HoldParticleManager getHoldParticleManager() { return holdParticleManager; }
+    public CeremonyManager getCeremonyManager() { return ceremonyManager; }
+    public GraceManager getGraceManager() { return graceManager; }
+    public BookBindManager getBookBindManager() { return bookBindManager; }
 }
