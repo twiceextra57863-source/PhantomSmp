@@ -27,6 +27,8 @@ public class BookManager {
         this.plugin = plugin;
     }
     
+    // ========== BOOK GIVING METHODS ==========
+    
     public void giveBookToPlayer(Player player, String bookName) {
         for (MagicBook book : MagicBook.values()) {
             if (book.getDisplayName().contains(bookName) || 
@@ -45,11 +47,11 @@ public class BookManager {
         giveBookWithCeremony(player, randomBook);
     }
     
-    private void giveBookWithCeremony(Player player, MagicBook book) {
+    public void giveBookWithCeremony(Player player, MagicBook book) {
         player.sendMessage("§d§l✨ PHANTOM CEREMONY ✨");
         player.sendMessage("§fThe ancient spirits have chosen you...");
         
-        // Use ceremony manager with freeze
+        // Use ceremony manager with freeze and floating
         plugin.getCeremonyManager().startCeremony(player, book, () -> {
             // Give book after ceremony
             player.getInventory().addItem(book.createBook());
@@ -68,6 +70,8 @@ public class BookManager {
             }
         });
     }
+    
+    // ========== ABILITY USAGE ==========
     
     public void useBookAbility(Player player, ItemStack book) {
         if (book == null || !book.hasItemMeta()) return;
@@ -205,7 +209,7 @@ public class BookManager {
         }
     }
     
-    // ==================== 30 ABILITIES ====================
+    // ==================== 30 EPIC ABILITIES ====================
     
     // 1. STORM - Lightning Storm
     private void stormAbility(Player player) {
@@ -336,7 +340,7 @@ public class BookManager {
                     }
                 }
                 
-                player.setFireTicks(20);
+                player.setFireTicks(20); // Brief fire immunity
             }
         }.runTaskTimer(plugin, 0L, 2L);
     }
@@ -514,8 +518,10 @@ public class BookManager {
                         Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
                         
                         if (ticks < 20) {
+                            // Pull in
                             e.setVelocity(pull.multiply(0.5));
                         } else {
+                            // Push out
                             e.setVelocity(pull.multiply(-0.5));
                         }
                     }
