@@ -25,13 +25,14 @@ public class HoldAnimationListener implements Listener {
         ItemStack newItem = player.getInventory().getItem(event.getNewSlot());
         
         // Stop particles for previous item
-        plugin.getHoldParticleManager().stopHoldParticles(player);
+        plugin.getUltimateHoldParticleManager().stopHoldParticles(player);
         
         // Start particles for new item if it's a Phantom book
         if (isPhantomBook(newItem)) {
             MagicBook book = getBookFromItem(newItem);
+            int level = getBookLevel(player, book);
             if (book != null) {
-                plugin.getHoldParticleManager().startHoldParticles(player, book);
+                plugin.getUltimateHoldParticleManager().startHoldParticles(player, book, level);
             }
         }
     }
@@ -66,5 +67,10 @@ public class HoldAnimationListener implements Listener {
         }
         
         return null;
+    }
+    
+    private int getBookLevel(Player player, MagicBook book) {
+        if (book == null) return 1;
+        return plugin.getLevelManager().getBookLevel(player, book.getAbilityKey());
     }
 }
