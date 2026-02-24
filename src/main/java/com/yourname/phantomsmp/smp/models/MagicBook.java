@@ -12,95 +12,100 @@ import java.util.List;
 
 public enum MagicBook {
     
-    STORMBRINGER("🌩️ Stormbringer", Material.ENCHANTED_BOOK, 
-         "Call down lightning from the skies", 30, "storm"),
+    // ========== DEMON SLAYER THEME ==========
+    SUN_BREATHING("☀️ Sun Breathing", Material.ENCHANTED_BOOK, 
+         "12th Form: Flame Dance - Execute blazing sword strikes", 25, "sun"),
     
-    SHADOWSTRIKE("👻 Shadowstrike", Material.ENCHANTED_BOOK,
-          "Vanish and strike from the darkness", 25, "shadow"),
+    WATER_BREATHING("💧 Water Breathing", Material.ENCHANTED_BOOK,
+          "11th Form: Dead Calm - Create water dragons that crush enemies", 22, "water"),
     
-    FLAMEWALKER("🔥 Flamewalker", Material.ENCHANTED_BOOK,
-            "Walk through fire and leave destruction", 20, "flame"),
+    THUNDER_BREATHING("⚡ Thunder Breathing", Material.ENCHANTED_BOOK,
+            "7th Form: Honoikazuchi - Lightning-fast dash with thunder clap", 20, "thunder"),
     
-    FROSTBITE("❄️ Frostbite", Material.ENCHANTED_BOOK,
-        "Freeze your enemies solid", 25, "frost"),
+    FLAME_BREATHING("🔥 Flame Breathing", Material.ENCHANTED_BOOK,
+        "9th Form: Rengoku - Unwavering flame slash that ignites the area", 24, "flame"),
     
-    DRAGONSBREATH("🐉 Dragon's Breath", Material.ENCHANTED_BOOK,
-           "Exhale devastating dragon fire", 35, "dragon"),
+    WIND_BREATHING("🌪️ Wind Breathing", Material.ENCHANTED_BOOK,
+           "7th Form: Gale - Create tornado blades that slice everything", 23, "wind"),
     
-    VOIDWALKER("🌌 Voidwalker", Material.ENCHANTED_BOOK,
-         "Phase through reality itself", 40, "void"),
+    STONE_BREATHING("⛰️ Stone Breathing", Material.ENCHANTED_BOOK,
+         "5th Form: Arcs of Justice - Ground-shattering slam", 28, "stone"),
     
-    LIFEBINDER("🌿 Lifebinder", Material.ENCHANTED_BOOK,
-           "Heal and nurture all life", 15, "life"),
+    MIST_BREATHING("🌫️ Mist Breathing", Material.ENCHANTED_BOOK,
+          "7th Form: Obscuring Clouds - Vanish and strike from nowhere", 26, "mist"),
     
-    GRAVITY("⚡ Gravity", Material.ENCHANTED_BOOK,
-           "Control the pull of the earth", 30, "gravity"),
+    BEAST_BREATHING("🐗 Beast Breathing", Material.ENCHANTED_BOOK,
+           "11th Form: Fang Sharpening - Ferocious beast-mode attacks", 21, "beast"),
     
-    PHANTOM("👤 Phantom", Material.ENCHANTED_BOOK,
-           "Become one with the shadows", 20, "phantom"),
+    SOUND_BREATHING("🔊 Sound Breathing", Material.ENCHANTED_BOOK,
+         "5th Form: String Performance - Sonic waves that disorient", 24, "sound"),
     
-    DAWNBRINGER("☀️ Dawnbringer", Material.ENCHANTED_BOOK,
-          "Bring light to the darkest places", 25, "dawn"),
+    SERPENT_BREATHING("🐍 Serpent Breathing", Material.ENCHANTED_BOOK,
+          "5th Form: Slithering Strike - Coiling snake attacks", 23, "serpent"),
     
-    TERRASHAPER("⛰️ Terrashaper", Material.ENCHANTED_BOOK,
-          "Shape the earth at your will", 35, "terra"),
+    LOVE_BREATHING("💖 Love Breathing", Material.ENCHANTED_BOOK,
+           "6th Form: Constant Flux - Whirling dance of blades", 22, "love"),
     
-    ZEPHYR("💨 Zephyr", Material.ENCHANTED_BOOK,
-         "Ride the winds of fate", 15, "wind"),
+    // ========== SOLO LEVELING THEME ==========
+    SHADOW_SOVEREIGN("👑 Shadow Sovereign", Material.ENCHANTED_BOOK,
+         "Monarch's Domain - Raise shadow soldiers from fallen enemies", 30, "sovereign"),
     
-    TIMEWEAVER("⏳ Timeweaver", Material.ENCHANTED_BOOK,
-         "Bend time to your advantage", 45, "time"),
+    DEMON_KING("👹 Demon King", Material.ENCHANTED_BOOK,
+          "Frost Monarch - Absolute zero ice domain", 28, "demonking"),
     
-    SOULREAPER("💀 Soulreaper", Material.ENCHANTED_BOOK,
-         "Feast on the souls of enemies", 30, "soul"),
+    BEAST_LORD("🐺 Beast Lord", Material.ENCHANTED_BOOK,
+           "Monarch of Beasts - Summon spectral wolves to hunt", 25, "beastlord"),
     
-    CRYSTALMAGE("💎 Crystalmage", Material.ENCHANTED_BOOK,
-            "Summon crystals of pure power", 25, "crystal"),
+    SNOW_FIEND("❄️ Snow Fiend", Material.ENCHANTED_BOOK,
+          "Monarch of Snow - Blizzard that freezes everything", 26, "snow"),
     
-    THUNDERGOD("⚡ Thundergod", Material.ENCHANTED_BOOK,
-            "Wield the power of storms", 35, "thunder"),
+    // ========== JUJUTSU KAISEN THEME ==========
+    LIMITLESS("∞ Limitless", Material.ENCHANTED_BOOK,
+         "Hollow Purple - Create imaginary mass that erases targets", 35, "limitless"),
     
-    ICEWARDEN("❄️ Icewarden", Material.ENCHANTED_BOOK,
-          "Command the frozen wastes", 25, "ice"),
+    TEN_SHADOWS("🕷️ Ten Shadows", Material.ENCHANTED_BOOK,
+          "Mahoraga - Summon shikigami to overwhelm enemies", 32, "shadows"),
     
-    PYROMANCER("🔥 Pyromancer", Material.ENCHANTED_BOOK,
-          "Master of living flame", 20, "pyro"),
+    DISASTER_FLAMES("🔥 Disaster Flames", Material.ENCHANTED_BOOK,
+           "Volcano - Erupting cursed energy", 27, "disaster"),
     
-    SPIRITWARDEN("👾 Spiritwarden", Material.ENCHANTED_BOOK,
-           "Call upon ancestral spirits", 30, "spirit"),
+    BLOOD_MANIPULATION("🩸 Blood Manipulation", Material.ENCHANTED_BOOK,
+          "Slicing Exorcism - Blood blades from all directions", 26, "blood"),
     
-    NECROLORD("⚰️ Necrolord", Material.ENCHANTED_BOOK,
-          "Raise the dead to serve you", 40, "necro"),
+    COMEDY("🎭 Comedy", Material.ENCHANTED_BOOK,
+           "Cursed Speech - Force enemies to stop", 20, "comedy"),
     
-    SERAPHIM("👼 Seraphim", Material.ENCHANTED_BOOK,
-          "Blessed with divine power", 25, "seraph"),
+    // ========== DRAGON BALL Z THEME ==========
+    SPIRIT_BOMB("💫 Spirit Bomb", Material.ENCHANTED_BOOK,
+          "Ultimate Technique - Massive energy sphere", 40, "spirit"),
     
-    ABYSS("🌑 Abyss", Material.ENCHANTED_BOOK,
-          "Embrace the endless darkness", 30, "abyss"),
+    KAMEHAMEHA("🌊 Kamehameha", Material.ENCHANTED_BOOK,
+           "Super Kamehameha - Concentrated energy wave", 30, "kame"),
     
-    CHAOSWEAVER("🌀 Chaosweaver", Material.ENCHANTED_BOOK,
-          "Unleash pure randomness", 20, "chaos"),
+    INSTANT_TRANSMISSION("⚡ Instant Transmission", Material.ENCHANTED_BOOK,
+          "Afterimage Strike - Teleport and attack", 22, "instant"),
     
-    JUDGEMENT("⚖️ Judgement", Material.ENCHANTED_BOOK,
-          "Smite the wicked", 35, "judge"),
+    SOLAR_FLARE("☀️ Solar Flare", Material.ENCHANTED_BOOK,
+          "Bright Explosion - Blind and damage all", 18, "solar"),
     
-    DREAMCATCHER("💫 Dreamcatcher", Material.ENCHANTED_BOOK,
-          "Weave dreams into reality", 25, "dream"),
+    GALAXY_BREAKER("🌌 Galaxy Breaker", Material.ENCHANTED_BOOK,
+          "God of Destruction - Universe-shattering blast", 45, "galaxy"),
     
-    NIGHTTERROR("👹 Nightterror", Material.ENCHANTED_BOOK,
-              "Instill fear in your foes", 30, "fear"),
+    // ========== ORIGINAL CREATIONS ==========
+    VOID_REAVER("🌑 Void Reaver", Material.ENCHANTED_BOOK,
+          "Reality Slash - Cut through dimensions", 33, "reaver"),
     
-    AURORA("🌈 Aurora", Material.ENCHANTED_BOOK,
-           "Paint the sky with light", 20, "aurora"),
+    SOUL_EATER("💀 Soul Eater", Material.ENCHANTED_BOOK,
+          "Consume - Absorb life force from enemies", 28, "eater"),
     
-    STARFALL("✨ Starfall", Material.ENCHANTED_BOOK,
-           "Bring the heavens down", 35, "star"),
+    STAR_FALL("✨ Star Fall", Material.ENCHANTED_BOOK,
+          "Meteor Shower - Rain of celestial bodies", 32, "starfall"),
     
-    INFERNUS("🔥 Infernus", Material.ENCHANTED_BOOK,
-            "Unleash hell on earth", 40, "inferno"),
+    TIME_STOP("⏰ Time Stop", Material.ENCHANTED_BOOK,
+          "The World - Freeze time for enemies", 38, "time"),
     
-    AVALANCHE("🏔️ Avalanche", Material.ENCHANTED_BOOK,
-              "Overwhelm with frozen fury", 30, "avalanche");
+    REALITY_WRITER("📝 Reality Writer", Material.ENCHANTED_BOOK,
+          "Rewrite - Change the battlefield", 35, "writer");
 
     private final String displayName;
     private final Material material;
@@ -138,33 +143,6 @@ public enum MagicBook {
         return book;
     }
 
-    public ItemStack createBookWithCooldown(long remainingSeconds) {
-        ItemStack book = new ItemStack(material);
-        ItemMeta meta = book.getItemMeta();
-        
-        String cooldownStatus = remainingSeconds > 0 
-            ? "§c❌ On Cooldown: §f" + remainingSeconds + "s" 
-            : "§a✅ Ready to use!";
-        
-        meta.setDisplayName("§r§6§l" + displayName);
-        meta.setLore(Arrays.asList(
-            "§7" + description,
-            "",
-            "§e§lRIGHT CLICK §7to unleash power!",
-            "§8⏱️ Cooldown: §f" + cooldown + "s",
-            cooldownStatus,
-            "",
-            "§8§oPhantom SMP Artifact",
-            "§8Ability: " + abilityKey
-        ));
-        
-        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        
-        book.setItemMeta(meta);
-        return book;
-    }
-
     public ItemStack createBookWithLevel(int level, int kills) {
         ItemStack book = new ItemStack(material);
         ItemMeta meta = book.getItemMeta();
@@ -177,7 +155,8 @@ public enum MagicBook {
         List<String> lore = new ArrayList<>();
         lore.add("§7" + description);
         lore.add("");
-        lore.add("§e§lRIGHT CLICK §7to unleash power!");
+        lore.add("§e§lRIGHT CLICK §7- Primary Ability");
+        lore.add("§b§lTRIPLE CROUCH §7- Open Ability Menu");
         lore.add("§8⏱️ Cooldown: §f" + cooldown + "s §7(base)");
         lore.add("");
         lore.add("§d§l⚡ LEVEL " + level + " " + levelName);
