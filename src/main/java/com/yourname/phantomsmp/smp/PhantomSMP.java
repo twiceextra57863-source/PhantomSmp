@@ -18,12 +18,21 @@ public class PhantomSMP extends JavaPlugin {
     private CeremonyManager ceremonyManager;
     private GraceManager graceManager;
     private BookBindManager bookBindManager;
+    private LevelManager levelManager;
+    private LevelGUI levelGUI;
+    private KillListener killListener;
+    private ConfigManager configManager;
+    private TransformationManager transformationManager;
     
     @Override
     public void onEnable() {
         instance = this;
         
+        // Save default config
+        saveDefaultConfig();
+        
         // Initialize managers
+        configManager = new ConfigManager(this);
         timerManager = new TimerManager(this);
         bookManager = new BookManager(this);
         cooldownManager = new CooldownManager(this);
@@ -34,6 +43,10 @@ public class PhantomSMP extends JavaPlugin {
         ceremonyManager = new CeremonyManager(this);
         graceManager = new GraceManager(this);
         bookBindManager = new BookBindManager(this);
+        levelManager = new LevelManager(this);
+        levelGUI = new LevelGUI(this);
+        killListener = new KillListener(this);
+        transformationManager = new TransformationManager(this);
         
         // Register commands
         getCommand("smpstart").setExecutor(new SMPStartCommand(this));
@@ -41,6 +54,8 @@ public class PhantomSMP extends JavaPlugin {
         getCommand("givebook").setExecutor(new GiveBookCommand(this));
         getCommand("giveall").setExecutor(new GiveAllCommand(this));
         getCommand("booklist").setExecutor(new BookListCommand(this));
+        getCommand("bookinfo").setExecutor(new BookInfoCommand(this));
+        getCommand("levelbook").setExecutor(new LevelBookCommand(this));
         getCommand("randombook").setExecutor(new RandomBookCommand(this));
         getCommand("reloadphantom").setExecutor(new ReloadCommand(this));
         
@@ -51,10 +66,12 @@ public class PhantomSMP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
         getServer().getPluginManager().registerEvents(guiManager, this);
         getServer().getPluginManager().registerEvents(bookBindManager, this);
+        getServer().getPluginManager().registerEvents(killListener, this);
+        getServer().getPluginManager().registerEvents(levelGUI, this);
         
-        getLogger().info("§a§lPhantomSMP v4.0.0 has been enabled!");
-        getLogger().info("§e§l30 Epic Books Loaded!");
-        getLogger().info("§b§lNew: Book Binding, Grace Period, Auto-Join Books, Floating Ceremony!");
+        getLogger().info("§a§lPhantomSMP v5.0.0 has been enabled!");
+        getLogger().info("§e§l30 Epic Books with 3 Levels Each!");
+        getLogger().info("§b§lNew: Level System, Kill Tracking, Transformation GUI!");
     }
     
     @Override
@@ -77,4 +94,8 @@ public class PhantomSMP extends JavaPlugin {
     public CeremonyManager getCeremonyManager() { return ceremonyManager; }
     public GraceManager getGraceManager() { return graceManager; }
     public BookBindManager getBookBindManager() { return bookBindManager; }
+    public LevelManager getLevelManager() { return levelManager; }
+    public LevelGUI getLevelGUI() { return levelGUI; }
+    public ConfigManager getConfigManager() { return configManager; }
+    public TransformationManager getTransformationManager() { return transformationManager; }
 }
