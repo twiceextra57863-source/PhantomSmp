@@ -36,6 +36,9 @@ public class SMPStartCommand implements CommandExecutor {
                 return true;
             }
             
+            // Mark SMP as started
+            plugin.getJoinListener().setSmpStarted(true);
+            
             // Start SMP timer
             plugin.getTimerManager().startTimer(seconds);
             
