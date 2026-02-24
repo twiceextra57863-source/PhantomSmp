@@ -26,6 +26,7 @@ public class PhantomSMP extends JavaPlugin {
     private KillListener killListener;
     private ConfigManager configManager;
     private TransformationManager transformationManager;
+    private AbilityMenuManager abilityMenuManager;
     
     // Trade System Managers
     private TradeManager tradeManager;
@@ -81,6 +82,7 @@ public class PhantomSMP extends JavaPlugin {
         levelGUI = new LevelGUI(this);
         killListener = new KillListener(this);
         transformationManager = new TransformationManager(this);
+        abilityMenuManager = new AbilityMenuManager(this);
         
         // Trade System Managers
         headRenderer = new HeadRenderer(this);
@@ -121,6 +123,7 @@ public class PhantomSMP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(killListener, this);
         getServer().getPluginManager().registerEvents(levelGUI, this);
         getServer().getPluginManager().registerEvents(tradeGUI, this);
+        getServer().getPluginManager().registerEvents(abilityMenuManager, this);
         getServer().getPluginManager().registerEvents(new AbilityKeyListener(this), this);
     }
     
@@ -132,7 +135,7 @@ public class PhantomSMP extends JavaPlugin {
         getLogger().info("§a§l║  ✓ 90 Total Abilities             ║");
         getLogger().info("§a§l║  ✓ 3-Level System Active          ║");
         getLogger().info("§a§l║  ✓ Kill Tracking Enabled          ║");
-        getLogger().info("§a§l║  ✓ Ultimate Hold Particles        ║");
+        getLogger().info("§a§l║  ✓ Optimized Particles            ║");
         getLogger().info("§a§l║  ✓ Book Binding System            ║");
         getLogger().info("§a§l║  ✓ Grace Period Ready             ║");
         getLogger().info("§a§l║  ✓ Ceremony Manager Active        ║");
@@ -141,6 +144,7 @@ public class PhantomSMP extends JavaPlugin {
         getLogger().info("§a§l║  ✓ 3D Book Renderer               ║");
         getLogger().info("§a§l║  ✓ Title Animation System         ║");
         getLogger().info("§a§l║  ✓ Cinematic War Mode             ║");
+        getLogger().info("§a§l║  ✓ Ability Menu System            ║");
         getLogger().info("§a§l╚════════════════════════════════════╝");
     }
     
@@ -173,6 +177,7 @@ public class PhantomSMP extends JavaPlugin {
     public KillListener getKillListener() { return killListener; }
     public ConfigManager getConfigManager() { return configManager; }
     public TransformationManager getTransformationManager() { return transformationManager; }
+    public AbilityMenuManager getAbilityMenuManager() { return abilityMenuManager; }
     
     // ========== TRADE SYSTEM GETTERS ==========
     
