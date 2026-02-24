@@ -2,10 +2,11 @@ package com.phantom.smp.manager;
 
 import com.phantom.smp.PhantomSMP;
 import com.phantom.smp.models.MagicBook;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -53,8 +54,59 @@ public class LevelManager {
                 MagicBook.getByAbilityKey(bookKey), newLevel);
             
             // Update book in hand if holding
-            updateBookInHand(player, bookKey, newLevel);
+            checkAndUpdateBook(player, bookKey);
         }
+    }
+    
+    public void checkAndUpdateBook(Player player, String bookKey) {
+        ItemStack mainHand = player.getInventory().getItemInMainHand();
+        ItemStack offHand = player.getInventory().getItemInOffHand();
+        
+        if (isHoldingBook(mainHand, bookKey)) {
+            updateBookInSlot(player, mainHand, bookKey, player.getInventory().getHeldItemSlot());
+        } else if (isHoldingBook(offHand, bookKey)) {
+            updateBookInSlot(player, offHand, bookKey, 40); // Offhand slot
+        }
+        
+        // Also check all inventory slots for any copies of this book
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+            ItemStack item = player.getInventory().getItem(i);
+            if (item != null && isHoldingBook(item, bookKey) && item != mainHand && item != offHand) {
+                updateBookInSlot(player, item, bookKey, i);
+            }
+        }
+    }
+    
+    private boolean isHoldingBook(ItemStack item, String bookKey) {
+        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) return false;
+        
+        for (String line : item.getItemMeta().getLore()) {
+            if (line.contains("Ability: " + bookKey)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private void updateBookInSlot(Player player, ItemStack oldBook, String bookKey, int slot) {
+        MagicBook book = MagicBook.getByAbilityKey(bookKey);
+        if (book == null) return;
+        
+        int newLevel = getBookLevel(player, bookKey);
+        int kills = getKills(player, bookKey);
+        
+        // Schedule update for next tick to avoid concurrent modification
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ItemStack newBook = book.createBookWithLevel(newLevel, kills);
+                player.getInventory().setItem(slot, newBook);
+                
+                // Play level up effect
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+                player.sendTitle("§6⚡ LEVEL UP! ⚡", "§fYour book evolved to Level " + newLevel, 10, 40, 10);
+            }
+        }.runTask(plugin);
     }
     
     private int calculateLevel(int kills) {
@@ -104,31 +156,6 @@ public class LevelManager {
         return required - currentKills;
     }
     
-    private void updateBookInHand(Player player, String bookKey, int newLevel) {
-        ItemStack mainHand = player.getInventory().getItemInMainHand();
-        if (isPhantomBook(mainHand, bookKey)) {
-            MagicBook book = MagicBook.getByAbilityKey(bookKey);
-            if (book != null) {
-                player.getInventory().setItemInMainHand(
-                    book.createBookWithLevel(newLevel, getKills(player, bookKey))
-                );
-            }
-        }
-    }
-    
-    private boolean isPhantomBook(ItemStack item, String bookKey) {
-        if (item == null || !item.hasItemMeta()) return false;
-        ItemMeta meta = item.getItemMeta();
-        if (!meta.hasLore()) return false;
-        
-        for (String line : meta.getLore()) {
-            if (line.contains("Ability: " + bookKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     public void setAdminLevel(Player player, String bookKey, int level) {
         setBookLevel(player, bookKey, level);
         
@@ -141,6 +168,11 @@ public class LevelManager {
                   .put(bookKey, kills);
         
         // Update book if holding
-        updateBookInHand(player, bookKey, level);
+        checkAndUpdateBook(player, bookKey);
+    }
+    
+    public void resetPlayerData(Player player) {
+        playerKills.remove(player.getUniqueId());
+        playerLevels.remove(player.getUniqueId());
     }
 }
