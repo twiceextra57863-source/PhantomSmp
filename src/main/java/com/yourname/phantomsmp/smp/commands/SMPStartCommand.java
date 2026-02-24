@@ -1,6 +1,7 @@
 package com.phantom.smp.commands;
 
 import com.phantom.smp.PhantomSMP;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,11 @@ public class SMPStartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         
+        if (!sender.hasPermission("phantomsmp.admin")) {
+            sender.sendMessage("§cYou don't have permission to use this command!");
+            return true;
+        }
+        
         if (args.length != 1) {
             sender.sendMessage("§cUsage: /smpstart <seconds>");
             return true;
@@ -30,11 +36,16 @@ public class SMPStartCommand implements CommandExecutor {
                 return true;
             }
             
+            // Start SMP timer
             plugin.getTimerManager().startTimer(seconds);
             
-            if (sender instanceof Player) {
-                sender.sendMessage("§aSMP timer started for §e" + seconds + "§a seconds!");
-            }
+            // Automatically start grace period for same duration
+            plugin.getGraceManager().startGracePeriod(seconds);
+            
+            Bukkit.broadcastMessage("§6§l═══ SMP STARTING ═══");
+            Bukkit.broadcastMessage("§eSMP will start in §f" + seconds + " §eseconds");
+            Bukkit.broadcastMessage("§aGrace period is active for the same duration!");
+            Bukkit.broadcastMessage("§6§l═══════════════════════");
             
         } catch (NumberFormatException e) {
             sender.sendMessage("§cPlease enter a valid number!");
