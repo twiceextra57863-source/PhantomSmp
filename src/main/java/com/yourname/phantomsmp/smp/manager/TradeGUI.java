@@ -67,7 +67,7 @@ public class TradeGUI implements Listener {
         
         // Add close button
         ItemStack close = new ItemStack(Material.BARRIER);
-        SkullMeta closeMeta = (SkullMeta) close.getItemMeta();
+        org.bukkit.inventory.meta.ItemMeta closeMeta = close.getItemMeta();
         closeMeta.setDisplayName("§c§lCancel");
         closeMeta.setLore(Arrays.asList("§7Close the trade menu"));
         close.setItemMeta(closeMeta);
