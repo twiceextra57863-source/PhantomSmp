@@ -4,19 +4,70 @@ import com.phantom.smp.PhantomSMP;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.*;
 
 public class BookBindManager implements Listener {
     
     private final PhantomSMP plugin;
+    private final Map<UUID, List<ItemStack>> savedBooks = new HashMap<>();
     
     public BookBindManager(PhantomSMP plugin) {
         this.plugin = plugin;
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        List<ItemStack> booksToKeep = new ArrayList<>();
+        
+        // Remove books from drops and save them
+        Iterator<ItemStack> dropsIterator = event.getDrops().iterator();
+        while (dropsIterator.hasNext()) {
+            ItemStack item = dropsIterator.next();
+            if (isPhantomBook(item)) {
+                dropsIterator.remove();
+                booksToKeep.add(item.clone());
+            }
+        }
+        
+        // Also check inventory contents (for items not in drops due to keepInventory)
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (item != null && isPhantomBook(item)) {
+                booksToKeep.add(item.clone());
+            }
+        }
+        
+        // Save books for respawn
+        if (!booksToKeep.isEmpty()) {
+            savedBooks.put(player.getUniqueId(), booksToKeep);
+            player.sendMessage("§d✨ Your Phantom Books will be waiting for you on respawn!");
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        UUID playerId = player.getUniqueId();
+        
+        if (savedBooks.containsKey(playerId)) {
+            // Give books back after respawn
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                List<ItemStack> books = savedBooks.remove(playerId);
+                for (ItemStack book : books) {
+                    player.getInventory().addItem(book);
+                }
+                player.sendMessage("§d✨ Your Phantom Books have been returned to you!");
+            }, 20L); // 1 second delay
+        }
     }
     
     @EventHandler
@@ -25,36 +76,6 @@ public class BookBindManager implements Listener {
         if (isPhantomBook(item)) {
             event.setCancelled(true);
             event.getPlayer().sendMessage("§c❌ You cannot drop a Phantom Book! It is bound to you.");
-        }
-    }
-    
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-        
-        // Remove books from drops
-        event.getDrops().removeIf(item -> isPhantomBook(item));
-        
-        // Keep books in inventory - give them back
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (isPhantomBook(item)) {
-                // Book will stay in inventory due to keepInventory
-                player.sendMessage("§d✨ Your Phantom Book remains with you in death!");
-            }
-        }
-        
-        // Force keep inventory for phantom books
-        if (!event.getKeepInventory()) {
-            // Save books before clear
-            ItemStack[] contents = player.getInventory().getContents();
-            player.getInventory().clear();
-            
-            // Restore only phantom books
-            for (int i = 0; i < contents.length; i++) {
-                if (contents[i] != null && isPhantomBook(contents[i])) {
-                    player.getInventory().setItem(i, contents[i]);
-                }
-            }
         }
     }
     
