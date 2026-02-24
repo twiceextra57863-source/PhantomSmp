@@ -52,16 +52,21 @@ public class CooldownManager {
     }
     
     public void setCooldown(Player player, MagicBook book) {
+        int cooldownSeconds = book.getCooldown();
+        setCustomCooldown(player, book, cooldownSeconds);
+    }
+    
+    public void setCustomCooldown(Player player, MagicBook book, int seconds) {
         UUID playerId = player.getUniqueId();
-        long cooldownEnd = System.currentTimeMillis() + (book.getCooldown() * 1000L);
+        long cooldownEnd = System.currentTimeMillis() + (seconds * 1000L);
         
         cooldowns.computeIfAbsent(playerId, k -> new HashMap<>())
                  .put(book.getAbilityKey(), cooldownEnd);
         
-        showCooldownBar(player, book);
+        showCooldownBar(player, book, seconds);
     }
     
-    private void showCooldownBar(Player player, MagicBook book) {
+    private void showCooldownBar(Player player, MagicBook book, int totalSeconds) {
         BossBar bar = Bukkit.createBossBar(
             "§c⏳ " + book.getDisplayName() + " §7- Cooldown",
             BarColor.RED,
@@ -74,7 +79,7 @@ public class CooldownManager {
                   .put(book.getAbilityKey(), bar);
         
         new BukkitRunnable() {
-            int secondsLeft = book.getCooldown();
+            int secondsLeft = totalSeconds;
             
             @Override
             public void run() {
@@ -88,7 +93,7 @@ public class CooldownManager {
                     return;
                 }
                 
-                double progress = (double) secondsLeft / book.getCooldown();
+                double progress = (double) secondsLeft / totalSeconds;
                 bar.setProgress(progress);
                 bar.setTitle("§c⏳ " + book.getDisplayName() + " §7- §f" + secondsLeft + "s");
                 
