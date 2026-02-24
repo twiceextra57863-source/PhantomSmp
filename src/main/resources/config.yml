@@ -1,0 +1,27 @@
+# PhantomSMP Configuration
+# Version: 5.0.0
+
+# Kill Tracking Settings
+kill-tracking:
+  count-mob-kills: false  # Set to true to count mob kills
+  count-player-kills: true # Always counts player kills
+  kill-messages: true      # Show kill messages
+  
+# Level Requirements
+level-requirements:
+  level1:
+    kills: 0
+    cooldown-multiplier: 1.0
+  level2:
+    kills: 15
+    cooldown-multiplier: 0.8  # 20% faster cooldown
+  level3:
+    kills: 30
+    cooldown-multiplier: 0.6  # 40% faster cooldown (MAX)
+    
+# Transformation Effects
+transformations:
+  particle-intensity: high  # low, medium, high
+  screen-shake: true
+  transformation-sound: true
+  title-messages: true
