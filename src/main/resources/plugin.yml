@@ -1,9 +1,9 @@
 name: PhantomSMP
-version: 6.0.0
+version: 7.0.0
 main: com.phantom.smp.PhantomSMP
 api-version: 1.21
 author: PhantomDev
-description: Ultimate Phantom SMP Plugin with 3-Level Book System
+description: Ultimate Phantom SMP Plugin with 3-Level Book System & Trade Animation
 
 commands:
   smpstart:
@@ -46,6 +46,14 @@ commands:
     description: Reload PhantomSMP plugin
     usage: /reloadphantom
     permission: phantomsmp.admin
+  trade:
+    description: Exchange books with another player
+    usage: /trade
+    permission: phantomsmp.use
+  self-trade:
+    description: Give your book to another player
+    usage: /self-trade
+    permission: phantomsmp.use
 
 permissions:
   phantomsmp.admin:
