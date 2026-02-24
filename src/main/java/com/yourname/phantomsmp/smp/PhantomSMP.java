@@ -9,7 +9,7 @@ public class PhantomSMP extends JavaPlugin {
     
     private static PhantomSMP instance;
     
-    // Manager instances
+    // Core Managers
     private TimerManager timerManager;
     private BookManager bookManager;
     private CooldownManager cooldownManager;
@@ -35,6 +35,9 @@ public class PhantomSMP extends JavaPlugin {
     private HeadRenderer headRenderer;
     private TitleAnimation titleAnimation;
     
+    // Cinematic War Manager
+    private CinematicWarManager cinematicWarManager;
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -43,6 +46,25 @@ public class PhantomSMP extends JavaPlugin {
         saveDefaultConfig();
         
         // Initialize all managers
+        initializeManagers();
+        
+        // Register plugin messaging channels
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "phantomsmp:animation");
+        getServer().getMessenger().registerIncomingPluginChannel(this, "phantomsmp:animation", (channel, player, message) -> {
+            // Handle incoming animation data if needed
+        });
+        
+        // Register all commands
+        registerCommands();
+        
+        // Register all listeners
+        registerListeners();
+        
+        // Log success message
+        logEnableMessage();
+    }
+    
+    private void initializeManagers() {
         configManager = new ConfigManager(this);
         timerManager = new TimerManager(this);
         bookManager = new BookManager(this);
@@ -60,7 +82,7 @@ public class PhantomSMP extends JavaPlugin {
         killListener = new KillListener(this);
         transformationManager = new TransformationManager(this);
         
-        // Initialize Trade System Managers
+        // Trade System Managers
         headRenderer = new HeadRenderer(this);
         screenHeadDisplay = new ScreenHeadDisplay(this);
         tradeAnimationManager = new TradeAnimationManager(this);
@@ -68,38 +90,11 @@ public class PhantomSMP extends JavaPlugin {
         tradeGUI = new TradeGUI(this);
         titleAnimation = new TitleAnimation(this);
         
-        // Register plugin messaging channels
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "phantomsmp:animation");
-        getServer().getMessenger().registerIncomingPluginChannel(this, "phantomsmp:animation", (channel, player, message) -> {
-            // Handle incoming animation data if needed
-        });
-        
-        // Register all commands
-        registerCommands();
-        
-        // Register all listeners
-        registerListeners();
-        
-        // Log success message
-        getLogger().info("§a§l╔════════════════════════════════════╗");
-        getLogger().info("§a§l║     PhantomSMP v7.0.0 Enabled     ║");
-        getLogger().info("§a§l╠════════════════════════════════════╣");
-        getLogger().info("§a§l║  ✓ 30 Epic Books Loaded           ║");
-        getLogger().info("§a§l║  ✓ 3-Level System Active          ║");
-        getLogger().info("§a§l║  ✓ Kill Tracking Enabled          ║");
-        getLogger().info("§a§l║  ✓ Ultimate Hold Particles        ║");
-        getLogger().info("§a§l║  ✓ Book Binding System            ║");
-        getLogger().info("§a§l║  ✓ Grace Period Ready             ║");
-        getLogger().info("§a§l║  ✓ Ceremony Manager Active        ║");
-        getLogger().info("§a§l║  ✓ Trade System with Heads        ║");
-        getLogger().info("§a§l║  ✓ Screen Animation Ready         ║");
-        getLogger().info("§a§l║  ✓ 3D Book Renderer               ║");
-        getLogger().info("§a§l║  ✓ Title Animation System         ║");
-        getLogger().info("§a§l╚════════════════════════════════════╝");
+        // Cinematic War Manager
+        cinematicWarManager = new CinematicWarManager(this);
     }
     
     private void registerCommands() {
-        // Register all commands with their executors
         getCommand("smpstart").setExecutor(new SMPStartCommand(this));
         getCommand("grace").setExecutor(new GraceCommand(this));
         getCommand("givebook").setExecutor(new GiveBookCommand(this));
@@ -117,7 +112,6 @@ public class PhantomSMP extends JavaPlugin {
     }
     
     private void registerListeners() {
-        // Register all event listeners
         getServer().getPluginManager().registerEvents(new BookListener(this), this);
         getServer().getPluginManager().registerEvents(new HoldAnimationListener(this), this);
         getServer().getPluginManager().registerEvents(new ProtectionListener(this), this);
@@ -127,6 +121,27 @@ public class PhantomSMP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(killListener, this);
         getServer().getPluginManager().registerEvents(levelGUI, this);
         getServer().getPluginManager().registerEvents(tradeGUI, this);
+        getServer().getPluginManager().registerEvents(new AbilityKeyListener(this), this);
+    }
+    
+    private void logEnableMessage() {
+        getLogger().info("§a§l╔════════════════════════════════════╗");
+        getLogger().info("§a§l║     PhantomSMP v7.0.0 Enabled     ║");
+        getLogger().info("§a§l╠════════════════════════════════════╣");
+        getLogger().info("§a§l║  ✓ 30 Epic Books Loaded           ║");
+        getLogger().info("§a§l║  ✓ 90 Total Abilities             ║");
+        getLogger().info("§a§l║  ✓ 3-Level System Active          ║");
+        getLogger().info("§a§l║  ✓ Kill Tracking Enabled          ║");
+        getLogger().info("§a§l║  ✓ Ultimate Hold Particles        ║");
+        getLogger().info("§a§l║  ✓ Book Binding System            ║");
+        getLogger().info("§a§l║  ✓ Grace Period Ready             ║");
+        getLogger().info("§a§l║  ✓ Ceremony Manager Active        ║");
+        getLogger().info("§a§l║  ✓ Trade System with Heads        ║");
+        getLogger().info("§a§l║  ✓ Screen Animation Ready         ║");
+        getLogger().info("§a§l║  ✓ 3D Book Renderer               ║");
+        getLogger().info("§a§l║  ✓ Title Animation System         ║");
+        getLogger().info("§a§l║  ✓ Cinematic War Mode             ║");
+        getLogger().info("§a§l╚════════════════════════════════════╝");
     }
     
     @Override
@@ -136,101 +151,39 @@ public class PhantomSMP extends JavaPlugin {
         getLogger().info("§c§l╚════════════════════════════════════╝");
     }
     
-    // ========== STATIC INSTANCE GETTER ==========
-    
     public static PhantomSMP getInstance() {
         return instance;
     }
     
     // ========== CORE MANAGER GETTERS ==========
     
-    public TimerManager getTimerManager() { 
-        return timerManager; 
-    }
-    
-    public BookManager getBookManager() { 
-        return bookManager; 
-    }
-    
-    public CooldownManager getCooldownManager() { 
-        return cooldownManager; 
-    }
-    
-    public EmoteManager getEmoteManager() { 
-        return emoteManager; 
-    }
-    
-    public ParticleManager getParticleManager() { 
-        return particleManager; 
-    }
-    
-    public GUIManager getGuiManager() { 
-        return guiManager; 
-    }
-    
-    public HoldParticleManager getHoldParticleManager() { 
-        return holdParticleManager; 
-    }
-    
-    public UltimateHoldParticleManager getUltimateHoldParticleManager() { 
-        return ultimateHoldParticleManager; 
-    }
-    
-    public CeremonyManager getCeremonyManager() { 
-        return ceremonyManager; 
-    }
-    
-    public GraceManager getGraceManager() { 
-        return graceManager; 
-    }
-    
-    public BookBindManager getBookBindManager() { 
-        return bookBindManager; 
-    }
-    
-    public LevelManager getLevelManager() { 
-        return levelManager; 
-    }
-    
-    public LevelGUI getLevelGUI() { 
-        return levelGUI; 
-    }
-    
-    public KillListener getKillListener() { 
-        return killListener; 
-    }
-    
-    public ConfigManager getConfigManager() { 
-        return configManager; 
-    }
-    
-    public TransformationManager getTransformationManager() { 
-        return transformationManager; 
-    }
+    public TimerManager getTimerManager() { return timerManager; }
+    public BookManager getBookManager() { return bookManager; }
+    public CooldownManager getCooldownManager() { return cooldownManager; }
+    public EmoteManager getEmoteManager() { return emoteManager; }
+    public ParticleManager getParticleManager() { return particleManager; }
+    public GUIManager getGuiManager() { return guiManager; }
+    public HoldParticleManager getHoldParticleManager() { return holdParticleManager; }
+    public UltimateHoldParticleManager getUltimateHoldParticleManager() { return ultimateHoldParticleManager; }
+    public CeremonyManager getCeremonyManager() { return ceremonyManager; }
+    public GraceManager getGraceManager() { return graceManager; }
+    public BookBindManager getBookBindManager() { return bookBindManager; }
+    public LevelManager getLevelManager() { return levelManager; }
+    public LevelGUI getLevelGUI() { return levelGUI; }
+    public KillListener getKillListener() { return killListener; }
+    public ConfigManager getConfigManager() { return configManager; }
+    public TransformationManager getTransformationManager() { return transformationManager; }
     
     // ========== TRADE SYSTEM GETTERS ==========
     
-    public TradeManager getTradeManager() { 
-        return tradeManager; 
-    }
+    public TradeManager getTradeManager() { return tradeManager; }
+    public TradeGUI getTradeGUI() { return tradeGUI; }
+    public TradeAnimationManager getTradeAnimationManager() { return tradeAnimationManager; }
+    public ScreenHeadDisplay getScreenHeadDisplay() { return screenHeadDisplay; }
+    public HeadRenderer getHeadRenderer() { return headRenderer; }
+    public TitleAnimation getTitleAnimation() { return titleAnimation; }
     
-    public TradeGUI getTradeGUI() { 
-        return tradeGUI; 
-    }
+    // ========== CINEMATIC WAR GETTER ==========
     
-    public TradeAnimationManager getTradeAnimationManager() { 
-        return tradeAnimationManager; 
-    }
-    
-    public ScreenHeadDisplay getScreenHeadDisplay() { 
-        return screenHeadDisplay; 
-    }
-    
-    public HeadRenderer getHeadRenderer() { 
-        return headRenderer; 
-    }
-    
-    public TitleAnimation getTitleAnimation() { 
-        return titleAnimation; 
-    }
+    public CinematicWarManager getCinematicWarManager() { return cinematicWarManager; }
 }
