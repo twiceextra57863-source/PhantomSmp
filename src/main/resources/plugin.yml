@@ -2,7 +2,7 @@ name: PhantomSMP
 version: 5.0.0
 main: com.phantom.smp.PhantomSMP
 api-version: 1.21
-author: PhantomDev
+author: Twicefear
 description: Epic Phantom SMP Plugin with 3-Level Book System
 
 commands:
