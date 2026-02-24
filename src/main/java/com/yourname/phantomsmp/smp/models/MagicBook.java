@@ -190,4 +190,60 @@ public enum MagicBook {
     public String getDescription() {
         return description;
     }
+        // Add these methods to MagicBook.java
+
+public ItemStack createBookWithLevel(int level, int kills) {
+    ItemStack book = new ItemStack(material);
+    ItemMeta meta = book.getItemMeta();
+    
+    String levelColor = getLevelColor(level);
+    String levelName = getLevelName(level);
+    
+    meta.setDisplayName("§r" + levelColor + "§l" + displayName + " §7[" + levelName + "]");
+    
+    List<String> lore = new ArrayList<>();
+    lore.add("§7" + description);
+    lore.add("");
+    lore.add("§e§lRIGHT CLICK §7to unleash power!");
+    lore.add("§8⏱️ Cooldown: §f" + cooldown + "s §7(base)");
+    lore.add("");
+    lore.add("§d§l⚡ LEVEL " + level + " " + levelName);
+    lore.add("§7Kills: §f" + kills + " §7/ 30");
+    
+    if (level < 3) {
+        int needed = (level == 1) ? 15 : 30;
+        int remaining = needed - kills;
+        lore.add("§7Next Level: §e" + remaining + " §7more kills");
+    } else {
+        lore.add("§6§lMAX LEVEL REACHED!");
+    }
+    
+    lore.add("");
+    lore.add("§8§oPhantom SMP Artifact");
+    lore.add("§8Ability: " + abilityKey);
+    
+    meta.setLore(lore);
+    meta.addEnchant(Enchantment.UNBREAKING, 1, true);
+    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+    
+    book.setItemMeta(meta);
+    return book;
+}
+
+private String getLevelColor(int level) {
+    switch(level) {
+        case 1: return "§7";
+        case 2: return "§b";
+        case 3: return "§6";
+        default: return "§f";
+    }
+}
+
+private String getLevelName(int level) {
+    switch(level) {
+        case 1: return "Initiate";
+        case 2: return "Ascended";
+        case 3: return "Godly";
+        default: return "Unknown";
+    }
 }
