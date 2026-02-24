@@ -2,6 +2,8 @@ package com.phantom.smp.commands;
 
 import com.phantom.smp.PhantomSMP;
 import com.phantom.smp.models.MagicBook;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +30,7 @@ public class BookInfoCommand implements CommandExecutor {
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         
         // Check if holding a book
-        if (mainHand == null || mainHand.getType() != org.bukkit.Material.ENCHANTED_BOOK) {
+        if (mainHand == null || mainHand.getType() != Material.ENCHANTED_BOOK) {
             player.sendMessage("§cYou must be holding a Phantom Book!");
             return true;
         }
@@ -38,7 +40,7 @@ public class BookInfoCommand implements CommandExecutor {
         if (mainHand.hasItemMeta() && mainHand.getItemMeta().hasLore()) {
             for (String line : mainHand.getItemMeta().getLore()) {
                 if (line.contains("Ability:")) {
-                    bookKey = org.bukkit.ChatColor.stripColor(line).replace("Ability:", "").trim();
+                    bookKey = ChatColor.stripColor(line).replace("Ability:", "").trim();
                     break;
                 }
             }
