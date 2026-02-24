@@ -27,6 +27,8 @@ public class PhantomSMP extends JavaPlugin {
     private ConfigManager configManager;
     private TransformationManager transformationManager;
     private AbilityMenuManager abilityMenuManager;
+    private TargetSeekingCombat targetSeekingCombat;
+    private JoinListener joinListener;
     
     // Trade System Managers
     private TradeManager tradeManager;
@@ -83,6 +85,8 @@ public class PhantomSMP extends JavaPlugin {
         killListener = new KillListener(this);
         transformationManager = new TransformationManager(this);
         abilityMenuManager = new AbilityMenuManager(this);
+        targetSeekingCombat = new TargetSeekingCombat(this);
+        joinListener = new JoinListener(this);
         
         // Trade System Managers
         headRenderer = new HeadRenderer(this);
@@ -117,19 +121,18 @@ public class PhantomSMP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BookListener(this), this);
         getServer().getPluginManager().registerEvents(new HoldAnimationListener(this), this);
         getServer().getPluginManager().registerEvents(new ProtectionListener(this), this);
-        getServer().getPluginManager().registerEvents(new JoinListener(this), this);
+        getServer().getPluginManager().registerEvents(joinListener, this);
         getServer().getPluginManager().registerEvents(guiManager, this);
         getServer().getPluginManager().registerEvents(bookBindManager, this);
         getServer().getPluginManager().registerEvents(killListener, this);
         getServer().getPluginManager().registerEvents(levelGUI, this);
         getServer().getPluginManager().registerEvents(tradeGUI, this);
         getServer().getPluginManager().registerEvents(abilityMenuManager, this);
-        getServer().getPluginManager().registerEvents(new AbilityKeyListener(this), this);
     }
     
     private void logEnableMessage() {
         getLogger().info("§a§l╔════════════════════════════════════╗");
-        getLogger().info("§a§l║     PhantomSMP v7.0.0 Enabled     ║");
+        getLogger().info("§a§l║     PhantomSMP v8.0.0 Enabled     ║");
         getLogger().info("§a§l╠════════════════════════════════════╣");
         getLogger().info("§a§l║  ✓ 30 Epic Books Loaded           ║");
         getLogger().info("§a§l║  ✓ 90 Total Abilities             ║");
@@ -145,13 +148,15 @@ public class PhantomSMP extends JavaPlugin {
         getLogger().info("§a§l║  ✓ Title Animation System         ║");
         getLogger().info("§a§l║  ✓ Cinematic War Mode             ║");
         getLogger().info("§a§l║  ✓ Ability Menu System            ║");
+        getLogger().info("§a§l║  ✓ Anime-Style Combat             ║");
+        getLogger().info("§a§l║  ✓ Auto-Join Ceremony             ║");
         getLogger().info("§a§l╚════════════════════════════════════╝");
     }
     
     @Override
     public void onDisable() {
         getLogger().info("§c§l╔════════════════════════════════════╗");
-        getLogger().info("§c§l║     PhantomSMP v7.0.0 Disabled    ║");
+        getLogger().info("§c§l║     PhantomSMP v8.0.0 Disabled    ║");
         getLogger().info("§c§l╚════════════════════════════════════╝");
     }
     
@@ -178,6 +183,8 @@ public class PhantomSMP extends JavaPlugin {
     public ConfigManager getConfigManager() { return configManager; }
     public TransformationManager getTransformationManager() { return transformationManager; }
     public AbilityMenuManager getAbilityMenuManager() { return abilityMenuManager; }
+    public TargetSeekingCombat getTargetSeekingCombat() { return targetSeekingCombat; }
+    public JoinListener getJoinListener() { return joinListener; }
     
     // ========== TRADE SYSTEM GETTERS ==========
     
@@ -191,4 +198,5 @@ public class PhantomSMP extends JavaPlugin {
     // ========== CINEMATIC WAR GETTER ==========
     
     public CinematicWarManager getCinematicWarManager() { return cinematicWarManager; }
+}cinematicWarManager; }
 }
