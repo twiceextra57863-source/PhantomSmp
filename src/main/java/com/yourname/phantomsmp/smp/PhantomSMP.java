@@ -27,6 +27,14 @@ public class PhantomSMP extends JavaPlugin {
     private ConfigManager configManager;
     private TransformationManager transformationManager;
     
+    // Trade System Managers
+    private TradeManager tradeManager;
+    private TradeGUI tradeGUI;
+    private TradeAnimationManager tradeAnimationManager;
+    private ScreenHeadDisplay screenHeadDisplay;
+    private HeadRenderer headRenderer;
+    private TitleAnimation titleAnimation;
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -52,6 +60,20 @@ public class PhantomSMP extends JavaPlugin {
         killListener = new KillListener(this);
         transformationManager = new TransformationManager(this);
         
+        // Initialize Trade System Managers
+        headRenderer = new HeadRenderer(this);
+        screenHeadDisplay = new ScreenHeadDisplay(this);
+        tradeAnimationManager = new TradeAnimationManager(this);
+        tradeManager = new TradeManager(this);
+        tradeGUI = new TradeGUI(this);
+        titleAnimation = new TitleAnimation(this);
+        
+        // Register plugin messaging channels
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "phantomsmp:animation");
+        getServer().getMessenger().registerIncomingPluginChannel(this, "phantomsmp:animation", (channel, player, message) -> {
+            // Handle incoming animation data if needed
+        });
+        
         // Register all commands
         registerCommands();
         
@@ -60,7 +82,7 @@ public class PhantomSMP extends JavaPlugin {
         
         // Log success message
         getLogger().info("§a§l╔════════════════════════════════════╗");
-        getLogger().info("§a§l║     PhantomSMP v6.0.0 Enabled     ║");
+        getLogger().info("§a§l║     PhantomSMP v7.0.0 Enabled     ║");
         getLogger().info("§a§l╠════════════════════════════════════╣");
         getLogger().info("§a§l║  ✓ 30 Epic Books Loaded           ║");
         getLogger().info("§a§l║  ✓ 3-Level System Active          ║");
@@ -69,6 +91,9 @@ public class PhantomSMP extends JavaPlugin {
         getLogger().info("§a§l║  ✓ Book Binding System            ║");
         getLogger().info("§a§l║  ✓ Grace Period Ready             ║");
         getLogger().info("§a§l║  ✓ Ceremony Manager Active        ║");
+        getLogger().info("§a§l║  ✓ Trade System with Heads        ║");
+        getLogger().info("§a§l║  ✓ Screen Animation Ready         ║");
+        getLogger().info("§a§l║  ✓ 3D Book Renderer               ║");
         getLogger().info("§a§l╚════════════════════════════════════╝");
     }
     
@@ -84,6 +109,10 @@ public class PhantomSMP extends JavaPlugin {
         getCommand("levelbook").setExecutor(new LevelBookCommand(this));
         getCommand("randombook").setExecutor(new RandomBookCommand(this));
         getCommand("reloadphantom").setExecutor(new ReloadCommand(this));
+        
+        // Trade commands
+        getCommand("trade").setExecutor(new TradeCommand(this));
+        getCommand("self-trade").setExecutor(new SelfTradeCommand(this));
     }
     
     private void registerListeners() {
@@ -96,12 +125,13 @@ public class PhantomSMP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(bookBindManager, this);
         getServer().getPluginManager().registerEvents(killListener, this);
         getServer().getPluginManager().registerEvents(levelGUI, this);
+        getServer().getPluginManager().registerEvents(tradeGUI, this);
     }
     
     @Override
     public void onDisable() {
         getLogger().info("§c§l╔════════════════════════════════════╗");
-        getLogger().info("§c§l║     PhantomSMP v6.0.0 Disabled    ║");
+        getLogger().info("§c§l║     PhantomSMP v7.0.0 Disabled    ║");
         getLogger().info("§c§l╚════════════════════════════════════╝");
     }
     
@@ -111,7 +141,7 @@ public class PhantomSMP extends JavaPlugin {
         return instance;
     }
     
-    // ========== MANAGER GETTERS ==========
+    // ========== CORE MANAGER GETTERS ==========
     
     public TimerManager getTimerManager() { 
         return timerManager; 
@@ -175,5 +205,31 @@ public class PhantomSMP extends JavaPlugin {
     
     public TransformationManager getTransformationManager() { 
         return transformationManager; 
+    }
+    
+    // ========== TRADE SYSTEM GETTERS ==========
+    
+    public TradeManager getTradeManager() { 
+        return tradeManager; 
+    }
+    
+    public TradeGUI getTradeGUI() { 
+        return tradeGUI; 
+    }
+    
+    public TradeAnimationManager getTradeAnimationManager() { 
+        return tradeAnimationManager; 
+    }
+    
+    public ScreenHeadDisplay getScreenHeadDisplay() { 
+        return screenHeadDisplay; 
+    }
+    
+    public HeadRenderer getHeadRenderer() { 
+        return headRenderer; 
+    }
+    
+    public TitleAnimation getTitleAnimation() { 
+        return titleAnimation; 
     }
 }
