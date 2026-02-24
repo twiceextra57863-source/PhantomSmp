@@ -1,5 +1,5 @@
 name: PhantomSMP
-version: 3.0.0
+version: 4.0.0
 main: com.phantom.smp.PhantomSMP
 api-version: 1.21
 author: PhantomDev
@@ -7,8 +7,12 @@ description: Epic Phantom SMP Plugin with Magical Books
 
 commands:
   smpstart:
-    description: Start SMP timer
+    description: Start SMP timer with auto grace period
     usage: /smpstart <seconds>
+    permission: phantomsmp.admin
+  grace:
+    description: Start grace period
+    usage: /grace <seconds>
     permission: phantomsmp.admin
   givebook:
     description: Give magical book to player
