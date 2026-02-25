@@ -12,7 +12,7 @@ public class PhantomSMP extends JavaPlugin {
     // Core Managers
     private TimerManager timerManager;
     private BookManager bookManager;
-    private CooldownManager cooldownManager;
+    private CooldownManager cooldownManager; // Yeh variable defined hona chahiye
     private EmoteManager emoteManager;
     private ParticleManager particleManager;
     private GUIManager guiManager;
@@ -71,7 +71,7 @@ public class PhantomSMP extends JavaPlugin {
         configManager = new ConfigManager(this);
         timerManager = new TimerManager(this);
         bookManager = new BookManager(this);
-        cooldownManager = new CooldownManager(this);
+        cooldownManager = new CooldownManager(this); // YAHAN INITIALIZE KARNA ZAROORI HAI
         emoteManager = new EmoteManager(this);
         particleManager = new ParticleManager(this);
         guiManager = new GUIManager(this);
@@ -115,7 +115,6 @@ public class PhantomSMP extends JavaPlugin {
         // Trade commands
         getCommand("trade").setExecutor(new TradeCommand(this));
         getCommand("self-trade").setExecutor(new SelfTradeCommand(this));
-        // Add these to registerCommands() method
         getCommand("tradeaccept").setExecutor(new TradeAcceptCommand(this));
         getCommand("tradedeny").setExecutor(new TradeDenyCommand(this));
     }
@@ -171,7 +170,7 @@ public class PhantomSMP extends JavaPlugin {
     
     public TimerManager getTimerManager() { return timerManager; }
     public BookManager getBookManager() { return bookManager; }
-    public CooldownManager getCooldownManager() { return cooldownManager; }
+    public CooldownManager getCooldownManager() { return cooldownManager; } // YEH GETTER HONA CHAHIYE
     public EmoteManager getEmoteManager() { return emoteManager; }
     public ParticleManager getParticleManager() { return particleManager; }
     public GUIManager getGuiManager() { return guiManager; }
