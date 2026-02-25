@@ -118,7 +118,7 @@ public class TargetSeekingCombat {
                     
                     for (double y = 0; y < 3; y += 0.5) {
                         player.getWorld().spawnParticle(
-                            Particle.DRIP_WATER,
+                            Particle.WATER_DROP,
                             x, center.getY() + y, z,
                             2, 0.1, 0.1, 0.1, 0
                         );
