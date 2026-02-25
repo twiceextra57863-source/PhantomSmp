@@ -2,11 +2,15 @@ package com.phantom.smp.manager;
 
 import com.phantom.smp.PhantomSMP;
 import com.phantom.smp.models.MagicBook;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -14,7 +18,6 @@ public class TradeManager {
     
     private final PhantomSMP plugin;
     private final Map<UUID, TradeRequest> activeRequests = new HashMap<>();
-    private final Map<UUID, UUID> activeTrades = new HashMap<>();
     
     public TradeManager(PhantomSMP plugin) {
         this.plugin = plugin;
@@ -42,6 +45,7 @@ public class TradeManager {
         sender.sendMessage("§d§l✨ Trade Request Sent!");
         sender.sendMessage("§fWaiting for §e" + target.getName() + "§f to respond...");
         
+        // Create clickable messages for target
         target.sendMessage("");
         target.sendMessage("§d§l════════════════════════════");
         target.sendMessage("§d§l✨ TRADE REQUEST ✨");
@@ -55,8 +59,21 @@ public class TradeManager {
         
         target.sendMessage("§7" + getBookName(book));
         target.sendMessage("");
-        target.sendMessage("§a§l[CLICK HERE TO ACCEPT]");
-        target.sendMessage("§c§l[CLICK HERE TO DENY]");
+        
+        // Create clickable accept button
+        TextComponent acceptButton = new TextComponent("§a§l[✓ ACCEPT]");
+        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tradeaccept"));
+        acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
+            new Text("§aClick to accept the trade")));
+        
+        // Create clickable deny button
+        TextComponent denyButton = new TextComponent("§c§l[✗ DENY]");
+        denyButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tradedeny"));
+        denyButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
+            new Text("§cClick to deny the trade")));
+        
+        // Send both buttons
+        target.spigot().sendMessage(acceptButton, new TextComponent("   "), denyButton);
         target.sendMessage("§d§l════════════════════════════");
         target.sendMessage("");
         
@@ -238,4 +255,4 @@ public class TradeManager {
         public ItemStack getBook() { return book; }
         public boolean isSelfTrade() { return isSelfTrade; }
     }
-                                      }
+}
