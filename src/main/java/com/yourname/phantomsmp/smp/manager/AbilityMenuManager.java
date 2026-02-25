@@ -52,9 +52,10 @@ public class AbilityMenuManager implements Listener {
         crouchCount.put(playerId, count);
         lastCrouchTime.put(playerId, currentTime);
         
-        // Show progress using spigot's sendMessage with ChatMessageType
+        // Show progress in action bar
+        String progressBar = getProgressBar(count);
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, 
-            TextComponent.fromLegacyText("§d⚡ Crouches: §f" + count + "§7/3"));
+            TextComponent.fromLegacyText("§d⚡ Crouches: " + progressBar + " §f" + count + "§7/3"));
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.5f, 1.0f);
         
         // If 3 crouches reached, open menu
@@ -63,7 +64,7 @@ public class AbilityMenuManager implements Listener {
             openAbilityMenu(player);
         }
         
-        // Reset after 2 seconds
+        // Schedule reset after 2 seconds
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -76,6 +77,18 @@ public class AbilityMenuManager implements Listener {
         }.runTaskLater(plugin, 40L);
     }
     
+    private String getProgressBar(int count) {
+        StringBuilder bar = new StringBuilder();
+        for (int i = 1; i <= 3; i++) {
+            if (i <= count) {
+                bar.append("§a■");
+            } else {
+                bar.append("§7■");
+            }
+        }
+        return bar.toString();
+    }
+    
     private void openAbilityMenu(Player player) {
         ItemStack book = player.getInventory().getItemInMainHand();
         if (!isPhantomBook(book)) return;
@@ -85,41 +98,52 @@ public class AbilityMenuManager implements Listener {
         
         int level = plugin.getLevelManager().getBookLevel(player, magicBook.getAbilityKey());
         
-        Inventory menu = Bukkit.createInventory(null, 27, MENU_TITLE);
-        
-        // Level 2 Ability (if available)
-        if (level >= 2) {
-            ItemStack ability2 = createAbilityItem(magicBook, 2);
-            menu.setItem(11, ability2);
+        // Only open if player has level 2 or higher
+        if (level < 2) {
+            player.sendMessage("§c❌ You need Level 2 (Ascended) to use advanced abilities!");
+            return;
         }
         
-        // Level 3 Ability (if available)
+        Inventory menu = Bukkit.createInventory(null, 27, MENU_TITLE);
+        
+        // Level 2 Ability (always available if level >= 2)
+        ItemStack ability2 = createAbilityItem(magicBook, 2, level);
+        menu.setItem(11, ability2);
+        
+        // Level 3 Ability (only if level >= 3)
         if (level >= 3) {
-            ItemStack ability3 = createAbilityItem(magicBook, 3);
+            ItemStack ability3 = createAbilityItem(magicBook, 3, level);
             menu.setItem(15, ability3);
         }
         
-        // Decorative items
+        // Decorative items (glass panes)
         ItemStack border = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta borderMeta = border.getItemMeta();
         borderMeta.setDisplayName("§r");
         border.setItemMeta(borderMeta);
         
+        // Fill empty slots with border
         for (int i = 0; i < 27; i++) {
             if (menu.getItem(i) == null) {
                 menu.setItem(i, border);
             }
         }
         
-        // Info item
+        // Info item (center)
         ItemStack info = new ItemStack(Material.BOOK);
         ItemMeta infoMeta = info.getItemMeta();
         infoMeta.setDisplayName("§6§l" + magicBook.getDisplayName());
-        infoMeta.setLore(Arrays.asList(
-            "§7Level: " + getLevelColor(level) + level,
-            "§7Right-click for normal ability",
-            "§7Menu for advanced abilities"
-        ));
+        
+        List<String> lore = new ArrayList<>();
+        lore.add("§7Your current book");
+        lore.add("§7Level: " + getLevelColor(level) + level + " " + getLevelName(level));
+        lore.add("");
+        lore.add("§eRight-click for Normal ability");
+        lore.add("§bMenu for Advanced/Ultimate abilities");
+        lore.add("");
+        lore.add("§8Ability Key: " + magicBook.getAbilityKey());
+        
+        infoMeta.setLore(lore);
         info.setItemMeta(infoMeta);
         menu.setItem(13, info);
         
@@ -127,17 +151,29 @@ public class AbilityMenuManager implements Listener {
         player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 0.5f, 1.0f);
     }
     
-    private ItemStack createAbilityItem(MagicBook book, int abilityLevel) {
-        ItemStack item = new ItemStack(abilityLevel == 2 ? Material.BLAZE_POWDER : Material.NETHER_STAR);
+    private ItemStack createAbilityItem(MagicBook book, int abilityLevel, int playerLevel) {
+        Material material = abilityLevel == 2 ? Material.BLAZE_POWDER : Material.NETHER_STAR;
+        ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         
         String levelName = abilityLevel == 2 ? "§b§lASCENDED" : "§6§lGODLY";
+        String abilityType = abilityLevel == 2 ? "Advanced" : "Ultimate";
+        
         meta.setDisplayName(levelName + " §7Ability");
         
         List<String> lore = new ArrayList<>();
-        lore.add("§7Click to use the " + (abilityLevel == 2 ? "Advanced" : "Ultimate") + " ability");
+        lore.add("§7Click to use the " + abilityType + " ability");
         lore.add("");
-        lore.add("§e⏱️ Cooldown: §f" + (book.getCooldown() * (abilityLevel == 2 ? 2 : 3)) + "s");
+        
+        // Show if available or locked
+        if (playerLevel >= abilityLevel) {
+            lore.add("§a✔ Available");
+            lore.add("§e⏱️ Cooldown: §f" + (book.getCooldown() * (abilityLevel == 2 ? 2 : 3)) + "s");
+        } else {
+            lore.add("§c✘ Locked");
+            lore.add("§7Requires Level " + abilityLevel);
+        }
+        
         lore.add("");
         lore.add("§8Ability: " + book.getAbilityKey());
         
@@ -160,21 +196,34 @@ public class AbilityMenuManager implements Listener {
         
         String displayName = clicked.getItemMeta().getDisplayName();
         
+        // Check if clicked on ability item
         if (displayName.contains("ASCENDED")) {
             // Use Level 2 ability
             player.closeInventory();
             ItemStack book = player.getInventory().getItemInMainHand();
             MagicBook magicBook = getBookFromItem(book);
+            
             if (magicBook != null) {
-                plugin.getBookManager().executeAdvancedAbility(player, magicBook, 2);
+                int level = plugin.getLevelManager().getBookLevel(player, magicBook.getAbilityKey());
+                if (level >= 2) {
+                    plugin.getBookManager().executeAdvancedAbility(player, magicBook, level);
+                } else {
+                    player.sendMessage("§c❌ You need Level 2 to use this ability!");
+                }
             }
         } else if (displayName.contains("GODLY")) {
             // Use Level 3 ability
             player.closeInventory();
             ItemStack book = player.getInventory().getItemInMainHand();
             MagicBook magicBook = getBookFromItem(book);
+            
             if (magicBook != null) {
-                plugin.getBookManager().executeUltimateAbility(player, magicBook, 3);
+                int level = plugin.getLevelManager().getBookLevel(player, magicBook.getAbilityKey());
+                if (level >= 3) {
+                    plugin.getBookManager().executeUltimateAbility(player, magicBook, level);
+                } else {
+                    player.sendMessage("§c❌ You need Level 3 to use this ability!");
+                }
             }
         }
     }
@@ -214,6 +263,15 @@ public class AbilityMenuManager implements Listener {
             case 2: return "§b";
             case 3: return "§6";
             default: return "§f";
+        }
+    }
+    
+    private String getLevelName(int level) {
+        switch(level) {
+            case 1: return "Initiate";
+            case 2: return "Ascended";
+            case 3: return "Godly";
+            default: return "Unknown";
         }
     }
 }
