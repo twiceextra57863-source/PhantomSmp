@@ -6,6 +6,8 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -227,7 +229,242 @@ public class BookManager {
         }
     }
     
-    // ========== SUN BREATHING - COMPLETE ==========
+    // ========== SPIRIT BOMB METHODS (FIXED) ==========
+    
+    private void spiritPrimary(Player player, int level) {
+        player.sendMessage("§b§l💫 SPIRIT BOMB: ENERGY SPHERE 💫");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 9;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, current.getY() + 0.3, z,
+                        3, 0, 0, 0, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2.5, 2.5, 2.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 3, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void spiritAdvanced(Player player, int level) {
+        player.sendMessage("§b§l💫 SPIRIT BOMB: SUPER SPIRIT BOMB 💫");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 10;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location bombLoc = center.clone().add(0, 8, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        
+                        target.getWorld().createExplosion(target.getLocation(), 3, false, true);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(bombLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(bombLoc.toVector()).normalize();
+                    bombLoc.add(toTarget.multiply(0.3));
+                    
+                    for (int i = 0; i < 360; i += 15) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 2.5;
+                        
+                        double x = bombLoc.getX() + radius * Math.cos(angle);
+                        double z = bombLoc.getZ() + radius * Math.sin(angle);
+                        double y = bombLoc.getY() + Math.sin(angle + ticks) * 1.0;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.END_ROD,
+                            x, y, z,
+                            5, 0.1, 0.1, 0.1, 0
+                        );
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FIREWORK,
+                            x, y + 0.3, z,
+                            3, 0, 0, 0, 0.01
+                        );
+                    }
+                    
+                    if (ticks % 10 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void spiritUltimate(Player player, int level) {
+        player.sendMessage("§b§l💫 SPIRIT BOMB: UNIVERSE TREE 💫");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.5f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    player.getWorld().createExplosion(impactLoc, 5, false, true);
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(22, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 20) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 6 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 6 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.FIREWORK,
+                                            x, impactLoc.getY() + 1, z,
+                                            25, 0.5, 0.5, 0.5, 0.02
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location energyLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 15) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 2.0;
+                                    
+                                    double x = energyLoc.getX() + radius * Math.cos(angle);
+                                    double z = energyLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.END_ROD,
+                                        x, energyLoc.getY(), z,
+                                        8, 0.2, 0.2, 0.2, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 15) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 5.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.5;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, y, z,
+                        6, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== SUN BREATHING METHODS ==========
     
     private void sunPrimary(Player player, int level) {
         player.sendMessage("§6§l☀️ SUN BREATHING: SOLAR PROJECTILE ☀️");
@@ -469,7 +706,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== WATER BREATHING - COMPLETE ==========
+    // ========== WATER BREATHING METHODS ==========
     
     private void waterPrimary(Player player, int level) {
         player.sendMessage("§b§l💧 WATER BREATHING: WATER WAVE 💧");
@@ -711,7 +948,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== THUNDER BREATHING - COMPLETE ==========
+    // ========== THUNDER BREATHING METHODS ==========
     
     private void thunderPrimary(Player player, int level) {
         player.sendMessage("§e§l⚡ THUNDER BREATHING: LIGHTNING BOLT ⚡");
@@ -920,7 +1157,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== FLAME BREATHING - COMPLETE ==========
+    // ========== FLAME BREATHING METHODS ==========
     
     private void flamePrimary(Player player, int level) {
         player.sendMessage("§c§l🔥 FLAME BREATHING: FIREBALL 🔥");
@@ -1146,7 +1383,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== WIND BREATHING - COMPLETE ==========
+    // ========== WIND BREATHING METHODS ==========
     
     private void windPrimary(Player player, int level) {
         player.sendMessage("§f§l🌪️ WIND BREATHING: AIR SLASH 🌪️");
@@ -1383,7 +1620,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== STONE BREATHING - COMPLETE ==========
+    // ========== STONE BREATHING METHODS ==========
     
     private void stonePrimary(Player player, int level) {
         player.sendMessage("§7§l⛰️ STONE BREATHING: ROCK PROJECTILE ⛰️");
@@ -1616,7 +1853,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== MIST BREATHING - COMPLETE ==========
+    // ========== MIST BREATHING METHODS ==========
     
     private void mistPrimary(Player player, int level) {
         player.sendMessage("§7§l🌫️ MIST BREATHING: OBSCURING CLOUD 🌫️");
@@ -1852,7 +2089,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== BEAST BREATHING - COMPLETE ==========
+    // ========== BEAST BREATHING METHODS ==========
     
     private void beastPrimary(Player player, int level) {
         player.sendMessage("§6§l🐗 BEAST BREATHING: FANG STRIKE 🐗");
@@ -2076,7 +2313,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SOUND BREATHING - COMPLETE ==========
+    // ========== SOUND BREATHING METHODS ==========
     
     private void soundPrimary(Player player, int level) {
         player.sendMessage("§e§l🔊 SOUND BREATHING: SONIC WAVE 🔊");
@@ -2300,11 +2537,11 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SERPENT BREATHING - COMPLETE ==========
+    // ========== SERPENT BREATHING METHODS (FIXED SOUND) ==========
     
     private void serpentPrimary(Player player, int level) {
         player.sendMessage("§a§l🐍 SERPENT BREATHING: COILING STRIKE 🐍");
-        player.playSound(player.getLocation(), Sound.ENTITY_SNAKE_AMBIENT, 1.0f, 1.0f);
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_AMBIENT, 1.0f, 1.0f);
         
         Location start = player.getEyeLocation();
         Vector direction = player.getLocation().getDirection().normalize();
@@ -2531,7 +2768,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== LOVE BREATHING - COMPLETE ==========
+    // ========== LOVE BREATHING METHODS ==========
     
     private void lovePrimary(Player player, int level) {
         player.sendMessage("§d§l💖 LOVE BREATHING: HEART STRIKE 💖");
@@ -2763,7 +3000,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SHADOW SOVEREIGN - COMPLETE ==========
+    // ========== SHADOW SOVEREIGN METHODS ==========
     
     private void sovereignPrimary(Player player, int level) {
         player.sendMessage("§5§l👑 SHADOW SOVEREIGN: SHADOW DAGGER 👑");
@@ -2973,7 +3210,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== DEMON KING - COMPLETE ==========
+    // ========== DEMON KING METHODS ==========
     
     private void demonKingPrimary(Player player, int level) {
         player.sendMessage("§b§l👹 DEMON KING: FROST SPEAR 👹");
@@ -3201,7 +3438,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== BEAST LORD - COMPLETE ==========
+    // ========== BEAST LORD METHODS ==========
     
     private void beastLordPrimary(Player player, int level) {
         player.sendMessage("§6§l🐺 BEAST LORD: CLAW STRIKE 🐺");
@@ -3405,7 +3642,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SNOW FIEND - COMPLETE ==========
+    // ========== SNOW FIEND METHODS ==========
     
     private void snowPrimary(Player player, int level) {
         player.sendMessage("§b§l❄️ SNOW FIEND: ICE SHARD ❄️");
@@ -3632,7 +3869,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== LIMITLESS - COMPLETE ==========
+    // ========== LIMITLESS METHODS ==========
     
     private void limitlessPrimary(Player player, int level) {
         player.sendMessage("§d§l∞ LIMITLESS: HOLLOW PURPLE ∞");
@@ -3852,7 +4089,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== TEN SHADOWS - COMPLETE ==========
+    // ========== TEN SHADOWS METHODS ==========
     
     private void shadowsPrimary(Player player, int level) {
         player.sendMessage("§8§l🕷️ TEN SHADOWS: DIVINE DOGS 🕷️");
@@ -4077,7 +4314,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== DISASTER FLAMES - COMPLETE ==========
+    // ========== DISASTER FLAMES METHODS ==========
     
     private void disasterPrimary(Player player, int level) {
         player.sendMessage("§c§l🔥 DISASTER FLAMES: VOLCANIC ERUPTION 🔥");
@@ -4313,7 +4550,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== BLOOD MANIPULATION - COMPLETE ==========
+    // ========== BLOOD MANIPULATION METHODS ==========
     
     private void bloodPrimary(Player player, int level) {
         player.sendMessage("§4§l🩸 BLOOD MANIPULATION: BLOOD BLADE 🩸");
@@ -4537,7 +4774,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== COMEDY - COMPLETE ==========
+    // ========== COMEDY METHODS ==========
     
     private void comedyPrimary(Player player, int level) {
         player.sendMessage("§a§l🎭 COMEDY: CURSED SPEECH 🎭");
@@ -4763,7 +5000,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== KAMEHAMEHA - COMPLETE ==========
+    // ========== KAMEHAMEHA METHODS ==========
     
     private void kamePrimary(Player player, int level) {
         player.sendMessage("§b§l🌊 KAMEHAMEHA: ENERGY WAVE 🌊");
@@ -4986,7 +5223,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== INSTANT TRANSMISSION - COMPLETE ==========
+    // ========== INSTANT TRANSMISSION METHODS ==========
     
     private void instantPrimary(Player player, int level) {
         player.sendMessage("§e§l⚡ INSTANT TRANSMISSION: AFTERIMAGE STRIKE ⚡");
@@ -5027,7 +5264,6 @@ public class BookManager {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage, player);
                         
-                        // Teleport behind
                         Location behind = e.getLocation().add(e.getLocation().getDirection().multiply(-2));
                         player.teleport(behind);
                         
@@ -5086,7 +5322,6 @@ public class BookManager {
                 }
                 
                 if (nearest != null) {
-                    // Teleport to enemy
                     dragonLoc = nearest.getLocation().clone();
                     
                     for (int i = 0; i < 360; i += 30) {
@@ -5216,7 +5451,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SOLAR FLARE - COMPLETE ==========
+    // ========== SOLAR FLARE METHODS ==========
     
     private void solarPrimary(Player player, int level) {
         player.sendMessage("§6§l☀️ SOLAR FLARE: BRIGHT EXPLOSION ☀️");
@@ -5447,7 +5682,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== GALAXY BREAKER - COMPLETE ==========
+    // ========== GALAXY BREAKER METHODS ==========
     
     private void galaxyPrimary(Player player, int level) {
         player.sendMessage("§5§l🌌 GALAXY BREAKER: COSMIC BLAST 🌌");
@@ -5682,7 +5917,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== VOID REAVER - COMPLETE ==========
+    // ========== VOID REAVER METHODS ==========
     
     private void reaverPrimary(Player player, int level) {
         player.sendMessage("§8§l🌑 VOID REAVER: VOID SLASH 🌑");
@@ -5908,7 +6143,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SOUL EATER - COMPLETE ==========
+    // ========== SOUL EATER METHODS ==========
     
     private void eaterPrimary(Player player, int level) {
         player.sendMessage("§2§l💀 SOUL EATER: SOUL DRAIN 💀");
@@ -6134,7 +6369,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== STAR FALL - COMPLETE ==========
+    // ========== STAR FALL METHODS ==========
     
     private void starfallPrimary(Player player, int level) {
         player.sendMessage("§e§l✨ STAR FALL: METEOR SHOWER ✨");
@@ -6357,7 +6592,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== TIME STOP - COMPLETE ==========
+    // ========== TIME STOP METHODS ==========
     
     private void timePrimary(Player player, int level) {
         player.sendMessage("§b§l⏰ TIME STOP: TIME FREEZE ⏰");
@@ -6398,7 +6633,6 @@ public class BookManager {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage, player);
                         
-                        // Freeze effect
                         e.setVelocity(new Vector(0, 0, 0));
                         ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 10));
                         
@@ -6589,7 +6823,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== REALITY WRITER - COMPLETE ==========
+    // ========== REALITY WRITER METHODS ==========
     
     private void writerPrimary(Player player, int level) {
         player.sendMessage("§d§l📝 REALITY WRITER: REWRITE 📝");
@@ -6630,7 +6864,6 @@ public class BookManager {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage, player);
                         
-                        // Random effect
                         if (random.nextBoolean()) {
                             e.setFireTicks(60);
                         } else {
