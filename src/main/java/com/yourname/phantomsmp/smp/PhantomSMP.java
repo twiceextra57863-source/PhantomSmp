@@ -115,6 +115,9 @@ public class PhantomSMP extends JavaPlugin {
         // Trade commands
         getCommand("trade").setExecutor(new TradeCommand(this));
         getCommand("self-trade").setExecutor(new SelfTradeCommand(this));
+        // Add these to registerCommands() method
+        getCommand("tradeaccept").setExecutor(new TradeAcceptCommand(this));
+        getCommand("tradedeny").setExecutor(new TradeDenyCommand(this));
     }
     
     private void registerListeners() {
