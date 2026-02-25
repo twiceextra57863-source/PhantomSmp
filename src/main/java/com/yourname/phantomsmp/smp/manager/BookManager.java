@@ -227,7 +227,7 @@ public class BookManager {
         }
     }
     
-    // ========== SUN BREATHING ABILITIES ==========
+    // ========== SUN BREATHING - COMPLETE ==========
     
     private void sunPrimary(Player player, int level) {
         player.sendMessage("§6§l☀️ SUN BREATHING: SOLAR PROJECTILE ☀️");
@@ -250,7 +250,6 @@ public class BookManager {
                 
                 Location current = start.clone().add(direction.clone().multiply(distance));
                 
-                // Solar projectile effect
                 for (int i = 0; i < 360; i += 30) {
                     double angle = Math.toRadians(i);
                     double radius = 0.5;
@@ -271,7 +270,6 @@ public class BookManager {
                     );
                 }
                 
-                // Check for hits
                 for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage, player);
@@ -303,7 +301,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location dragonLoc = center.clone().add(0, 5, 0);
             
             @Override
@@ -334,7 +332,6 @@ public class BookManager {
                     Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
                     dragonLoc.add(toTarget.multiply(0.5));
                     
-                    // Dragon body
                     for (int i = 0; i < 360; i += 20) {
                         double angle = Math.toRadians(i + ticks * 10);
                         double radius = 2.0;
@@ -386,7 +383,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -472,7 +469,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== WATER BREATHING ABILITIES ==========
+    // ========== WATER BREATHING - COMPLETE ==========
     
     private void waterPrimary(Player player, int level) {
         player.sendMessage("§b§l💧 WATER BREATHING: WATER WAVE 💧");
@@ -509,7 +506,7 @@ public class BookManager {
                     );
                     
                     player.getWorld().spawnParticle(
-                        Particle.WATER_BUBBLE,
+                        Particle.SPLASH,
                         x, current.getY() + 0.3, z,
                         2, 0, 0, 0, 0.01
                     );
@@ -546,7 +543,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location dragonLoc = center.clone().add(0, 5, 0);
             
             @Override
@@ -592,7 +589,7 @@ public class BookManager {
                         );
                         
                         player.getWorld().spawnParticle(
-                            Particle.WATER_BUBBLE,
+                            Particle.SPLASH,
                             x, y + 0.3, z,
                             3, 0, 0, 0, 0.01
                         );
@@ -622,7 +619,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -703,7 +700,7 @@ public class BookManager {
                     double y = player.getLocation().getY() + Math.sin(angle + ticks) * 0.8;
                     
                     player.getWorld().spawnParticle(
-                        Particle.WATER_BUBBLE,
+                        Particle.SPLASH,
                         x, y, z,
                         3, 0.1, 0.1, 0.1, 0.01
                     );
@@ -714,7 +711,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== THUNDER BREATHING ABILITIES ==========
+    // ========== THUNDER BREATHING - COMPLETE ==========
     
     private void thunderPrimary(Player player, int level) {
         player.sendMessage("§e§l⚡ THUNDER BREATHING: LIGHTNING BOLT ⚡");
@@ -776,7 +773,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location godLoc = center.clone().add(0, 8, 0);
             
             @Override
@@ -843,7 +840,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -923,7 +920,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== FLAME BREATHING ABILITIES ==========
+    // ========== FLAME BREATHING - COMPLETE ==========
     
     private void flamePrimary(Player player, int level) {
         player.sendMessage("§c§l🔥 FLAME BREATHING: FIREBALL 🔥");
@@ -986,7 +983,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location phoenixLoc = center.clone().add(0, 7, 0);
             
             @Override
@@ -1062,7 +1059,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -1149,7 +1146,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== WIND BREATHING ABILITIES ==========
+    // ========== WIND BREATHING - COMPLETE ==========
     
     private void windPrimary(Player player, int level) {
         player.sendMessage("§f§l🌪️ WIND BREATHING: AIR SLASH 🌪️");
@@ -1217,7 +1214,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location tornadoLoc = center.clone().add(0, 6, 0);
             
             @Override
@@ -1294,7 +1291,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -1386,7 +1383,1387 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SHADOW SOVEREIGN ABILITIES ==========
+    // ========== STONE BREATHING - COMPLETE ==========
+    
+    private void stonePrimary(Player player, int level) {
+        player.sendMessage("§7§l⛰️ STONE BREATHING: ROCK PROJECTILE ⛰️");
+        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BREAK, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.BLOCK,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0,
+                        Material.STONE.createBlockData()
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setVelocity(new Vector(0, 1, 0));
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.BLOCK,
+                            current,
+                            20, 0.5, 0.5, 0.5, 0,
+                            Material.STONE.createBlockData()
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void stoneAdvanced(Player player, int level) {
+        player.sendMessage("§7§l⛰️ STONE BREATHING: EARTH GOLEM ⛰️");
+        player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_STEP, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location golemLoc = center.clone().add(0, 5, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        target.setVelocity(new Vector(0, 2, 0));
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(golemLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(golemLoc.toVector()).normalize();
+                    golemLoc.add(toTarget.multiply(0.4));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 6);
+                        double radius = 2.5;
+                        
+                        double x = golemLoc.getX() + radius * Math.cos(angle);
+                        double z = golemLoc.getZ() + radius * Math.sin(angle);
+                        double y = golemLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.BLOCK,
+                            x, y, z,
+                            4, 0.2, 0.2, 0.2, 0,
+                            Material.STONE.createBlockData()
+                        );
+                    }
+                    
+                    if (ticks % 10 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void stoneUltimate(Player player, int level) {
+        player.sendMessage("§7§l⛰️ STONE BREATHING: METEOR STORM ⛰️");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    player.getWorld().createExplosion(impactLoc, 4, false, true);
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 6, 6, 6)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(16, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 20) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.BLOCK,
+                                            x, impactLoc.getY() + 1, z,
+                                            15, 0.3, 0.3, 0.3, 0,
+                                            Material.STONE.createBlockData()
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location rockLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 1.5;
+                                    
+                                    double x = rockLoc.getX() + radius * Math.cos(angle);
+                                    double z = rockLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.BLOCK,
+                                        x, rockLoc.getY(), z,
+                                        5, 0.1, 0.1, 0.1, 0,
+                                        Material.STONE.createBlockData()
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 5);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.BLOCK,
+                        x, y, z,
+                        4, 0.1, 0.1, 0.1, 0,
+                        Material.STONE.createBlockData()
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== MIST BREATHING - COMPLETE ==========
+    
+    private void mistPrimary(Player player, int level) {
+        player.sendMessage("§7§l🌫️ MIST BREATHING: OBSCURING CLOUD 🌫️");
+        player.playSound(player.getLocation(), Sound.ENTITY_PHANTOM_AMBIENT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.CLOUD,
+                        x, current.getY(), z,
+                        5, 0.2, 0.2, 0.2, 0.02
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.SMOKE,
+                                e.getLocation().add(0, 1, 0),
+                                10, 0.3, 0.3, 0.3, 0.01
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void mistAdvanced(Player player, int level) {
+        player.sendMessage("§7§l🌫️ MIST BREATHING: VANISHING DRAGON 🌫️");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        
+                        for (int j = 0; j < 15; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.CLOUD,
+                                target.getLocation().add(0, 1, 0),
+                                15, 0.5, 0.5, 0.5, 0.02
+                            );
+                        }
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 15) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 1.0;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.CLOUD,
+                            x, y, z,
+                            6, 0.2, 0.2, 0.2, 0.02
+                        );
+                    }
+                    
+                    if (ticks % 8 == 0) {
+                        nearest.damage(damage / 3, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FLASH,
+                            nearest.getLocation().add(0, 1, 0),
+                            1, 0, 0, 0, 0
+                        );
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void mistUltimate(Player player, int level) {
+        player.sendMessage("§7§l🌫️ MIST BREATHING: FOG OF WAR 🌫️");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(14, player);
+                                            
+                                            for (int j = 0; j < 15; j++) {
+                                                player.getWorld().spawnParticle(
+                                                    Particle.CLOUD,
+                                                    e.getLocation().add(0, 1, 0),
+                                                    15, 0.5, 0.5, 0.5, 0.02
+                                                );
+                                            }
+                                        }
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location mistLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 7);
+                                    double radius = 1.5;
+                                    
+                                    double x = mistLoc.getX() + radius * Math.cos(angle);
+                                    double z = mistLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.CLOUD,
+                                        x, mistLoc.getY(), z,
+                                        6, 0.2, 0.2, 0.2, 0.02
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 4);
+                    double radius = 4.5;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.CLOUD,
+                        x, y, z,
+                        5, 0.2, 0.2, 0.2, 0.01
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== BEAST BREATHING - COMPLETE ==========
+    
+    private void beastPrimary(Player player, int level) {
+        player.sendMessage("§6§l🐗 BEAST BREATHING: FANG STRIKE 🐗");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_GROWL, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SWEEP_ATTACK,
+                        x, current.getY(), z,
+                        2, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SWEEP_ATTACK,
+                            current,
+                            10, 0.5, 0.5, 0.5, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void beastAdvanced(Player player, int level) {
+        player.sendMessage("§6§l🐗 BEAST BREATHING: FEROCIOUS BEAST 🐗");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location beastLoc = center.clone().add(0, 5, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(beastLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(beastLoc.toVector()).normalize();
+                    beastLoc.add(toTarget.multiply(0.6));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 10);
+                        double radius = 2.0;
+                        
+                        double x = beastLoc.getX() + radius * Math.cos(angle);
+                        double z = beastLoc.getZ() + radius * Math.sin(angle);
+                        double y = beastLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SWEEP_ATTACK,
+                            x, y, z,
+                            3, 0.1, 0.1, 0.1, 0
+                        );
+                    }
+                    
+                    if (ticks % 5 == 0) {
+                        nearest.damage(damage / 4, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void beastUltimate(Player player, int level) {
+        player.sendMessage("§6§l🐗 BEAST BREATHING: PRIMAL RAGE 🐗");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_ROAR, 1.0f, 0.5f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(15, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.SWEEP_ATTACK,
+                                            x, impactLoc.getY() + 1, z,
+                                            10, 0.3, 0.3, 0.3, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location beastLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 9);
+                                    double radius = 1.5;
+                                    
+                                    double x = beastLoc.getX() + radius * Math.cos(angle);
+                                    double z = beastLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.SWEEP_ATTACK,
+                                        x, beastLoc.getY(), z,
+                                        4, 0.1, 0.1, 0.1, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.2;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SWEEP_ATTACK,
+                        x, y, z,
+                        3, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== SOUND BREATHING - COMPLETE ==========
+    
+    private void soundPrimary(Player player, int level) {
+        player.sendMessage("§e§l🔊 SOUND BREATHING: SONIC WAVE 🔊");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SONIC_BOOM,
+                        x, current.getY(), z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SONIC_BOOM,
+                            current,
+                            5, 0.3, 0.3, 0.3, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 3;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void soundAdvanced(Player player, int level) {
+        player.sendMessage("§e§l🔊 SOUND BREATHING: RESONANCE DRAGON 🔊");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 0.8f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 15) {
+                        double angle = Math.toRadians(i + ticks * 10);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SONIC_BOOM,
+                            x, y, z,
+                            1, 0, 0, 0, 0
+                        );
+                    }
+                    
+                    if (ticks % 8 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void soundUltimate(Player player, int level) {
+        player.sendMessage("§e§l🔊 SOUND BREATHING: CRESCENDO 🔊");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_ROAR, 1.0f, 0.5f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(16, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.SONIC_BOOM,
+                                            x, impactLoc.getY() + 1, z,
+                                            2, 0, 0, 0, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location soundLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 1.5;
+                                    
+                                    double x = soundLoc.getX() + radius * Math.cos(angle);
+                                    double z = soundLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.SONIC_BOOM,
+                                        x, soundLoc.getY(), z,
+                                        1, 0, 0, 0, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 7);
+                    double radius = 4.5;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.2;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SONIC_BOOM,
+                        x, y, z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== SERPENT BREATHING - COMPLETE ==========
+    
+    private void serpentPrimary(Player player, int level) {
+        player.sendMessage("§a§l🐍 SERPENT BREATHING: COILING STRIKE 🐍");
+        player.playSound(player.getLocation(), Sound.ENTITY_SNAKE_AMBIENT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                // Snake pattern
+                double offset = Math.sin(distance * 0.3) * 0.5;
+                
+                double x = current.getX() + offset * Math.cos(distance);
+                double z = current.getZ() + offset * Math.sin(distance);
+                
+                player.getWorld().spawnParticle(
+                    Particle.SCULK_SOUL,
+                    x, current.getY(), z,
+                    3, 0.1, 0.1, 0.1, 0.01
+                );
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 8; j++) {
+                            double angle = Math.toRadians(j * 45);
+                            double bx = e.getLocation().getX() + 1.5 * Math.cos(angle);
+                            double bz = e.getLocation().getZ() + 1.5 * Math.sin(angle);
+                            
+                            player.getWorld().spawnParticle(
+                                Particle.SCULK_SOUL,
+                                bx, e.getLocation().getY() + 1, bz,
+                                2, 0, 0, 0, 0.01
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void serpentAdvanced(Player player, int level) {
+        player.sendMessage("§a§l🐍 SERPENT BREATHING: COILING DRAGON 🐍");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 5, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    // Snake movement
+                    for (int i = 0; i < 5; i++) {
+                        double progress = (double) i / 4;
+                        double offset = Math.sin(ticks * 0.2 + i) * 1.0;
+                        
+                        double x = dragonLoc.getX() + offset * Math.cos(ticks * 0.1);
+                        double z = dragonLoc.getZ() + offset * Math.sin(ticks * 0.1);
+                        double y = dragonLoc.getY() - progress * 1.0;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SCULK_SOUL,
+                            x, y, z,
+                            3, 0.1, 0.1, 0.1, 0.01
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void serpentUltimate(Player player, int level) {
+        player.sendMessage("§a§l🐍 SERPENT BREATHING: WORLD SERPENT 🐍");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(15, player);
+                                        }
+                                    }
+                                    
+                                    for (int j = 0; j < 20; j++) {
+                                        double angle = Math.toRadians(j * 18);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        for (double y = 0; y < 3; y += 0.5) {
+                                            player.getWorld().spawnParticle(
+                                                Particle.SCULK_SOUL,
+                                                x, impactLoc.getY() + y, z,
+                                                2, 0, 0, 0, 0.01
+                                            );
+                                        }
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location serpentLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 30) {
+                                    double angle = Math.toRadians(i + meteorDist * 6);
+                                    double radius = 1.2;
+                                    
+                                    double x = serpentLoc.getX() + radius * Math.cos(angle);
+                                    double z = serpentLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.SCULK_SOUL,
+                                        x, serpentLoc.getY(), z,
+                                        2, 0, 0, 0, 0.01
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i + ticks * 5);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SCULK_SOUL,
+                        x, y, z,
+                        2, 0, 0, 0, 0.01
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== LOVE BREATHING - COMPLETE ==========
+    
+    private void lovePrimary(Player player, int level) {
+        player.sendMessage("§d§l💖 LOVE BREATHING: HEART STRIKE 💖");
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        int heal = level * 2;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.HEART,
+                        x, current.getY(), z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        player.setHealth(Math.min(player.getHealth() + heal, player.getMaxHealth()));
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.HEART,
+                                e.getLocation().add(0, 1, 0),
+                                5, 0.3, 0.3, 0.3, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void loveAdvanced(Player player, int level) {
+        player.sendMessage("§d§l💖 LOVE BREATHING: CUPID DRAGON 💖");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 7;
+        int heal = level * 3;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        player.setHealth(Math.min(player.getHealth() + heal * 2, player.getMaxHealth()));
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 30) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.HEART,
+                            x, y, z,
+                            2, 0.1, 0.1, 0.1, 0
+                        );
+                    }
+                    
+                    if (ticks % 8 == 0) {
+                        nearest.damage(damage / 3, player);
+                        player.setHealth(Math.min(player.getHealth() + heal / 2, player.getMaxHealth()));
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void loveUltimate(Player player, int level) {
+        player.sendMessage("§d§l💖 LOVE BREATHING: ETERNAL BOND 💖");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(14, player);
+                                            player.setHealth(Math.min(player.getHealth() + 3, player.getMaxHealth()));
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.HEART,
+                                            x, impactLoc.getY() + 1, z,
+                                            5, 0.2, 0.2, 0.2, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location heartLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 7);
+                                    double radius = 1.5;
+                                    
+                                    double x = heartLoc.getX() + radius * Math.cos(angle);
+                                    double z = heartLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.HEART,
+                                        x, heartLoc.getY(), z,
+                                        2, 0, 0, 0, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 5);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.HEART,
+                        x, y, z,
+                        3, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== SHADOW SOVEREIGN - COMPLETE ==========
     
     private void sovereignPrimary(Player player, int level) {
         player.sendMessage("§5§l👑 SHADOW SOVEREIGN: SHADOW DAGGER 👑");
@@ -1462,7 +2839,7 @@ public class BookManager {
             int index = i;
             new BukkitRunnable() {
                 int attacks = 0;
-                final int MAX_ATTACKS = 7; // 7 seconds of attacks
+                final int MAX_ATTACKS = 7;
                 Location shadowLoc = center.clone().add(
                     random.nextDouble() * 8 - 4,
                     0,
@@ -1509,7 +2886,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -1596,7 +2973,666 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== LIMITLESS ABILITIES ==========
+    // ========== DEMON KING - COMPLETE ==========
+    
+    private void demonKingPrimary(Player player, int level) {
+        player.sendMessage("§b§l👹 DEMON KING: FROST SPEAR 👹");
+        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SNOWFLAKE,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setFreezeTicks(100);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.BLOCK,
+                            current,
+                            15, 0.5, 0.5, 0.5, 0,
+                            Material.ICE.createBlockData()
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void demonKingAdvanced(Player player, int level) {
+        player.sendMessage("§b§l👹 DEMON KING: FROST DRAGON 👹");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        target.setFreezeTicks(200);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.4));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 7);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SNOWFLAKE,
+                            x, y, z,
+                            5, 0.2, 0.2, 0.2, 0
+                        );
+                    }
+                    
+                    if (ticks % 8 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void demonKingUltimate(Player player, int level) {
+        player.sendMessage("§b§l👹 DEMON KING: ABSOLUTE ZERO 👹");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(18, player);
+                                            e.setFreezeTicks(300);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.SNOWFLAKE,
+                                            x, impactLoc.getY() + 1, z,
+                                            15, 0.3, 0.3, 0.3, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location iceLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 6);
+                                    double radius = 1.5;
+                                    
+                                    double x = iceLoc.getX() + radius * Math.cos(angle);
+                                    double z = iceLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.SNOWFLAKE,
+                                        x, iceLoc.getY(), z,
+                                        5, 0.1, 0.1, 0.1, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 5);
+                    double radius = 4.5;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SNOWFLAKE,
+                        x, y, z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== BEAST LORD - COMPLETE ==========
+    
+    private void beastLordPrimary(Player player, int level) {
+        player.sendMessage("§6§l🐺 BEAST LORD: CLAW STRIKE 🐺");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_GROWL, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 3; i++) {
+                    double offset = (i - 1) * 0.5;
+                    double x = current.getX() + offset * Math.cos(distance);
+                    double z = current.getZ() + offset * Math.sin(distance);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SWEEP_ATTACK,
+                        x, current.getY(), z,
+                        2, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SWEEP_ATTACK,
+                            current,
+                            10, 0.5, 0.5, 0.5, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void beastLordAdvanced(Player player, int level) {
+        player.sendMessage("§6§l🐺 BEAST LORD: WOLF PACK 🐺");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        int wolves = level == 2 ? 4 : 6;
+        
+        for (int i = 0; i < wolves; i++) {
+            int index = i;
+            new BukkitRunnable() {
+                int attacks = 0;
+                final int MAX_ATTACKS = 7;
+                Location wolfLoc = center.clone().add(
+                    random.nextDouble() * 6 - 3,
+                    0,
+                    random.nextDouble() * 6 - 3
+                );
+                
+                @Override
+                public void run() {
+                    if (attacks >= MAX_ATTACKS || enemies.isEmpty()) {
+                        cancel();
+                        return;
+                    }
+                    
+                    LivingEntity target = enemies.get(random.nextInt(enemies.size()));
+                    if (target.isDead()) return;
+                    
+                    Vector toTarget = target.getLocation().toVector().subtract(wolfLoc.toVector()).normalize();
+                    
+                    for (double d = 0; d < 2; d += 0.3) {
+                        Location attackLoc = wolfLoc.clone().add(toTarget.clone().multiply(d));
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SWEEP_ATTACK,
+                            attackLoc,
+                            2, 0.1, 0.1, 0.1, 0
+                        );
+                    }
+                    
+                    target.damage(damage / 4, player);
+                    attacks++;
+                }
+            }.runTaskTimer(plugin, i * 8L, 15L);
+        }
+    }
+    
+    private void beastLordUltimate(Player player, int level) {
+        player.sendMessage("§6§l🐺 BEAST LORD: ALPHA'S CALL 🐺");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_ROAR, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(15, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.SWEEP_ATTACK,
+                                            x, impactLoc.getY() + 1, z,
+                                            8, 0.2, 0.2, 0.2, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location clawLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 3; i++) {
+                                    double offset = (i - 1) * 0.8;
+                                    double x = clawLoc.getX() + offset * Math.cos(meteorDist);
+                                    double z = clawLoc.getZ() + offset * Math.sin(meteorDist);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.SWEEP_ATTACK,
+                                        x, clawLoc.getY(), z,
+                                        3, 0.1, 0.1, 0.1, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SWEEP_ATTACK,
+                        x, y, z,
+                        2, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== SNOW FIEND - COMPLETE ==========
+    
+    private void snowPrimary(Player player, int level) {
+        player.sendMessage("§b§l❄️ SNOW FIEND: ICE SHARD ❄️");
+        player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 45) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SNOWFLAKE,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setFreezeTicks(100);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.ITEM_SNOWBALL,
+                            current,
+                            15, 0.5, 0.5, 0.5, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void snowAdvanced(Player player, int level) {
+        player.sendMessage("§b§l❄️ SNOW FIEND: BLIZZARD DRAGON ❄️");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        target.setFreezeTicks(200);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.4));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 6);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SNOWFLAKE,
+                            x, y, z,
+                            6, 0.2, 0.2, 0.2, 0
+                        );
+                    }
+                    
+                    if (ticks % 8 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void snowUltimate(Player player, int level) {
+        player.sendMessage("§b§l❄️ SNOW FIEND: PERMAFROST ❄️");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(16, player);
+                                            e.setFreezeTicks(300);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.SNOWFLAKE,
+                                            x, impactLoc.getY() + 1, z,
+                                            12, 0.3, 0.3, 0.3, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location iceLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 7);
+                                    double radius = 1.5;
+                                    
+                                    double x = iceLoc.getX() + radius * Math.cos(angle);
+                                    double z = iceLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.SNOWFLAKE,
+                                        x, iceLoc.getY(), z,
+                                        4, 0.1, 0.1, 0.1, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 5);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SNOWFLAKE,
+                        x, y, z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== LIMITLESS - COMPLETE ==========
     
     private void limitlessPrimary(Player player, int level) {
         player.sendMessage("§d§l∞ LIMITLESS: HOLLOW PURPLE ∞");
@@ -1670,7 +3706,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location domainCenter = center.clone();
             
             @Override
@@ -1690,7 +3726,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Domain sphere
                 for (int i = 0; i < 360; i += 15) {
                     double angle = Math.toRadians(i + ticks * 5);
                     double radius = 6.0;
@@ -1730,7 +3765,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -1817,15 +3852,15 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SPIRIT BOMB ABILITIES ==========
+    // ========== TEN SHADOWS - COMPLETE ==========
     
-    private void spiritPrimary(Player player, int level) {
-        player.sendMessage("§b§l💫 SPIRIT BOMB: ENERGY SPHERE 💫");
-        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 0.9f);
+    private void shadowsPrimary(Player player, int level) {
+        player.sendMessage("§8§l🕷️ TEN SHADOWS: DIVINE DOGS 🕷️");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 0.8f);
         
         Location start = player.getEyeLocation();
         Vector direction = player.getLocation().getDirection().normalize();
-        int damage = level * 9;
+        int damage = level * 7;
         
         new BukkitRunnable() {
             int distance = 0;
@@ -1840,23 +3875,16 @@ public class BookManager {
                 
                 Location current = start.clone().add(direction.clone().multiply(distance));
                 
-                for (int i = 0; i < 360; i += 20) {
-                    double angle = Math.toRadians(i);
-                    double radius = 1.2;
+                for (int i = 0; i < 2; i++) {
+                    double offset = (i * 2 - 1) * 0.8;
                     
-                    double x = current.getX() + radius * Math.cos(angle);
-                    double z = current.getZ() + radius * Math.sin(angle);
+                    double x = current.getX() + offset * Math.cos(distance * 0.5);
+                    double z = current.getZ() + offset * Math.sin(distance * 0.5);
                     
                     player.getWorld().spawnParticle(
-                        Particle.END_ROD,
+                        Particle.SOUL,
                         x, current.getY(), z,
-                        4, 0.1, 0.1, 0.1, 0
-                    );
-                    
-                    player.getWorld().spawnParticle(
-                        Particle.FIREWORK,
-                        x, current.getY() + 0.3, z,
-                        2, 0, 0, 0, 0.01
+                        4, 0.1, 0.1, 0.1, 0.01
                     );
                 }
                 
@@ -1864,7 +3892,13 @@ public class BookManager {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage, player);
                         
-                        player.getWorld().createExplosion(current, 3, false, true);
+                        for (int j = 0; j < 8; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.SCULK_SOUL,
+                                e.getLocation().add(0, 1, 0),
+                                5, 0.3, 0.3, 0.3, 0.01
+                            );
+                        }
                         
                         cancel();
                         return;
@@ -1876,27 +3910,25 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    private void spiritAdvanced(Player player, int level) {
-        player.sendMessage("§b§l💫 SPIRIT BOMB: SUPER SPIRIT BOMB 💫");
-        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.7f);
+    private void shadowsAdvanced(Player player, int level) {
+        player.sendMessage("§8§l🕷️ TEN SHADOWS: NUE 🕷️");
+        player.playSound(player.getLocation(), Sound.ENTITY_PHANTOM_AMBIENT, 1.0f, 0.6f);
         
         Location center = player.getLocation();
         List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
-        int damage = level * 10;
+        int damage = level * 8;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
-            Location bombLoc = center.clone().add(0, 8, 0);
+            final int DURATION = 140;
+            Location nueLoc = center.clone().add(0, 8, 0);
             
             @Override
             public void run() {
                 if (ticks >= DURATION) {
                     for (LivingEntity target : enemies) {
                         if (target.isDead()) continue;
-                        target.damage(damage * 3, player);
-                        
-                        target.getWorld().createExplosion(target.getLocation(), 3, false, true);
+                        target.damage(damage * 2, player);
                     }
                     cancel();
                     return;
@@ -1907,7 +3939,7 @@ public class BookManager {
                 
                 for (LivingEntity target : enemies) {
                     if (target.isDead()) continue;
-                    double dist = target.getLocation().distance(bombLoc);
+                    double dist = target.getLocation().distance(nueLoc);
                     if (dist < nearestDist) {
                         nearestDist = dist;
                         nearest = target;
@@ -1915,31 +3947,25 @@ public class BookManager {
                 }
                 
                 if (nearest != null) {
-                    Vector toTarget = nearest.getLocation().toVector().subtract(bombLoc.toVector()).normalize();
-                    bombLoc.add(toTarget.multiply(0.3));
+                    Vector toTarget = nearest.getLocation().toVector().subtract(nueLoc.toVector()).normalize();
+                    nueLoc.add(toTarget.multiply(0.5));
                     
-                    for (int i = 0; i < 360; i += 15) {
+                    for (int i = 0; i < 360; i += 20) {
                         double angle = Math.toRadians(i + ticks * 8);
                         double radius = 2.5;
                         
-                        double x = bombLoc.getX() + radius * Math.cos(angle);
-                        double z = bombLoc.getZ() + radius * Math.sin(angle);
-                        double y = bombLoc.getY() + Math.sin(angle + ticks) * 1.0;
+                        double x = nueLoc.getX() + radius * Math.cos(angle);
+                        double z = nueLoc.getZ() + radius * Math.sin(angle);
+                        double y = nueLoc.getY() + Math.sin(angle + ticks) * 0.8;
                         
                         player.getWorld().spawnParticle(
-                            Particle.END_ROD,
+                            Particle.SOUL_FIRE_FLAME,
                             x, y, z,
-                            5, 0.1, 0.1, 0.1, 0
-                        );
-                        
-                        player.getWorld().spawnParticle(
-                            Particle.FIREWORK,
-                            x, y + 0.3, z,
-                            3, 0, 0, 0, 0.01
+                            4, 0.1, 0.1, 0.1, 0.01
                         );
                     }
                     
-                    if (ticks % 10 == 0) {
+                    if (ticks % 8 == 0) {
                         nearest.damage(damage / 3, player);
                     }
                 }
@@ -1949,9 +3975,9 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    private void spiritUltimate(Player player, int level) {
-        player.sendMessage("§b§l💫 SPIRIT BOMB: UNIVERSE TREE 💫");
-        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.5f);
+    private void shadowsUltimate(Player player, int level) {
+        player.sendMessage("§8§l🕷️ TEN SHADOWS: MAHORAGA 🕷️");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
         
         player.setAllowFlight(true);
         player.setFlying(true);
@@ -1960,7 +3986,241 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(20, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.SCULK_SOUL,
+                                            x, impactLoc.getY() + 1, z,
+                                            15, 0.4, 0.4, 0.4, 0.02
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location shadowLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 1.8;
+                                    
+                                    double x = shadowLoc.getX() + radius * Math.cos(angle);
+                                    double z = shadowLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.SCULK_SOUL,
+                                        x, shadowLoc.getY(), z,
+                                        5, 0.1, 0.1, 0.1, 0.01
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 4.5;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.2;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SCULK_SOUL,
+                        x, y, z,
+                        4, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== DISASTER FLAMES - COMPLETE ==========
+    
+    private void disasterPrimary(Player player, int level) {
+        player.sendMessage("§c§l🔥 DISASTER FLAMES: VOLCANIC ERUPTION 🔥");
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FLAME,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.02
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.LAVA,
+                        x, current.getY() - 0.2, z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setFireTicks(150);
+                        
+                        player.getWorld().createExplosion(current, 2, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void disasterAdvanced(Player player, int level) {
+        player.sendMessage("§c§l🔥 DISASTER FLAMES: MAGMA DRAGON 🔥");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        target.setFireTicks(200);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FLAME,
+                            x, y, z,
+                            6, 0.2, 0.2, 0.2, 0.02
+                        );
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.LAVA,
+                            x, y - 0.2, z,
+                            2, 0, 0, 0, 0
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void disasterUltimate(Player player, int level) {
+        player.sendMessage("§c§l🔥 DISASTER FLAMES: VOLCANO 🔥");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -1992,25 +4252,38 @@ public class BookManager {
                                     for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
                                         if (e instanceof LivingEntity && e != player) {
                                             ((LivingEntity) e).damage(22, player);
+                                            e.setFireTicks(200);
                                         }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.FLAME,
+                                            x, impactLoc.getY() + 1, z,
+                                            20, 0.4, 0.4, 0.4, 0.02
+                                        );
                                     }
                                     cancel();
                                     return;
                                 }
                                 
-                                Location energyLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                Location lavaLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
                                 
                                 for (int i = 0; i < 360; i += 15) {
                                     double angle = Math.toRadians(i + meteorDist * 8);
-                                    double radius = 1.5;
+                                    double radius = 1.8;
                                     
-                                    double x = energyLoc.getX() + radius * Math.cos(angle);
-                                    double z = energyLoc.getZ() + radius * Math.sin(angle);
+                                    double x = lavaLoc.getX() + radius * Math.cos(angle);
+                                    double z = lavaLoc.getZ() + radius * Math.sin(angle);
                                     
                                     player.getWorld().spawnParticle(
-                                        Particle.END_ROD,
-                                        x, energyLoc.getY(), z,
-                                        8, 0.1, 0.1, 0.1, 0
+                                        Particle.FLAME,
+                                        x, lavaLoc.getY(), z,
+                                        8, 0.2, 0.2, 0.2, 0.02
                                     );
                                 }
                                 
@@ -2020,16 +4293,16 @@ public class BookManager {
                     }
                 }
                 
-                for (int i = 0; i < 360; i += 15) {
-                    double angle = Math.toRadians(i + ticks * 5);
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 6);
                     double radius = 5.0;
                     
                     double x = player.getLocation().getX() + radius * Math.cos(angle);
                     double z = player.getLocation().getZ() + radius * Math.sin(angle);
-                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.5;
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.2;
                     
                     player.getWorld().spawnParticle(
-                        Particle.FIREWORK,
+                        Particle.FLAME,
                         x, y, z,
                         6, 0.1, 0.1, 0.1, 0.01
                     );
@@ -2040,7 +4313,1376 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== VOID REAVER ABILITIES ==========
+    // ========== BLOOD MANIPULATION - COMPLETE ==========
+    
+    private void bloodPrimary(Player player, int level) {
+        player.sendMessage("§4§l🩸 BLOOD MANIPULATION: BLOOD BLADE 🩸");
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_HURT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 3; i++) {
+                    double offset = (i - 1) * 0.6;
+                    double x = current.getX() + offset * Math.cos(distance);
+                    double z = current.getZ() + offset * Math.sin(distance);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FALLING_LAVA,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.FALLING_LAVA,
+                                e.getLocation().add(0, 1, 0),
+                                5, 0.3, 0.3, 0.3, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void bloodAdvanced(Player player, int level) {
+        player.sendMessage("§4§l🩸 BLOOD MANIPULATION: BLOOD DRAGON 🩸");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 9;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 7);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FALLING_LAVA,
+                            x, y, z,
+                            5, 0.2, 0.2, 0.2, 0
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void bloodUltimate(Player player, int level) {
+        player.sendMessage("§4§l🩸 BLOOD MANIPULATION: BLOOD REALM 🩸");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(18, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.FALLING_LAVA,
+                                            x, impactLoc.getY() + 1, z,
+                                            12, 0.3, 0.3, 0.3, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location bloodLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 7);
+                                    double radius = 1.6;
+                                    
+                                    double x = bloodLoc.getX() + radius * Math.cos(angle);
+                                    double z = bloodLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.FALLING_LAVA,
+                                        x, bloodLoc.getY(), z,
+                                        5, 0.1, 0.1, 0.1, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 5);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FALLING_LAVA,
+                        x, y, z,
+                        4, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== COMEDY - COMPLETE ==========
+    
+    private void comedyPrimary(Player player, int level) {
+        player.sendMessage("§a§l🎭 COMEDY: CURSED SPEECH 🎭");
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 45) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.NOTE,
+                        x, current.getY(), z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 8; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.NOTE,
+                                e.getLocation().add(0, 1, 0),
+                                3, 0.2, 0.2, 0.2, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void comedyAdvanced(Player player, int level) {
+        player.sendMessage("§a§l🎭 COMEDY: LAUGHING DRAGON 🎭");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 30) {
+                        double angle = Math.toRadians(i + ticks * 6);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.NOTE,
+                            x, y, z,
+                            2, 0.1, 0.1, 0.1, 0
+                        );
+                    }
+                    
+                    if (ticks % 8 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void comedyUltimate(Player player, int level) {
+        player.sendMessage("§a§l🎭 COMEDY: FINAL JOKE 🎭");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(14, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.NOTE,
+                                            x, impactLoc.getY() + 1, z,
+                                            20, 0.3, 0.3, 0.3, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location jokeLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 6);
+                                    double radius = 1.5;
+                                    
+                                    double x = jokeLoc.getX() + radius * Math.cos(angle);
+                                    double z = jokeLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.NOTE,
+                                        x, jokeLoc.getY(), z,
+                                        3, 0.1, 0.1, 0.1, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 5);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.NOTE,
+                        x, y, z,
+                        4, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== KAMEHAMEHA - COMPLETE ==========
+    
+    private void kamePrimary(Player player, int level) {
+        player.sendMessage("§b§l🌊 KAMEHAMEHA: ENERGY WAVE 🌊");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 9;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2.5, 2.5, 2.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 3, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void kameAdvanced(Player player, int level) {
+        player.sendMessage("§b§l🌊 KAMEHAMEHA: SUPER KAMEHAMEHA 🌊");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 25);
+        int damage = level * 10;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location beamLoc = center.clone().add(0, 5, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        
+                        target.getWorld().createExplosion(target.getLocation(), 3, false, true);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(beamLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(beamLoc.toVector()).normalize();
+                    beamLoc.add(toTarget.multiply(0.6));
+                    
+                    for (int i = 0; i < 360; i += 15) {
+                        double angle = Math.toRadians(i + ticks * 10);
+                        double radius = 2.0;
+                        
+                        double x = beamLoc.getX() + radius * Math.cos(angle);
+                        double z = beamLoc.getZ() + radius * Math.sin(angle);
+                        double y = beamLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.END_ROD,
+                            x, y, z,
+                            6, 0.2, 0.2, 0.2, 0
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void kameUltimate(Player player, int level) {
+        player.sendMessage("§b§l🌊 KAMEHAMEHA: ULTRA INSTINCT 🌊");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    player.getWorld().createExplosion(impactLoc, 5, false, true);
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 9, 9, 9)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(25, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 20) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 6 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 6 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.END_ROD,
+                                            x, impactLoc.getY() + 1, z,
+                                            20, 0.5, 0.5, 0.5, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location energyLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 15) {
+                                    double angle = Math.toRadians(i + meteorDist * 9);
+                                    double radius = 2.0;
+                                    
+                                    double x = energyLoc.getX() + radius * Math.cos(angle);
+                                    double z = energyLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.END_ROD,
+                                        x, energyLoc.getY(), z,
+                                        8, 0.2, 0.2, 0.2, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 15) {
+                    double angle = Math.toRadians(i + ticks * 7);
+                    double radius = 5.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.5;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, y, z,
+                        6, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== INSTANT TRANSMISSION - COMPLETE ==========
+    
+    private void instantPrimary(Player player, int level) {
+        player.sendMessage("§e§l⚡ INSTANT TRANSMISSION: AFTERIMAGE STRIKE ⚡");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, current.getY(), z,
+                        2, 0, 0, 0, 0.2
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        // Teleport behind
+                        Location behind = e.getLocation().add(e.getLocation().getDirection().multiply(-2));
+                        player.teleport(behind);
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.PORTAL,
+                                e.getLocation().add(0, 1, 0),
+                                10, 0.3, 0.3, 0.3, 0.3
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 3;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void instantAdvanced(Player player, int level) {
+        player.sendMessage("§e§l⚡ INSTANT TRANSMISSION: TELEPORTING DRAGON ⚡");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone();
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    // Teleport to enemy
+                    dragonLoc = nearest.getLocation().clone();
+                    
+                    for (int i = 0; i < 360; i += 30) {
+                        double angle = Math.toRadians(i + ticks * 10);
+                        double radius = 2.0;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + 1 + Math.sin(angle + ticks) * 0.5;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.PORTAL,
+                            x, y, z,
+                            4, 0.1, 0.1, 0.1, 0.2
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void instantUltimate(Player player, int level) {
+        player.sendMessage("§e§l⚡ INSTANT TRANSMISSION: GOD OF SPEED ⚡");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 7, 7, 7)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(16, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 4 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 4 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.PORTAL,
+                                            x, impactLoc.getY() + 1, z,
+                                            15, 0.3, 0.3, 0.3, 0.3
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location speedLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 20) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 1.5;
+                                    
+                                    double x = speedLoc.getX() + radius * Math.cos(angle);
+                                    double z = speedLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.PORTAL,
+                                        x, speedLoc.getY(), z,
+                                        4, 0.1, 0.1, 0.1, 0.2
+                                    );
+                                }
+                                
+                                meteorDist += 3;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 8);
+                    double radius = 4.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.0;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, y, z,
+                        4, 0.1, 0.1, 0.1, 0.2
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== SOLAR FLARE - COMPLETE ==========
+    
+    private void solarPrimary(Player player, int level) {
+        player.sendMessage("§6§l☀️ SOLAR FLARE: BRIGHT EXPLOSION ☀️");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FLASH,
+                            current,
+                            1, 0, 0, 0, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void solarAdvanced(Player player, int level) {
+        player.sendMessage("§6§l☀️ SOLAR FLARE: LIGHT DRAGON ☀️");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        
+                        target.getWorld().spawnParticle(
+                            Particle.FLASH,
+                            target.getLocation().add(0, 1, 0),
+                            1, 0, 0, 0, 0
+                        );
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FIREWORK,
+                            x, y, z,
+                            4, 0.2, 0.2, 0.2, 0.01
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void solarUltimate(Player player, int level) {
+        player.sendMessage("§6§l☀️ SOLAR FLARE: SUPERNOVA ☀️");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    player.getWorld().createExplosion(impactLoc, 4, false, true);
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(18, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.FIREWORK,
+                                            x, impactLoc.getY() + 1, z,
+                                            20, 0.4, 0.4, 0.4, 0.02
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location flareLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 15) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 1.8;
+                                    
+                                    double x = flareLoc.getX() + radius * Math.cos(angle);
+                                    double z = flareLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.FIREWORK,
+                                        x, flareLoc.getY(), z,
+                                        6, 0.2, 0.2, 0.2, 0.01
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 4.5;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.2;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, y, z,
+                        5, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== GALAXY BREAKER - COMPLETE ==========
+    
+    private void galaxyPrimary(Player player, int level) {
+        player.sendMessage("§5§l🌌 GALAXY BREAKER: COSMIC BLAST 🌌");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 10;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0.3
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, current.getY() + 0.3, z,
+                        3, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2.5, 2.5, 2.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 4, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void galaxyAdvanced(Player player, int level) {
+        player.sendMessage("§5§l🌌 GALAXY BREAKER: COSMIC DRAGON 🌌");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 25);
+        int damage = level * 11;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 7, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        
+                        target.getWorld().createExplosion(target.getLocation(), 4, false, true);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 15) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 3.0;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 1.0;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.PORTAL,
+                            x, y, z,
+                            6, 0.2, 0.2, 0.2, 0.4
+                        );
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.END_ROD,
+                            x, y + 0.3, z,
+                            4, 0, 0, 0, 0
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void galaxyUltimate(Player player, int level) {
+        player.sendMessage("§5§l🌌 GALAXY BREAKER: UNIVERSE DESTROYER 🌌");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.3f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    player.getWorld().createExplosion(impactLoc, 6, false, true);
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 10, 10, 10)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(30, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 20) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 7 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 7 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.PORTAL,
+                                            x, impactLoc.getY() + 1, z,
+                                            30, 0.5, 0.5, 0.5, 0.5
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location galaxyLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 15) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 2.0;
+                                    
+                                    double x = galaxyLoc.getX() + radius * Math.cos(angle);
+                                    double z = galaxyLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.PORTAL,
+                                        x, galaxyLoc.getY(), z,
+                                        8, 0.2, 0.2, 0.2, 0.4
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 15) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 5.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.5;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, y, z,
+                        6, 0.1, 0.1, 0.1, 0.3
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== VOID REAVER - COMPLETE ==========
     
     private void reaverPrimary(Player player, int level) {
         player.sendMessage("§8§l🌑 VOID REAVER: VOID SLASH 🌑");
@@ -2108,7 +5750,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location riftLoc = center.clone().add(0, 6, 0);
             
             @Override
@@ -2184,7 +5826,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -2266,7 +5908,7 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== SOUL EATER ABILITIES ==========
+    // ========== SOUL EATER - COMPLETE ==========
     
     private void eaterPrimary(Player player, int level) {
         player.sendMessage("§2§l💀 SOUL EATER: SOUL DRAIN 💀");
@@ -2338,7 +5980,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 140; // 7 seconds
+            final int DURATION = 140;
             Location reaperLoc = center.clone().add(0, 7, 0);
             
             @Override
@@ -2412,7 +6054,7 @@ public class BookManager {
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 200; // 10 seconds
+            final int DURATION = 200;
             
             @Override
             public void run() {
@@ -2492,86 +6134,691 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== PLACEHOLDER METHODS FOR REMAINING BOOKS ==========
-    // (All follow the same pattern - primary projectile, advanced tracking entity, ultimate floating meteors)
+    // ========== STAR FALL - COMPLETE ==========
     
-    private void stonePrimary(Player player, int level) { /* Similar to others */ }
-    private void stoneAdvanced(Player player, int level) { /* Similar to others */ }
-    private void stoneUltimate(Player player, int level) { /* Similar to others */ }
+    private void starfallPrimary(Player player, int level) {
+        player.sendMessage("§e§l✨ STAR FALL: METEOR SHOWER ✨");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 3, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void mistPrimary(Player player, int level) { /* Similar to others */ }
-    private void mistAdvanced(Player player, int level) { /* Similar to others */ }
-    private void mistUltimate(Player player, int level) { /* Similar to others */ }
+    private void starfallAdvanced(Player player, int level) {
+        player.sendMessage("§e§l✨ STAR FALL: COMET DRAGON ✨");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.7f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 9;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 8, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                        
+                        target.getWorld().createExplosion(target.getLocation(), 3, false, true);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.6));
+                    
+                    for (int i = 0; i < 360; i += 15) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 3.0;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 1.0;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FIREWORK,
+                            x, y, z,
+                            6, 0.2, 0.2, 0.2, 0.02
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void beastPrimary(Player player, int level) { /* Similar to others */ }
-    private void beastAdvanced(Player player, int level) { /* Similar to others */ }
-    private void beastUltimate(Player player, int level) { /* Similar to others */ }
+    private void starfallUltimate(Player player, int level) {
+        player.sendMessage("§e§l✨ STAR FALL: GALACTIC COLLAPSE ✨");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    player.getWorld().createExplosion(impactLoc, 5, false, true);
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 9, 9, 9)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(22, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 20) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 6 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 6 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.FIREWORK,
+                                            x, impactLoc.getY() + 1, z,
+                                            25, 0.5, 0.5, 0.5, 0.02
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location starLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 15) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 2.0;
+                                    
+                                    double x = starLoc.getX() + radius * Math.cos(angle);
+                                    double z = starLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.FIREWORK,
+                                        x, starLoc.getY(), z,
+                                        7, 0.2, 0.2, 0.2, 0.01
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 15) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 5.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.5;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, y, z,
+                        6, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void soundPrimary(Player player, int level) { /* Similar to others */ }
-    private void soundAdvanced(Player player, int level) { /* Similar to others */ }
-    private void soundUltimate(Player player, int level) { /* Similar to others */ }
+    // ========== TIME STOP - COMPLETE ==========
     
-    private void serpentPrimary(Player player, int level) { /* Similar to others */ }
-    private void serpentAdvanced(Player player, int level) { /* Similar to others */ }
-    private void serpentUltimate(Player player, int level) { /* Similar to others */ }
+    private void timePrimary(Player player, int level) {
+        player.sendMessage("§b§l⏰ TIME STOP: TIME FREEZE ⏰");
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.GLOW,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        // Freeze effect
+                        e.setVelocity(new Vector(0, 0, 0));
+                        ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 10));
+                        
+                        for (int j = 0; j < 20; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.GLOW,
+                                e.getLocation().add(0, 1, 0),
+                                3, 0.2, 0.2, 0.2, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void lovePrimary(Player player, int level) { /* Similar to others */ }
-    private void loveAdvanced(Player player, int level) { /* Similar to others */ }
-    private void loveUltimate(Player player, int level) { /* Similar to others */ }
+    private void timeAdvanced(Player player, int level) {
+        player.sendMessage("§b§l⏰ TIME STOP: CHRONOS DRAGON ⏰");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 9;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.4));
+                    
+                    for (int i = 0; i < 360; i += 15) {
+                        double angle = Math.toRadians(i + ticks * 7);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.GLOW,
+                            x, y, z,
+                            5, 0.2, 0.2, 0.2, 0
+                        );
+                    }
+                    
+                    if (ticks % 6 == 0) {
+                        nearest.damage(damage / 3, player);
+                        nearest.setVelocity(new Vector(0, 0, 0));
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void demonKingPrimary(Player player, int level) { /* Similar to others */ }
-    private void demonKingAdvanced(Player player, int level) { /* Similar to others */ }
-    private void demonKingUltimate(Player player, int level) { /* Similar to others */ }
+    private void timeUltimate(Player player, int level) {
+        player.sendMessage("§b§l⏰ TIME STOP: ZA WARUDO ⏰");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.3f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(20, player);
+                                            e.setVelocity(new Vector(0, 0, 0));
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.GLOW,
+                                            x, impactLoc.getY() + 1, z,
+                                            20, 0.4, 0.4, 0.4, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location timeLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 15) {
+                                    double angle = Math.toRadians(i + meteorDist * 7);
+                                    double radius = 1.8;
+                                    
+                                    double x = timeLoc.getX() + radius * Math.cos(angle);
+                                    double z = timeLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.GLOW,
+                                        x, timeLoc.getY(), z,
+                                        6, 0.2, 0.2, 0.2, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 15) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 5.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.2;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.GLOW,
+                        x, y, z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void beastLordPrimary(Player player, int level) { /* Similar to others */ }
-    private void beastLordAdvanced(Player player, int level) { /* Similar to others */ }
-    private void beastLordUltimate(Player player, int level) { /* Similar to others */ }
+    // ========== REALITY WRITER - COMPLETE ==========
     
-    private void snowPrimary(Player player, int level) { /* Similar to others */ }
-    private void snowAdvanced(Player player, int level) { /* Similar to others */ }
-    private void snowUltimate(Player player, int level) { /* Similar to others */ }
+    private void writerPrimary(Player player, int level) {
+        player.sendMessage("§d§l📝 REALITY WRITER: REWRITE 📝");
+        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.ENCHANT,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        // Random effect
+                        if (random.nextBoolean()) {
+                            e.setFireTicks(60);
+                        } else {
+                            e.setVelocity(new Vector(0, 1, 0));
+                        }
+                        
+                        for (int j = 0; j < 15; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.ENCHANT,
+                                e.getLocation().add(0, 1, 0),
+                                10, 0.3, 0.3, 0.3, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void shadowsPrimary(Player player, int level) { /* Similar to others */ }
-    private void shadowsAdvanced(Player player, int level) { /* Similar to others */ }
-    private void shadowsUltimate(Player player, int level) { /* Similar to others */ }
+    private void writerAdvanced(Player player, int level) {
+        player.sendMessage("§d§l📝 REALITY WRITER: REWRITE DRAGON 📝");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
+        
+        Location center = player.getLocation();
+        List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 140;
+            Location dragonLoc = center.clone().add(0, 6, 0);
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    for (LivingEntity target : enemies) {
+                        if (target.isDead()) continue;
+                        target.damage(damage * 2, player);
+                    }
+                    cancel();
+                    return;
+                }
+                
+                LivingEntity nearest = null;
+                double nearestDist = Double.MAX_VALUE;
+                
+                for (LivingEntity target : enemies) {
+                    if (target.isDead()) continue;
+                    double dist = target.getLocation().distance(dragonLoc);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = target;
+                    }
+                }
+                
+                if (nearest != null) {
+                    Vector toTarget = nearest.getLocation().toVector().subtract(dragonLoc.toVector()).normalize();
+                    dragonLoc.add(toTarget.multiply(0.5));
+                    
+                    for (int i = 0; i < 360; i += 20) {
+                        double angle = Math.toRadians(i + ticks * 8);
+                        double radius = 2.5;
+                        
+                        double x = dragonLoc.getX() + radius * Math.cos(angle);
+                        double z = dragonLoc.getZ() + radius * Math.sin(angle);
+                        double y = dragonLoc.getY() + Math.sin(angle + ticks) * 0.8;
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.ENCHANT,
+                            x, y, z,
+                            6, 0.2, 0.2, 0.2, 0
+                        );
+                    }
+                    
+                    if (ticks % 7 == 0) {
+                        nearest.damage(damage / 3, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    private void disasterPrimary(Player player, int level) { /* Similar to others */ }
-    private void disasterAdvanced(Player player, int level) { /* Similar to others */ }
-    private void disasterUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void bloodPrimary(Player player, int level) { /* Similar to others */ }
-    private void bloodAdvanced(Player player, int level) { /* Similar to others */ }
-    private void bloodUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void comedyPrimary(Player player, int level) { /* Similar to others */ }
-    private void comedyAdvanced(Player player, int level) { /* Similar to others */ }
-    private void comedyUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void kamePrimary(Player player, int level) { /* Similar to others */ }
-    private void kameAdvanced(Player player, int level) { /* Similar to others */ }
-    private void kameUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void instantPrimary(Player player, int level) { /* Similar to others */ }
-    private void instantAdvanced(Player player, int level) { /* Similar to others */ }
-    private void instantUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void solarPrimary(Player player, int level) { /* Similar to others */ }
-    private void solarAdvanced(Player player, int level) { /* Similar to others */ }
-    private void solarUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void galaxyPrimary(Player player, int level) { /* Similar to others */ }
-    private void galaxyAdvanced(Player player, int level) { /* Similar to others */ }
-    private void galaxyUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void starfallPrimary(Player player, int level) { /* Similar to others */ }
-    private void starfallAdvanced(Player player, int level) { /* Similar to others */ }
-    private void starfallUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void timePrimary(Player player, int level) { /* Similar to others */ }
-    private void timeAdvanced(Player player, int level) { /* Similar to others */ }
-    private void timeUltimate(Player player, int level) { /* Similar to others */ }
-    
-    private void writerPrimary(Player player, int level) { /* Similar to others */ }
-    private void writerAdvanced(Player player, int level) { /* Similar to others */ }
-    private void writerUltimate(Player player, int level) { /* Similar to others */ }
+    private void writerUltimate(Player player, int level) {
+        player.sendMessage("§d§l📝 REALITY WRITER: NEW REALITY 📝");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.3f);
+        
+        player.setAllowFlight(true);
+        player.setFlying(true);
+        player.setVelocity(new Vector(0, 1, 0));
+        Location startLoc = player.getLocation().clone();
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 200;
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                    player.teleport(startLoc);
+                    cancel();
+                    return;
+                }
+                
+                player.setVelocity(new Vector(0, 0, 0));
+                
+                if (ticks % 5 == 0) {
+                    Location eyeLoc = player.getEyeLocation();
+                    Vector lookDir = player.getLocation().getDirection().normalize();
+                    
+                    for (int m = 0; m < 3; m++) {
+                        int meteorIndex = m;
+                        new BukkitRunnable() {
+                            int meteorDist = 0;
+                            
+                            @Override
+                            public void run() {
+                                if (meteorDist >= 40) {
+                                    Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
+                                    
+                                    for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 8, 8, 8)) {
+                                        if (e instanceof LivingEntity && e != player) {
+                                            ((LivingEntity) e).damage(18, player);
+                                        }
+                                    }
+                                    
+                                    for (int i = 0; i < 360; i += 30) {
+                                        double angle = Math.toRadians(i);
+                                        double x = impactLoc.getX() + 5 * Math.cos(angle);
+                                        double z = impactLoc.getZ() + 5 * Math.sin(angle);
+                                        
+                                        player.getWorld().spawnParticle(
+                                            Particle.ENCHANT,
+                                            x, impactLoc.getY() + 1, z,
+                                            20, 0.4, 0.4, 0.4, 0
+                                        );
+                                    }
+                                    cancel();
+                                    return;
+                                }
+                                
+                                Location realityLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
+                                
+                                for (int i = 0; i < 360; i += 15) {
+                                    double angle = Math.toRadians(i + meteorDist * 8);
+                                    double radius = 2.0;
+                                    
+                                    double x = realityLoc.getX() + radius * Math.cos(angle);
+                                    double z = realityLoc.getZ() + radius * Math.sin(angle);
+                                    
+                                    player.getWorld().spawnParticle(
+                                        Particle.ENCHANT,
+                                        x, realityLoc.getY(), z,
+                                        8, 0.2, 0.2, 0.2, 0
+                                    );
+                                }
+                                
+                                meteorDist += 2;
+                            }
+                        }.runTaskTimer(plugin, meteorIndex * 2L, 1L);
+                    }
+                }
+                
+                for (int i = 0; i < 360; i += 15) {
+                    double angle = Math.toRadians(i + ticks * 6);
+                    double radius = 5.0;
+                    
+                    double x = player.getLocation().getX() + radius * Math.cos(angle);
+                    double z = player.getLocation().getZ() + radius * Math.sin(angle);
+                    double y = player.getLocation().getY() + Math.sin(angle + ticks) * 1.2;
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.ENCHANT,
+                        x, y, z,
+                        6, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
 }
