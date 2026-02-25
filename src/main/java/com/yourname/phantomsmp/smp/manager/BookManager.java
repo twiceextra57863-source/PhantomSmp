@@ -274,7 +274,19 @@ public class BookManager {
         }
     }
     
-    // ========== DEMON SLAYER ABILITIES (Additional Implementations) ==========
+    // ========== SHADOW SOVEREIGN METHODS ==========
+    
+    private void shadowSovereignPrimary(Player player, int level) {
+        plugin.getTargetSeekingCombat().executeShadowSovereign(player, level, false);
+    }
+    
+    // ========== LIMITLESS METHODS ==========
+    
+    private void limitlessPrimary(Player player, int level) {
+        plugin.getTargetSeekingCombat().executeLimitless(player, level, false);
+    }
+    
+    // ========== DEMON SLAYER ABILITIES ==========
     
     private void flameBreathingPrimary(Player player, int level) {
         player.sendMessage("§c§l🔥 FLAME BREATHING: UNWAVERING FLAME 🔥");
@@ -737,7 +749,7 @@ public class BookManager {
                         player.getWorld().spawnParticle(
                             Particle.SNOWFLAKE,
                             targetLoc.getX(), targetLoc.getY() + y, targetLoc.getZ(),
-                            5, 0.2, 0.1, 0.2, 0
+                        5, 0.2, 0.1, 0.2, 0
                         );
                     }
                     
@@ -1293,72 +1305,260 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // Placeholder methods for remaining abilities
-    private void mistBreathingPrimary(Player player, int level) { player.sendMessage("§7Mist Breathing - Coming Soon"); }
-    private void mistBreathingAdvanced(Player player, int level) { player.sendMessage("§7Mist Breathing - Coming Soon"); }
-    private void mistBreathingUltimate(Player player, int level) { player.sendMessage("§7Mist Breathing - Coming Soon"); }
+    // Placeholder methods for remaining abilities (to be implemented)
     
-    private void beastBreathingPrimary(Player player, int level) { player.sendMessage("§6Beast Breathing - Coming Soon"); }
-    private void beastBreathingAdvanced(Player player, int level) { player.sendMessage("§6Beast Breathing - Coming Soon"); }
-    private void beastBreathingUltimate(Player player, int level) { player.sendMessage("§6Beast Breathing - Coming Soon"); }
+    private void mistBreathingPrimary(Player player, int level) {
+        player.sendMessage("§7Mist Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void soundBreathingPrimary(Player player, int level) { player.sendMessage("§eSound Breathing - Coming Soon"); }
-    private void soundBreathingAdvanced(Player player, int level) { player.sendMessage("§eSound Breathing - Coming Soon"); }
-    private void soundBreathingUltimate(Player player, int level) { player.sendMessage("§eSound Breathing - Coming Soon"); }
+    private void mistBreathingAdvanced(Player player, int level) {
+        player.sendMessage("§7Mist Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void serpentBreathingPrimary(Player player, int level) { player.sendMessage("§aSerpent Breathing - Coming Soon"); }
-    private void serpentBreathingAdvanced(Player player, int level) { player.sendMessage("§aSerpent Breathing - Coming Soon"); }
-    private void serpentBreathingUltimate(Player player, int level) { player.sendMessage("§aSerpent Breathing - Coming Soon"); }
+    private void mistBreathingUltimate(Player player, int level) {
+        player.sendMessage("§7Mist Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void loveBreathingPrimary(Player player, int level) { player.sendMessage("§dLove Breathing - Coming Soon"); }
-    private void loveBreathingAdvanced(Player player, int level) { player.sendMessage("§dLove Breathing - Coming Soon"); }
-    private void loveBreathingUltimate(Player player, int level) { player.sendMessage("§dLove Breathing - Coming Soon"); }
+    private void beastBreathingPrimary(Player player, int level) {
+        player.sendMessage("§6Beast Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void beastLordPrimary(Player player, int level) { player.sendMessage("§6Beast Lord - Coming Soon"); }
-    private void beastLordAdvanced(Player player, int level) { player.sendMessage("§6Beast Lord - Coming Soon"); }
-    private void beastLordUltimate(Player player, int level) { player.sendMessage("§6Beast Lord - Coming Soon"); }
+    private void beastBreathingAdvanced(Player player, int level) {
+        player.sendMessage("§6Beast Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void snowFiendPrimary(Player player, int level) { player.sendMessage("§bSnow Fiend - Coming Soon"); }
-    private void snowFiendAdvanced(Player player, int level) { player.sendMessage("§bSnow Fiend - Coming Soon"); }
-    private void snowFiendUltimate(Player player, int level) { player.sendMessage("§bSnow Fiend - Coming Soon"); }
+    private void beastBreathingUltimate(Player player, int level) {
+        player.sendMessage("§6Beast Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void disasterFlamesPrimary(Player player, int level) { player.sendMessage("§cDisaster Flames - Coming Soon"); }
-    private void disasterFlamesAdvanced(Player player, int level) { player.sendMessage("§cDisaster Flames - Coming Soon"); }
-    private void disasterFlamesUltimate(Player player, int level) { player.sendMessage("§cDisaster Flames - Coming Soon"); }
+    private void soundBreathingPrimary(Player player, int level) {
+        player.sendMessage("§eSound Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void bloodManipulationPrimary(Player player, int level) { player.sendMessage("§4Blood Manipulation - Coming Soon"); }
-    private void bloodManipulationAdvanced(Player player, int level) { player.sendMessage("§4Blood Manipulation - Coming Soon"); }
-    private void bloodManipulationUltimate(Player player, int level) { player.sendMessage("§4Blood Manipulation - Coming Soon"); }
+    private void soundBreathingAdvanced(Player player, int level) {
+        player.sendMessage("§eSound Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void comedyPrimary(Player player, int level) { player.sendMessage("§aComedy - Coming Soon"); }
-    private void comedyAdvanced(Player player, int level) { player.sendMessage("§aComedy - Coming Soon"); }
-    private void comedyUltimate(Player player, int level) { player.sendMessage("§aComedy - Coming Soon"); }
+    private void soundBreathingUltimate(Player player, int level) {
+        player.sendMessage("§eSound Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void kamehamehaPrimary(Player player, int level) { player.sendMessage("§bKamehameha - Coming Soon"); }
-    private void kamehamehaAdvanced(Player player, int level) { player.sendMessage("§bKamehameha - Coming Soon"); }
-    private void kamehamehaUltimate(Player player, int level) { player.sendMessage("§bKamehameha - Coming Soon"); }
+    private void serpentBreathingPrimary(Player player, int level) {
+        player.sendMessage("§aSerpent Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void instantTransmissionPrimary(Player player, int level) { player.sendMessage("§eInstant Transmission - Coming Soon"); }
-    private void instantTransmissionAdvanced(Player player, int level) { player.sendMessage("§eInstant Transmission - Coming Soon"); }
-    private void instantTransmissionUltimate(Player player, int level) { player.sendMessage("§eInstant Transmission - Coming Soon"); }
+    private void serpentBreathingAdvanced(Player player, int level) {
+        player.sendMessage("§aSerpent Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void solarFlarePrimary(Player player, int level) { player.sendMessage("§6Solar Flare - Coming Soon"); }
-    private void solarFlareAdvanced(Player player, int level) { player.sendMessage("§6Solar Flare - Coming Soon"); }
-    private void solarFlareUltimate(Player player, int level) { player.sendMessage("§6Solar Flare - Coming Soon"); }
+    private void serpentBreathingUltimate(Player player, int level) {
+        player.sendMessage("§aSerpent Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void galaxyBreakerPrimary(Player player, int level) { player.sendMessage("§5Galaxy Breaker - Coming Soon"); }
-    private void galaxyBreakerAdvanced(Player player, int level) { player.sendMessage("§5Galaxy Breaker - Coming Soon"); }
-    private void galaxyBreakerUltimate(Player player, int level) { player.sendMessage("§5Galaxy Breaker - Coming Soon"); }
+    private void loveBreathingPrimary(Player player, int level) {
+        player.sendMessage("§dLove Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void starFallPrimary(Player player, int level) { player.sendMessage("§eStar Fall - Coming Soon"); }
-    private void starFallAdvanced(Player player, int level) { player.sendMessage("§eStar Fall - Coming Soon"); }
-    private void starFallUltimate(Player player, int level) { player.sendMessage("§eStar Fall - Coming Soon"); }
+    private void loveBreathingAdvanced(Player player, int level) {
+        player.sendMessage("§dLove Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void timeStopPrimary(Player player, int level) { player.sendMessage("§bTime Stop - Coming Soon"); }
-    private void timeStopAdvanced(Player player, int level) { player.sendMessage("§bTime Stop - Coming Soon"); }
-    private void timeStopUltimate(Player player, int level) { player.sendMessage("§bTime Stop - Coming Soon"); }
+    private void loveBreathingUltimate(Player player, int level) {
+        player.sendMessage("§dLove Breathing - Coming Soon");
+        // Implementation here
+    }
     
-    private void realityWriterPrimary(Player player, int level) { player.sendMessage("§dReality Writer - Coming Soon"); }
-    private void realityWriterAdvanced(Player player, int level) { player.sendMessage("§dReality Writer - Coming Soon"); }
-    private void realityWriterUltimate(Player player, int level) { player.sendMessage("§dReality Writer - Coming Soon"); }
+    private void beastLordPrimary(Player player, int level) {
+        player.sendMessage("§6Beast Lord - Coming Soon");
+        // Implementation here
+    }
+    
+    private void beastLordAdvanced(Player player, int level) {
+        player.sendMessage("§6Beast Lord - Coming Soon");
+        // Implementation here
+    }
+    
+    private void beastLordUltimate(Player player, int level) {
+        player.sendMessage("§6Beast Lord - Coming Soon");
+        // Implementation here
+    }
+    
+    private void snowFiendPrimary(Player player, int level) {
+        player.sendMessage("§bSnow Fiend - Coming Soon");
+        // Implementation here
+    }
+    
+    private void snowFiendAdvanced(Player player, int level) {
+        player.sendMessage("§bSnow Fiend - Coming Soon");
+        // Implementation here
+    }
+    
+    private void snowFiendUltimate(Player player, int level) {
+        player.sendMessage("§bSnow Fiend - Coming Soon");
+        // Implementation here
+    }
+    
+    private void disasterFlamesPrimary(Player player, int level) {
+        player.sendMessage("§cDisaster Flames - Coming Soon");
+        // Implementation here
+    }
+    
+    private void disasterFlamesAdvanced(Player player, int level) {
+        player.sendMessage("§cDisaster Flames - Coming Soon");
+        // Implementation here
+    }
+    
+    private void disasterFlamesUltimate(Player player, int level) {
+        player.sendMessage("§cDisaster Flames - Coming Soon");
+        // Implementation here
+    }
+    
+    private void bloodManipulationPrimary(Player player, int level) {
+        player.sendMessage("§4Blood Manipulation - Coming Soon");
+        // Implementation here
+    }
+    
+    private void bloodManipulationAdvanced(Player player, int level) {
+        player.sendMessage("§4Blood Manipulation - Coming Soon");
+        // Implementation here
+    }
+    
+    private void bloodManipulationUltimate(Player player, int level) {
+        player.sendMessage("§4Blood Manipulation - Coming Soon");
+        // Implementation here
+    }
+    
+    private void comedyPrimary(Player player, int level) {
+        player.sendMessage("§aComedy - Coming Soon");
+        // Implementation here
+    }
+    
+    private void comedyAdvanced(Player player, int level) {
+        player.sendMessage("§aComedy - Coming Soon");
+        // Implementation here
+    }
+    
+    private void comedyUltimate(Player player, int level) {
+        player.sendMessage("§aComedy - Coming Soon");
+        // Implementation here
+    }
+    
+    private void kamehamehaPrimary(Player player, int level) {
+        player.sendMessage("§bKamehameha - Coming Soon");
+        // Implementation here
+    }
+    
+    private void kamehamehaAdvanced(Player player, int level) {
+        player.sendMessage("§bKamehameha - Coming Soon");
+        // Implementation here
+    }
+    
+    private void kamehamehaUltimate(Player player, int level) {
+        player.sendMessage("§bKamehameha - Coming Soon");
+        // Implementation here
+    }
+    
+    private void instantTransmissionPrimary(Player player, int level) {
+        player.sendMessage("§eInstant Transmission - Coming Soon");
+        // Implementation here
+    }
+    
+    private void instantTransmissionAdvanced(Player player, int level) {
+        player.sendMessage("§eInstant Transmission - Coming Soon");
+        // Implementation here
+    }
+    
+    private void instantTransmissionUltimate(Player player, int level) {
+        player.sendMessage("§eInstant Transmission - Coming Soon");
+        // Implementation here
+    }
+    
+    private void solarFlarePrimary(Player player, int level) {
+        player.sendMessage("§6Solar Flare - Coming Soon");
+        // Implementation here
+    }
+    
+    private void solarFlareAdvanced(Player player, int level) {
+        player.sendMessage("§6Solar Flare - Coming Soon");
+        // Implementation here
+    }
+    
+    private void solarFlareUltimate(Player player, int level) {
+        player.sendMessage("§6Solar Flare - Coming Soon");
+        // Implementation here
+    }
+    
+    private void galaxyBreakerPrimary(Player player, int level) {
+        player.sendMessage("§5Galaxy Breaker - Coming Soon");
+        // Implementation here
+    }
+    
+    private void galaxyBreakerAdvanced(Player player, int level) {
+        player.sendMessage("§5Galaxy Breaker - Coming Soon");
+        // Implementation here
+    }
+    
+    private void galaxyBreakerUltimate(Player player, int level) {
+        player.sendMessage("§5Galaxy Breaker - Coming Soon");
+        // Implementation here
+    }
+    
+    private void starFallPrimary(Player player, int level) {
+        player.sendMessage("§eStar Fall - Coming Soon");
+        // Implementation here
+    }
+    
+    private void starFallAdvanced(Player player, int level) {
+        player.sendMessage("§eStar Fall - Coming Soon");
+        // Implementation here
+    }
+    
+    private void starFallUltimate(Player player, int level) {
+        player.sendMessage("§eStar Fall - Coming Soon");
+        // Implementation here
+    }
+    
+    private void timeStopPrimary(Player player, int level) {
+        player.sendMessage("§bTime Stop - Coming Soon");
+        // Implementation here
+    }
+    
+    private void timeStopAdvanced(Player player, int level) {
+        player.sendMessage("§bTime Stop - Coming Soon");
+        // Implementation here
+    }
+    
+    private void timeStopUltimate(Player player, int level) {
+        player.sendMessage("§bTime Stop - Coming Soon");
+        // Implementation here
+    }
+    
+    private void realityWriterPrimary(Player player, int level) {
+        player.sendMessage("§dReality Writer - Coming Soon");
+        // Implementation here
+    }
+    
+    private void realityWriterAdvanced(Player player, int level) {
+        player.sendMessage("§dReality Writer - Coming Soon");
+        // Implementation here
+    }
+    
+    private void realityWriterUltimate(Player player, int level) {
+        player.sendMessage("§dReality Writer - Coming Soon");
+        // Implementation here
+    }
 }
