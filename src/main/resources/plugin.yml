@@ -1,9 +1,9 @@
 name: PhantomSMP
-version: 7.0.0
+version: 8.0.0
 main: com.phantom.smp.PhantomSMP
 api-version: 1.21
 author: PhantomDev
-description: Ultimate Phantom SMP Plugin with 3-Level Book System & Trade Animation
+description: Ultimate Phantom SMP Plugin with 3-Level Book System & Epic Abilities
 
 commands:
   smpstart:
@@ -53,6 +53,14 @@ commands:
   self-trade:
     description: Give your book to another player
     usage: /self-trade
+    permission: phantomsmp.use
+  tradeaccept:
+    description: Accept a trade request
+    usage: /tradeaccept
+    permission: phantomsmp.use
+  tradedeny:
+    description: Deny a trade request
+    usage: /tradedeny
     permission: phantomsmp.use
 
 permissions:
