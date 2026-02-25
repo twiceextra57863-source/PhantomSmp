@@ -230,7 +230,7 @@ public class BookManager {
         }
     }
     
-    // ========== NORMAL ABILITIES (Brief - Already Working) ==========
+    // ========== PRIMARY ABILITIES (LEVEL 1) ==========
     
     private void sunPrimary(Player player, int level) {
         player.sendMessage("§6§l☀️ SUN BREATHING: SOLAR PROJECTILE ☀️");
@@ -294,9 +294,1651 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== 30 UNIQUE EPIC ABILITIES (ULTIMATE TIER) ==========
+    private void waterPrimary(Player player, int level) {
+        player.sendMessage("§b§l💧 WATER BREATHING: WATER WAVE 💧");
+        player.playSound(player.getLocation(), Sound.ENTITY_FISHING_BOBBER_SPLASH, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.DRIPPING_WATER,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SPLASH,
+                        x, current.getY() + 0.3, z,
+                        2, 0, 0, 0, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setVelocity(new Vector(0, 1, 0));
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SPLASH,
+                            current,
+                            20, 0.5, 0.5, 0.5, 0.1
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
     
-    // 1. SUN BREATHING ULTIMATE - SOLAR FLARE (Creates a miniature sun that pulls enemies)
+    private void thunderPrimary(Player player, int level) {
+        player.sendMessage("§e§l⚡ THUNDER BREATHING: LIGHTNING BOLT ⚡");
+        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.ELECTRIC_SPARK,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0.02
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        player.getWorld().strikeLightningEffect(e.getLocation());
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 3;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void flamePrimary(Player player, int level) {
+        player.sendMessage("§c§l🔥 FLAME BREATHING: FIREBALL 🔥");
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FLAME,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.02
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setFireTicks(100);
+                        
+                        player.getWorld().createExplosion(current, 2, false, true);
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void windPrimary(Player player, int level) {
+        player.sendMessage("§f§l🌪️ WIND BREATHING: AIR SLASH 🌪️");
+        player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_WIND_BURST, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.CLOUD,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0.02
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setVelocity(direction.clone().multiply(2).setY(1));
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.GUST,
+                            current,
+                            10, 0.3, 0.3, 0.3, 0.1
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 3;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void stonePrimary(Player player, int level) {
+        player.sendMessage("§7§l⛰️ STONE BREATHING: ROCK PROJECTILE ⛰️");
+        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BREAK, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.BLOCK,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0,
+                        Material.STONE.createBlockData()
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setVelocity(new Vector(0, 1, 0));
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.BLOCK,
+                            current,
+                            20, 0.5, 0.5, 0.5, 0,
+                            Material.STONE.createBlockData()
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void mistPrimary(Player player, int level) {
+        player.sendMessage("§7§l🌫️ MIST BREATHING: OBSCURING CLOUD 🌫️");
+        player.playSound(player.getLocation(), Sound.ENTITY_PHANTOM_AMBIENT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.CLOUD,
+                        x, current.getY(), z,
+                        5, 0.2, 0.2, 0.2, 0.02
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.SMOKE,
+                                e.getLocation().add(0, 1, 0),
+                                10, 0.3, 0.3, 0.3, 0.01
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void beastPrimary(Player player, int level) {
+        player.sendMessage("§6§l🐗 BEAST BREATHING: FANG STRIKE 🐗");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_GROWL, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SWEEP_ATTACK,
+                        x, current.getY(), z,
+                        2, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SWEEP_ATTACK,
+                            current,
+                            10, 0.5, 0.5, 0.5, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void soundPrimary(Player player, int level) {
+        player.sendMessage("§e§l🔊 SOUND BREATHING: SONIC WAVE 🔊");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SONIC_BOOM,
+                        x, current.getY(), z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SONIC_BOOM,
+                            current,
+                            5, 0.3, 0.3, 0.3, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 3;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void serpentPrimary(Player player, int level) {
+        player.sendMessage("§a§l🐍 SERPENT BREATHING: COILING STRIKE 🐍");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_AMBIENT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                double offset = Math.sin(distance * 0.3) * 0.5;
+                double x = current.getX() + offset * Math.cos(distance);
+                double z = current.getZ() + offset * Math.sin(distance);
+                
+                player.getWorld().spawnParticle(
+                    Particle.SCULK_SOUL,
+                    x, current.getY(), z,
+                    3, 0.1, 0.1, 0.1, 0.01
+                );
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 8; j++) {
+                            double angle = Math.toRadians(j * 45);
+                            double bx = e.getLocation().getX() + 1.5 * Math.cos(angle);
+                            double bz = e.getLocation().getZ() + 1.5 * Math.sin(angle);
+                            
+                            player.getWorld().spawnParticle(
+                                Particle.SCULK_SOUL,
+                                bx, e.getLocation().getY() + 1, bz,
+                                2, 0, 0, 0, 0.01
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void lovePrimary(Player player, int level) {
+        player.sendMessage("§d§l💖 LOVE BREATHING: HEART STRIKE 💖");
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        int heal = level * 2;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.HEART,
+                        x, current.getY(), z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        player.setHealth(Math.min(player.getHealth() + heal, player.getMaxHealth()));
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.HEART,
+                                e.getLocation().add(0, 1, 0),
+                                5, 0.3, 0.3, 0.3, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void sovereignPrimary(Player player, int level) {
+        player.sendMessage("§5§l👑 SHADOW SOVEREIGN: SHADOW DAGGER 👑");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SOUL,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0.01
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SCULK_SOUL,
+                        x, current.getY() + 0.2, z,
+                        1, 0, 0, 0, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.PORTAL,
+                            e.getLocation().add(0, 1, 0),
+                            20, 0.3, 0.3, 0.3, 0.3
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 3;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void demonKingPrimary(Player player, int level) {
+        player.sendMessage("§b§l👹 DEMON KING: FROST SPEAR 👹");
+        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SNOWFLAKE,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setFreezeTicks(100);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.BLOCK,
+                            current,
+                            15, 0.5, 0.5, 0.5, 0,
+                            Material.ICE.createBlockData()
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void beastLordPrimary(Player player, int level) {
+        player.sendMessage("§6§l🐺 BEAST LORD: CLAW STRIKE 🐺");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_GROWL, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 3; i++) {
+                    double offset = (i - 1) * 0.5;
+                    double x = current.getX() + offset * Math.cos(distance);
+                    double z = current.getZ() + offset * Math.sin(distance);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SWEEP_ATTACK,
+                        x, current.getY(), z,
+                        2, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.SWEEP_ATTACK,
+                            current,
+                            10, 0.5, 0.5, 0.5, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void snowPrimary(Player player, int level) {
+        player.sendMessage("§b§l❄️ SNOW FIEND: ICE SHARD ❄️");
+        player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 45) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SNOWFLAKE,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setFreezeTicks(100);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.ITEM_SNOWBALL,
+                            current,
+                            15, 0.5, 0.5, 0.5, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void limitlessPrimary(Player player, int level) {
+        player.sendMessage("§d§l∞ LIMITLESS: HOLLOW PURPLE ∞");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 10;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.3
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, current.getY() + 0.3, z,
+                        2, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 0, false, false);
+                        player.getWorld().spawnParticle(
+                            Particle.FLASH,
+                            current,
+                            1, 0, 0, 0, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void shadowsPrimary(Player player, int level) {
+        player.sendMessage("§8§l🕷️ TEN SHADOWS: DIVINE DOGS 🕷️");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 2; i++) {
+                    double offset = (i * 2 - 1) * 0.8;
+                    double x = current.getX() + offset * Math.cos(distance * 0.5);
+                    double z = current.getZ() + offset * Math.sin(distance * 0.5);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SOUL,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 8; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.SCULK_SOUL,
+                                e.getLocation().add(0, 1, 0),
+                                5, 0.3, 0.3, 0.3, 0.01
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void disasterPrimary(Player player, int level) {
+        player.sendMessage("§c§l🔥 DISASTER FLAMES: VOLCANIC ERUPTION 🔥");
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FLAME,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.02
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.LAVA,
+                        x, current.getY() - 0.2, z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        e.setFireTicks(150);
+                        
+                        player.getWorld().createExplosion(current, 2, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void bloodPrimary(Player player, int level) {
+        player.sendMessage("§4§l🩸 BLOOD MANIPULATION: BLOOD BLADE 🩸");
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_HURT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 3; i++) {
+                    double offset = (i - 1) * 0.6;
+                    double x = current.getX() + offset * Math.cos(distance);
+                    double z = current.getZ() + offset * Math.sin(distance);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FALLING_LAVA,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.FALLING_LAVA,
+                                e.getLocation().add(0, 1, 0),
+                                5, 0.3, 0.3, 0.3, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void comedyPrimary(Player player, int level) {
+        player.sendMessage("§a§l🎭 COMEDY: CURSED SPEECH 🎭");
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 5;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 45) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.NOTE,
+                        x, current.getY(), z,
+                        1, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        for (int j = 0; j < 8; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.NOTE,
+                                e.getLocation().add(0, 1, 0),
+                                3, 0.2, 0.2, 0.2, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void spiritPrimary(Player player, int level) {
+        player.sendMessage("§b§l💫 SPIRIT BOMB: ENERGY SPHERE 💫");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 9;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, current.getY() + 0.3, z,
+                        3, 0, 0, 0, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2.5, 2.5, 2.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 3, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void kamePrimary(Player player, int level) {
+        player.sendMessage("§b§l🌊 KAMEHAMEHA: ENERGY WAVE 🌊");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 9;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2.5, 2.5, 2.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 3, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void instantPrimary(Player player, int level) {
+        player.sendMessage("§e§l⚡ INSTANT TRANSMISSION: AFTERIMAGE STRIKE ⚡");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, current.getY(), z,
+                        2, 0, 0, 0, 0.2
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        Location behind = e.getLocation().add(e.getLocation().getDirection().multiply(-2));
+                        player.teleport(behind);
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.PORTAL,
+                                e.getLocation().add(0, 1, 0),
+                                10, 0.3, 0.3, 0.3, 0.3
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 3;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void solarPrimary(Player player, int level) {
+        player.sendMessage("§6§l☀️ SOLAR FLARE: BRIGHT EXPLOSION ☀️");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.2f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 6;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, current.getY(), z,
+                        3, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().spawnParticle(
+                            Particle.FLASH,
+                            current,
+                            1, 0, 0, 0, 0
+                        );
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void galaxyPrimary(Player player, int level) {
+        player.sendMessage("§5§l🌌 GALAXY BREAKER: COSMIC BLAST 🌌");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 10;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.5;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0.3
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        x, current.getY() + 0.3, z,
+                        3, 0, 0, 0, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2.5, 2.5, 2.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 4, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void reaverPrimary(Player player, int level) {
+        player.sendMessage("§8§l🌑 VOID REAVER: VOID SLASH 🌑");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.PORTAL,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0.4
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        Location randomLoc = e.getLocation().clone().add(
+                            random.nextDouble() * 5 - 2.5,
+                            random.nextDouble() * 2,
+                            random.nextDouble() * 5 - 2.5
+                        );
+                        e.teleport(randomLoc);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void eaterPrimary(Player player, int level) {
+        player.sendMessage("§2§l💀 SOUL EATER: SOUL DRAIN 💀");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.7f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        int heal = level * 2;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i);
+                    double radius = 0.8;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SOUL,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 1.5, 1.5, 1.5)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        player.setHealth(Math.min(player.getHealth() + heal, player.getMaxHealth()));
+                        
+                        for (int j = 0; j < 10; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.HEART,
+                                player.getLocation().add(0, 1, 0),
+                                3, 0.2, 0.2, 0.2, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void starfallPrimary(Player player, int level) {
+        player.sendMessage("§e§l✨ STAR FALL: METEOR SHOWER ✨");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.2;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.FIREWORK,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0.01
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        player.getWorld().createExplosion(current, 3, false, true);
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void timePrimary(Player player, int level) {
+        player.sendMessage("§b§l⏰ TIME STOP: TIME FREEZE ⏰");
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 8;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.GLOW,
+                        x, current.getY(), z,
+                        4, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        e.setVelocity(new Vector(0, 0, 0));
+                        ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 10));
+                        
+                        for (int j = 0; j < 20; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.GLOW,
+                                e.getLocation().add(0, 1, 0),
+                                3, 0.2, 0.2, 0.2, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void writerPrimary(Player player, int level) {
+        player.sendMessage("§d§l📝 REALITY WRITER: REWRITE 📝");
+        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 1.0f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = level * 7;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 50;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double radius = 1.0;
+                    
+                    double x = current.getX() + radius * Math.cos(angle);
+                    double z = current.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.ENCHANT,
+                        x, current.getY(), z,
+                        5, 0.1, 0.1, 0.1, 0
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
+                        
+                        if (random.nextBoolean()) {
+                            e.setFireTicks(60);
+                        } else {
+                            e.setVelocity(new Vector(0, 1, 0));
+                        }
+                        
+                        for (int j = 0; j < 15; j++) {
+                            player.getWorld().spawnParticle(
+                                Particle.ENCHANT,
+                                e.getLocation().add(0, 1, 0),
+                                10, 0.3, 0.3, 0.3, 0
+                            );
+                        }
+                        
+                        cancel();
+                        return;
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    // ========== EPIC ABILITIES (ULTIMATE - LEVEL 3) ==========
+    
     private void sunUltimate(Player player, int level) {
         player.sendMessage("§6§l☀️ SUN BREATHING ULTIMATE: SOLAR FLARE ☀️");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.5f);
@@ -304,7 +1946,6 @@ public class BookManager {
         Location center = player.getLocation().add(0, 3, 0);
         int damage = 15 + level * 5;
         
-        // Create a miniature sun
         new BukkitRunnable() {
             int ticks = 0;
             final int DURATION = 100; // 5 seconds
@@ -312,13 +1953,11 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks >= DURATION) {
-                    // Sun implosion
                     for (Entity e : player.getWorld().getNearbyEntities(center, 8, 8, 8)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage * 2, player);
                             e.setFireTicks(100);
                             
-                            // Pull towards sun
                             Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
                             e.setVelocity(pull.multiply(1.5));
                         }
@@ -330,10 +1969,8 @@ public class BookManager {
                     return;
                 }
                 
-                // Sun expands and contracts
                 double radius = 2.0 + Math.sin(ticks * 0.2) * 1.0;
                 
-                // Sun sphere
                 for (int i = 0; i < 360; i += 15) {
                     double phi = Math.toRadians(i);
                     for (int j = 0; j < 180; j += 30) {
@@ -357,7 +1994,6 @@ public class BookManager {
                     }
                 }
                 
-                // Pull enemies towards sun
                 for (Entity e : player.getWorld().getNearbyEntities(center, 6, 6, 6)) {
                     if (e instanceof LivingEntity && e != player) {
                         Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
@@ -371,7 +2007,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 2. WATER BREATHING ULTIMATE - OCEAN'S ABYSS (Creates a whirlpool that sucks enemies)
     private void waterUltimate(Player player, int level) {
         player.sendMessage("§b§l💧 WATER BREATHING ULTIMATE: OCEAN'S ABYSS 💧");
         player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 1.0f, 0.5f);
@@ -386,7 +2021,6 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks >= DURATION) {
-                    // Final explosion
                     for (Entity e : player.getWorld().getNearbyEntities(center, 8, 8, 8)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage * 2, player);
@@ -409,7 +2043,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Whirlpool effect
                 double radius = 5.0 * (1 - (double)ticks / DURATION);
                 
                 for (int i = 0; i < 360; i += 20) {
@@ -425,13 +2058,12 @@ public class BookManager {
                     );
                     
                     player.getWorld().spawnParticle(
-                        Particle.WATER_BUBBLE,
+                        Particle.BUBBLE_POP,
                         center.clone().add(x * 0.5, y + 0.5, z * 0.5),
                         2, 0, 0, 0, 0.01
                     );
                 }
                 
-                // Suck enemies in
                 for (Entity e : player.getWorld().getNearbyEntities(center, 6, 6, 6)) {
                     if (e instanceof LivingEntity && e != player) {
                         Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
@@ -445,7 +2077,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 3. THUNDER BREATHING ULTIMATE - STORM'S EYE (Summons a moving storm cloud that strikes enemies)
     private void thunderUltimate(Player player, int level) {
         player.sendMessage("§e§l⚡ THUNDER BREATHING ULTIMATE: STORM'S EYE ⚡");
         player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1.0f, 0.5f);
@@ -465,12 +2096,10 @@ public class BookManager {
                     return;
                 }
                 
-                // Storm cloud moves randomly
                 if (ticks % 10 == 0) {
                     stormLoc.add(random.nextDouble() * 4 - 2, 0, random.nextDouble() * 4 - 2);
                 }
                 
-                // Cloud particles
                 for (int i = 0; i < 360; i += 30) {
                     double angle = Math.toRadians(i + ticks * 5);
                     double radius = 3.0;
@@ -485,7 +2114,6 @@ public class BookManager {
                     );
                 }
                 
-                // Lightning strikes
                 if (ticks % 10 == 0) {
                     for (Entity e : player.getWorld().getNearbyEntities(stormLoc, 5, 5, 5)) {
                         if (e instanceof LivingEntity && e != player) {
@@ -500,7 +2128,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 4. FLAME BREATHING ULTIMATE - INFERNO PHOENIX (Summons a phoenix that flies and attacks)
     private void flameUltimate(Player player, int level) {
         player.sendMessage("§c§l🔥 FLAME BREATHING ULTIMATE: INFERNO PHOENIX 🔥");
         player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.6f);
@@ -516,7 +2143,6 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks >= DURATION) {
-                    // Phoenix explosion
                     for (Entity e : player.getWorld().getNearbyEntities(phoenixLoc, 5, 5, 5)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage * 2, player);
@@ -539,7 +2165,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Phoenix movement - find nearest enemy
                 LivingEntity target = null;
                 double nearestDist = Double.MAX_VALUE;
                 
@@ -554,18 +2179,15 @@ public class BookManager {
                 }
                 
                 if (target != null) {
-                    // Move towards target
                     Vector toTarget = target.getLocation().toVector().subtract(phoenixLoc.toVector()).normalize();
                     phoenixLoc.add(toTarget.multiply(0.5));
                     
-                    // Attack if close
                     if (nearestDist < 3) {
                         target.damage(damage / 2, player);
                         target.setFireTicks(60);
                     }
                 }
                 
-                // Phoenix body
                 for (int i = 0; i < 360; i += 30) {
                     double angle = Math.toRadians(i + ticks * 10);
                     double radius = 2.0;
@@ -592,7 +2214,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 5. WIND BREATHING ULTIMATE - TORNADO (Creates a moving tornado that throws enemies)
     private void windUltimate(Player player, int level) {
         player.sendMessage("§f§l🌪️ WIND BREATHING ULTIMATE: TORNADO 🌪️");
         player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_WIND_BURST, 1.0f, 0.6f);
@@ -612,7 +2233,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Tornado moves towards nearest enemy
                 LivingEntity target = null;
                 double nearestDist = Double.MAX_VALUE;
                 
@@ -631,7 +2251,6 @@ public class BookManager {
                     tornadoLoc.add(toTarget.multiply(0.3));
                 }
                 
-                // Tornado effect
                 for (int i = 0; i < 360; i += 15) {
                     double angle = Math.toRadians(i + ticks * 8);
                     double radius = 3.0 + Math.sin(ticks * 0.2) * 0.5;
@@ -656,7 +2275,6 @@ public class BookManager {
                     }
                 }
                 
-                // Damage and throw enemies
                 for (Entity e : player.getWorld().getNearbyEntities(tornadoLoc, 4, 4, 4)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage / 2, player);
@@ -669,7 +2287,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 6. STONE BREATHING ULTIMATE - EARTH GOLEM (Summons a golem that fights for you)
     private void stoneUltimate(Player player, int level) {
         player.sendMessage("§7§l⛰️ STONE BREATHING ULTIMATE: EARTH GOLEM ⛰️");
         player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_STEP, 1.0f, 0.5f);
@@ -685,7 +2302,6 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks >= DURATION) {
-                    // Golem crumbles
                     for (int i = 0; i < 50; i++) {
                         player.getWorld().spawnParticle(
                             Particle.BLOCK,
@@ -698,7 +2314,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Find nearest enemy
                 LivingEntity target = null;
                 double nearestDist = Double.MAX_VALUE;
                 
@@ -711,18 +2326,15 @@ public class BookManager {
                         }
                     }
                 }
-        
-        if (target != null) {
-                    // Move towards target
+                
+                if (target != null) {
                     Vector toTarget = target.getLocation().toVector().subtract(golemLoc.toVector()).normalize();
                     golemLoc.add(toTarget.multiply(0.2));
                     
-                    // Attack if close
                     if (nearestDist < 3) {
                         target.damage(damage, player);
                         target.setVelocity(new Vector(0, 1, 0));
                         
-                        // Attack effect
                         for (int i = 0; i < 20; i++) {
                             player.getWorld().spawnParticle(
                                 Particle.BLOCK,
@@ -734,7 +2346,6 @@ public class BookManager {
                     }
                 }
                 
-                // Golem body
                 for (int i = 0; i < 360; i += 30) {
                     double angle = Math.toRadians(i + ticks * 2);
                     double radius = 1.5;
@@ -756,7 +2367,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 7. MIST BREATHING ULTIMATE - FOG OF WAR (Creates a moving mist that confuses enemies)
     private void mistUltimate(Player player, int level) {
         player.sendMessage("§7§l🌫️ MIST BREATHING ULTIMATE: FOG OF WAR 🌫️");
         player.playSound(player.getLocation(), Sound.ENTITY_PHANTOM_AMBIENT, 1.0f, 0.5f);
@@ -775,7 +2385,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Mist spreads
                 double radius = 3.0 + Math.sin(ticks * 0.1) * 1.0;
                 
                 for (int i = 0; i < 360; i += 20) {
@@ -792,14 +2401,12 @@ public class BookManager {
                     }
                 }
                 
-                // Confuse enemies in mist
                 for (Entity e : player.getWorld().getNearbyEntities(center, radius + 1, 5, radius + 1)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 1));
                         ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 2));
                         ((LivingEntity) e).damage(1, player);
                         
-                        // Random teleport within mist
                         if (random.nextInt(100) < 5) {
                             Location randomLoc = center.clone().add(
                                 random.nextDouble() * 6 - 3,
@@ -816,7 +2423,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 8. BEAST BREATHING ULTIMATE - WOLF PACK (Summons a pack of wolves that hunt)
     private void beastUltimate(Player player, int level) {
         player.sendMessage("§6§l🐗 BEAST BREATHING ULTIMATE: WOLF PACK 🐗");
         player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 0.6f);
@@ -824,7 +2430,6 @@ public class BookManager {
         int wolfCount = 4 + level;
         int damage = 5 + level * 2;
         
-        // Summon wolves at different positions
         for (int i = 0; i < wolfCount; i++) {
             int wolfIndex = i;
             new BukkitRunnable() {
@@ -843,7 +2448,6 @@ public class BookManager {
                         return;
                     }
                     
-                    // Find nearest enemy
                     LivingEntity target = null;
                     double nearestDist = Double.MAX_VALUE;
                     
@@ -858,15 +2462,12 @@ public class BookManager {
                     }
                     
                     if (target != null) {
-                        // Move towards target
                         Vector toTarget = target.getLocation().toVector().subtract(wolfLoc.toVector()).normalize();
                         wolfLoc.add(toTarget.multiply(0.3));
                         
-                        // Attack if close
                         if (nearestDist < 2) {
                             target.damage(damage, player);
                             
-                            // Attack effect
                             player.getWorld().spawnParticle(
                                 Particle.SWEEP_ATTACK,
                                 target.getLocation().add(0, 1, 0),
@@ -875,7 +2476,6 @@ public class BookManager {
                         }
                     }
                     
-                    // Wolf body
                     player.getWorld().spawnParticle(
                         Particle.SWEEP_ATTACK,
                         wolfLoc.clone().add(0, 1, 0),
@@ -888,7 +2488,6 @@ public class BookManager {
         }
     }
     
-    // 9. SOUND BREATHING ULTIMATE - SONIC BLAST (Cone-shaped sonic wave)
     private void soundUltimate(Player player, int level) {
         player.sendMessage("§e§l🔊 SOUND BREATHING ULTIMATE: SONIC BLAST 🔊");
         player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 0.6f);
@@ -908,7 +2507,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Sonic wave cone
                 for (int i = -30; i <= 30; i += 10) {
                     double angle = Math.toRadians(i);
                     Vector rotated = direction.clone().rotateAroundY(angle);
@@ -921,7 +2519,6 @@ public class BookManager {
                         2, 0.2, 0.2, 0.2, 0
                     );
                     
-                    // Damage enemies in cone
                     for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage, player);
@@ -934,7 +2531,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 10. SERPENT BREATHING ULTIMATE - WORLD SERPENT (Creates a giant serpent that coils around enemies)
     private void serpentUltimate(Player player, int level) {
         player.sendMessage("§a§l🐍 SERPENT BREATHING ULTIMATE: WORLD SERPENT 🐍");
         player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 0.5f);
@@ -948,7 +2544,6 @@ public class BookManager {
             List<Location> snakeSegments = new ArrayList<>();
             
             {
-                // Initialize snake segments
                 for (int i = 0; i < 20; i++) {
                     snakeSegments.add(center.clone());
                 }
@@ -961,7 +2556,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Find nearest enemy
                 LivingEntity target = null;
                 double nearestDist = Double.MAX_VALUE;
                 
@@ -976,22 +2570,18 @@ public class BookManager {
                 }
                 
                 if (target != null) {
-                    // Move head towards target
                     Vector toTarget = target.getLocation().toVector().subtract(snakeSegments.get(0).toVector()).normalize();
                     snakeSegments.set(0, snakeSegments.get(0).clone().add(toTarget.multiply(0.4)));
                     
-                    // Attack if close
                     if (nearestDist < 2) {
                         target.damage(damage, player);
                     }
                 }
                 
-                // Update body segments
                 for (int i = snakeSegments.size() - 1; i > 0; i--) {
                     snakeSegments.set(i, snakeSegments.get(i - 1).clone());
                 }
                 
-                // Draw snake
                 for (int i = 0; i < snakeSegments.size(); i++) {
                     Location segLoc = snakeSegments.get(i);
                     
@@ -1015,7 +2605,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 11. LOVE BREATHING ULTIMATE - HEART BEAM (Creates a healing/damaging beam)
     private void loveUltimate(Player player, int level) {
         player.sendMessage("§d§l💖 LOVE BREATHING ULTIMATE: HEART BEAM 💖");
         player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 0.6f);
@@ -1052,7 +2641,6 @@ public class BookManager {
                 
                 for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
                     if (e instanceof Player && e != player) {
-                        // Heal allies
                         Player target = (Player) e;
                         target.setHealth(Math.min(target.getHealth() + heal, target.getMaxHealth()));
                         
@@ -1064,7 +2652,6 @@ public class BookManager {
                             );
                         }
                     } else if (e instanceof Monster) {
-                        // Damage enemies
                         ((LivingEntity) e).damage(damage, player);
                     }
                 }
@@ -1074,7 +2661,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 12. SHADOW SOVEREIGN ULTIMATE - SHADOW REALM (Teleports enemies to the void)
     private void sovereignUltimate(Player player, int level) {
         player.sendMessage("§5§l👑 SHADOW SOVEREIGN ULTIMATE: SHADOW REALM 👑");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.5f);
@@ -1093,7 +2679,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Shadow realm effect
                 for (int i = 0; i < 360; i += 20) {
                     double angle = Math.toRadians(i + ticks * 5);
                     double radius = 5.0;
@@ -1114,7 +2699,6 @@ public class BookManager {
                     );
                 }
                 
-                // Pull enemies and teleport them
                 for (Entity e : player.getWorld().getNearbyEntities(center, 6, 6, 6)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(1, player);
@@ -1122,7 +2706,6 @@ public class BookManager {
                         Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
                         e.setVelocity(pull.multiply(0.2));
                         
-                        // Teleport to random location if close enough
                         if (e.getLocation().distance(center) < 3 && random.nextInt(100) < 10) {
                             Location randomLoc = e.getWorld().getHighestBlockAt(
                                 center.getBlockX() + random.nextInt(20) - 10,
@@ -1140,7 +2723,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 13. DEMON KING ULTIMATE - FROZEN THRONE (Creates an ice palace that traps enemies)
     private void demonKingUltimate(Player player, int level) {
         player.sendMessage("§b§l👹 DEMON KING ULTIMATE: FROZEN THRONE 👹");
         player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_ROAR, 1.0f, 0.5f);
@@ -1159,7 +2741,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Ice palace walls
                 double radius = 4.0;
                 
                 for (int i = 0; i < 360; i += 15) {
@@ -1183,14 +2764,12 @@ public class BookManager {
                     }
                 }
                 
-                // Freeze enemies inside
                 for (Entity e : player.getWorld().getNearbyEntities(center, radius + 1, 5, radius + 1)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).setFreezeTicks(200);
                         ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 40, 5));
                         ((LivingEntity) e).damage(1, player);
                         
-                        // Push towards center
                         Vector push = center.toVector().subtract(e.getLocation().toVector()).normalize();
                         e.setVelocity(push.multiply(0.1));
                     }
@@ -1201,7 +2780,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 14. BEAST LORD ULTIMATE - PRIMAL ROAR (Roar that damages and fears enemies)
     private void beastLordUltimate(Player player, int level) {
         player.sendMessage("§6§l🐺 BEAST LORD ULTIMATE: PRIMAL ROAR 🐺");
         player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_ROAR, 1.0f, 0.5f);
@@ -1209,7 +2787,6 @@ public class BookManager {
         Location center = player.getLocation();
         int damage = 12 + level * 4;
         
-        // Shockwave ring
         new BukkitRunnable() {
             int ticks = 0;
             final int DURATION = 40; // 2 seconds
@@ -1241,7 +2818,6 @@ public class BookManager {
                     );
                 }
                 
-                // Damage and knockback
                 for (Entity e : player.getWorld().getNearbyEntities(center, radius + 1, 3, radius + 1)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage / 2, player);
@@ -1256,7 +2832,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 15. SNOW FIEND ULTIMATE - BLIZZARD (Creates a blizzard that damages and slows)
     private void snowUltimate(Player player, int level) {
         player.sendMessage("§b§l❄️ SNOW FIEND ULTIMATE: BLIZZARD ❄️");
         player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1.0f, 0.5f);
@@ -1277,7 +2852,6 @@ public class BookManager {
                 
                 double radius = 5.0;
                 
-                // Snowstorm effect
                 for (int i = 0; i < 360; i += 20) {
                     double angle = Math.toRadians(i + ticks * 5);
                     double x = center.getX() + radius * Math.cos(angle);
@@ -1296,7 +2870,6 @@ public class BookManager {
                     );
                 }
                 
-                // Damage and freeze enemies
                 for (Entity e : player.getWorld().getNearbyEntities(center, radius + 1, 5, radius + 1)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).setFreezeTicks(100);
@@ -1310,7 +2883,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 16. LIMITLESS ULTIMATE - DOMAIN EXPANSION (Creates a sphere that damages everything inside)
     private void limitlessUltimate(Player player, int level) {
         player.sendMessage("§d§l∞ LIMITLESS ULTIMATE: DOMAIN EXPANSION ∞");
         player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 0.4f);
@@ -1325,7 +2897,6 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks >= DURATION) {
-                    // Domain collapse
                     for (Entity e : player.getWorld().getNearbyEntities(center, 7, 7, 7)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage, player);
@@ -1343,7 +2914,6 @@ public class BookManager {
                 
                 double radius = 5.0;
                 
-                // Domain sphere
                 for (int i = 0; i < 360; i += 15) {
                     double phi = Math.toRadians(i);
                     for (int j = 0; j < 180; j += 30) {
@@ -1367,7 +2937,6 @@ public class BookManager {
                     }
                 }
                 
-                // Damage inside domain
                 for (Entity e : player.getWorld().getNearbyEntities(center, radius, radius, radius)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(2, player);
@@ -1379,7 +2948,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 17. TEN SHADOWS ULTIMATE - MAHORAGA (Summons a powerful shadow beast)
     private void shadowsUltimate(Player player, int level) {
         player.sendMessage("§8§l🕷️ TEN SHADOWS ULTIMATE: MAHORAGA 🕷️");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
@@ -1399,7 +2967,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Find nearest enemy
                 LivingEntity target = null;
                 double nearestDist = Double.MAX_VALUE;
                 
@@ -1414,15 +2981,12 @@ public class BookManager {
                 }
                 
                 if (target != null) {
-                    // Move towards target
                     Vector toTarget = target.getLocation().toVector().subtract(beastLoc.toVector()).normalize();
                     beastLoc.add(toTarget.multiply(0.3));
                     
-                    // Attack if close
                     if (nearestDist < 3) {
                         target.damage(damage, player);
                         
-                        // Attack effect
                         for (int i = 0; i < 360; i += 30) {
                             double angle = Math.toRadians(i);
                             double x = target.getLocation().getX() + 2 * Math.cos(angle);
@@ -1437,7 +3001,6 @@ public class BookManager {
                     }
                 }
                 
-                // Beast body
                 for (int i = 0; i < 360; i += 30) {
                     double angle = Math.toRadians(i + ticks * 10);
                     double radius = 2.0;
@@ -1464,7 +3027,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 18. DISASTER FLAMES ULTIMATE - VOLCANIC ERUPTION (Creates eruptions under enemies)
     private void disasterUltimate(Player player, int level) {
         player.sendMessage("§c§l🔥 DISASTER FLAMES ULTIMATE: VOLCANIC ERUPTION 🔥");
         player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 0.5f);
@@ -1483,7 +3045,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Random eruptions
                 if (ticks % 10 == 0) {
                     for (int i = 0; i < 3; i++) {
                         double angle = random.nextDouble() * Math.PI * 2;
@@ -1494,7 +3055,6 @@ public class BookManager {
                         
                         Location eruptionLoc = new Location(player.getWorld(), x, center.getY(), z);
                         
-                        // Eruption pillar
                         for (double y = 0; y < 5; y += 0.5) {
                             player.getWorld().spawnParticle(
                                 Particle.FLAME,
@@ -1509,7 +3069,6 @@ public class BookManager {
                             );
                         }
                         
-                        // Damage enemies near eruption
                         for (Entity e : player.getWorld().getNearbyEntities(eruptionLoc, 3, 3, 3)) {
                             if (e instanceof LivingEntity && e != player) {
                                 ((LivingEntity) e).damage(damage, player);
@@ -1524,7 +3083,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 19. BLOOD MANIPULATION ULTIMATE - BLOOD DIMENSION (Creates blood orbs that heal you and damage enemies)
     private void bloodUltimate(Player player, int level) {
         player.sendMessage("§4§l🩸 BLOOD MANIPULATION ULTIMATE: BLOOD DIMENSION 🩸");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.5f);
@@ -1544,7 +3102,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Blood orbs
                 for (int i = 0; i < 360; i += 45) {
                     double angle = Math.toRadians(i + ticks * 3);
                     double radius = 3.0;
@@ -1560,12 +3117,10 @@ public class BookManager {
                         3, 0.1, 0.1, 0.1, 0
                     );
                     
-                    // Blood orbs seek enemies
                     for (Entity e : player.getWorld().getNearbyEntities(orbLoc, 2, 2, 2)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage, player);
                             
-                            // Heal player
                             player.setHealth(Math.min(player.getHealth() + heal, player.getMaxHealth()));
                             
                             for (int h = 0; h < 5; h++) {
@@ -1584,7 +3139,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 20. COMEDY ULTIMATE - FINAL JOKE (Creates random chaos effects)
     private void comedyUltimate(Player player, int level) {
         player.sendMessage("§a§l🎭 COMEDY ULTIMATE: FINAL JOKE 🎭");
         player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 0.6f);
@@ -1602,12 +3156,11 @@ public class BookManager {
                     return;
                 }
                 
-                // Random chaos every second
                 if (ticks % 20 == 0) {
                     int effect = random.nextInt(5);
                     
                     switch(effect) {
-                        case 0: // Lightning strike
+                        case 0:
                             for (Entity e : player.getWorld().getNearbyEntities(center, 10, 10, 10)) {
                                 if (e instanceof LivingEntity && e != player) {
                                     player.getWorld().strikeLightning(e.getLocation());
@@ -1615,11 +3168,11 @@ public class BookManager {
                             }
                             break;
                             
-                        case 1: // Explosion
+                        case 1:
                             player.getWorld().createExplosion(center, 2, false, false);
                             break;
                             
-                        case 2: // Launch enemies
+                        case 2:
                             for (Entity e : player.getWorld().getNearbyEntities(center, 8, 8, 8)) {
                                 if (e instanceof LivingEntity && e != player) {
                                     e.setVelocity(new Vector(0, 2, 0));
@@ -1627,7 +3180,7 @@ public class BookManager {
                             }
                             break;
                             
-                        case 3: // Random teleport
+                        case 3:
                             for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
                                 if (e instanceof LivingEntity && e != player) {
                                     Location randomLoc = e.getLocation().clone().add(
@@ -1640,7 +3193,7 @@ public class BookManager {
                             }
                             break;
                             
-                        case 4: // Fireworks
+                        case 4:
                             for (int i = 0; i < 10; i++) {
                                 player.getWorld().spawnParticle(
                                     Particle.FIREWORK,
@@ -1652,7 +3205,6 @@ public class BookManager {
                     }
                 }
                 
-                // Random notes
                 for (int i = 0; i < 5; i++) {
                     player.getWorld().spawnParticle(
                         Particle.NOTE,
@@ -1666,7 +3218,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 21. SPIRIT BOMB ULTIMATE - UNIVERSE TREE (Giant energy sphere that grows and explodes)
     private void spiritUltimate(Player player, int level) {
         player.sendMessage("§b§l💫 SPIRIT BOMB ULTIMATE: UNIVERSE TREE 💫");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
@@ -1682,7 +3233,6 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks < CHARGE_TIME) {
-                    // Charging phase - sphere grows
                     radius = 1.0 + (double)ticks / CHARGE_TIME * 3.0;
                     
                     for (int i = 0; i < 360; i += 15) {
@@ -1705,14 +3255,12 @@ public class BookManager {
                         }
                     }
                 } else {
-                    // Explosion phase
                     for (Entity e : player.getWorld().getNearbyEntities(center, radius + 2, radius + 2, radius + 2)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage, player);
                         }
                     }
                     
-                    // Massive explosion effect
                     player.getWorld().createExplosion(center, 5, false, true);
                     
                     for (int i = 0; i < 360; i += 10) {
@@ -1737,7 +3285,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 22. KAMEHAMEHA ULTIMATE - ULTRA INSTINCT (Giant beam that moves with cursor)
     private void kameUltimate(Player player, int level) {
         player.sendMessage("§b§l🌊 KAMEHAMEHA ULTIMATE: ULTRA INSTINCT 🌊");
         player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1.0f, 0.4f);
@@ -1757,13 +3304,11 @@ public class BookManager {
                     return;
                 }
                 
-                // Update direction based on player's look
                 Vector currentDir = player.getLocation().getDirection().normalize();
                 Location currentStart = player.getEyeLocation();
                 
                 Location current = currentStart.clone().add(currentDir.clone().multiply(distance));
                 
-                // Giant beam
                 for (int i = -3; i <= 3; i++) {
                     for (int j = -3; j <= 3; j++) {
                         if (i*i + j*j > 9) continue;
@@ -1786,7 +3331,6 @@ public class BookManager {
                             1, 0, 0, 0, 0.01
                         );
                         
-                        // Damage enemies in beam
                         for (Entity e : player.getWorld().getNearbyEntities(beamLoc, 1.5, 1.5, 1.5)) {
                             if (e instanceof LivingEntity && e != player) {
                                 ((LivingEntity) e).damage(damage, player);
@@ -1800,7 +3344,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 23. INSTANT TRANSMISSION ULTIMATE - GOD OF SPEED (Teleports rapidly between enemies)
     private void instantUltimate(Player player, int level) {
         player.sendMessage("§e§l⚡ INSTANT TRANSMISSION ULTIMATE: GOD OF SPEED ⚡");
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 0.4f);
@@ -1818,20 +3361,16 @@ public class BookManager {
                     return;
                 }
                 
-                // Find random enemy
                 List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 20);
                 
                 if (!enemies.isEmpty()) {
                     LivingEntity target = enemies.get(random.nextInt(enemies.size()));
                     
-                    // Teleport to target
                     Location behind = target.getLocation().add(target.getLocation().getDirection().multiply(-2));
                     player.teleport(behind);
                     
-                    // Attack
                     target.damage(damage, player);
                     
-                    // Afterimage effect
                     for (int i = 0; i < 10; i++) {
                         player.getWorld().spawnParticle(
                             Particle.PORTAL,
@@ -1846,7 +3385,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 5L);
     }
     
-    // 24. SOLAR FLARE ULTIMATE - SUPERNOVA (Creates a massive light explosion)
     private void solarUltimate(Player player, int level) {
         player.sendMessage("§6§l☀️ SOLAR FLARE ULTIMATE: SUPERNOVA ☀️");
         player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 0.4f);
@@ -1861,7 +3399,6 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks >= DURATION) {
-                    // Final explosion
                     for (Entity e : player.getWorld().getNearbyEntities(center, 10, 10, 10)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage, player);
@@ -1902,7 +3439,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 25. GALAXY BREAKER ULTIMATE - UNIVERSE DESTROYER (Creates a black hole that sucks everything)
     private void galaxyUltimate(Player player, int level) {
         player.sendMessage("§5§l🌌 GALAXY BREAKER ULTIMATE: UNIVERSE DESTROYER 🌌");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.3f);
@@ -1917,12 +3453,10 @@ public class BookManager {
             @Override
             public void run() {
                 if (ticks >= DURATION) {
-                    // Black hole collapse
                     for (Entity e : player.getWorld().getNearbyEntities(center, 12, 12, 12)) {
                         if (e instanceof LivingEntity && e != player) {
                             ((LivingEntity) e).damage(damage, player);
                             
-                            // Pull to center
                             Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
                             e.setVelocity(pull.multiply(2));
                         }
@@ -1935,7 +3469,6 @@ public class BookManager {
                 
                 double radius = 6.0 * (1 - (double)ticks / DURATION);
                 
-                // Black hole ring
                 for (int i = 0; i < 360; i += 10) {
                     double angle = Math.toRadians(i + ticks * 8);
                     double x = center.getX() + radius * Math.cos(angle);
@@ -1950,7 +3483,6 @@ public class BookManager {
                     }
                 }
                 
-                // Pull enemies
                 for (Entity e : player.getWorld().getNearbyEntities(center, radius + 2, 5, radius + 2)) {
                     if (e instanceof LivingEntity && e != player) {
                         Vector pull = center.toVector().subtract(e.getLocation().toVector()).normalize();
@@ -1964,7 +3496,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 26. VOID REAVER ULTIMATE - DIMENSIONAL COLLAPSE (Creates rifts that teleport and damage)
     private void reaverUltimate(Player player, int level) {
         player.sendMessage("§8§l🌑 VOID REAVER ULTIMATE: DIMENSIONAL COLLAPSE 🌑");
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 0.4f);
@@ -1983,7 +3514,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Create random rifts
                 if (ticks % 10 == 0) {
                     for (int i = 0; i < 5; i++) {
                         double angle = random.nextDouble() * Math.PI * 2;
@@ -1994,7 +3524,6 @@ public class BookManager {
                         
                         Location riftLoc = new Location(player.getWorld(), x, center.getY(), z);
                         
-                        // Rift effect
                         for (int j = 0; j < 360; j += 45) {
                             double riftAngle = Math.toRadians(j);
                             double rx = riftLoc.getX() + 2 * Math.cos(riftAngle);
@@ -2007,12 +3536,10 @@ public class BookManager {
                             );
                         }
                         
-                        // Damage and teleport enemies near rift
                         for (Entity e : player.getWorld().getNearbyEntities(riftLoc, 3, 3, 3)) {
                             if (e instanceof LivingEntity && e != player) {
                                 ((LivingEntity) e).damage(damage, player);
                                 
-                                // Random teleport
                                 Location randomLoc = e.getLocation().clone().add(
                                     random.nextDouble() * 10 - 5,
                                     random.nextDouble() * 2,
@@ -2029,7 +3556,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 27. SOUL EATER ULTIMATE - SOUL FEAST (Drains souls from all nearby enemies)
     private void eaterUltimate(Player player, int level) {
         player.sendMessage("§2§l💀 SOUL EATER ULTIMATE: SOUL FEAST 💀");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.4f);
@@ -2049,7 +3575,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Soul drain from all enemies
                 for (Entity e : player.getWorld().getNearbyEntities(center, 10, 10, 10)) {
                     if (e instanceof LivingEntity && e != player) {
                         LivingEntity target = (LivingEntity) e;
@@ -2057,7 +3582,6 @@ public class BookManager {
                         target.damage(damage / 4, player);
                         player.setHealth(Math.min(player.getHealth() + heal / 4, player.getMaxHealth()));
                         
-                        // Soul particles flowing to player
                         Location targetLoc = target.getLocation().add(0, 1, 0);
                         Location playerLoc = player.getLocation().add(0, 1, 0);
                         
@@ -2080,7 +3604,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 5L);
     }
     
-    // 28. STAR FALL ULTIMATE - GALACTIC COLLAPSE (Meteor shower that follows cursor)
     private void starfallUltimate(Player player, int level) {
         player.sendMessage("§e§l✨ STAR FALL ULTIMATE: GALACTIC COLLAPSE ✨");
         player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 0.4f);
@@ -2099,7 +3622,6 @@ public class BookManager {
                     return;
                 }
                 
-                // Launch meteors where player is looking
                 if (ticks % 5 == 0) {
                     Location eyeLoc = player.getEyeLocation();
                     Vector lookDir = player.getLocation().getDirection().normalize();
@@ -2114,7 +3636,6 @@ public class BookManager {
                                 if (meteorDist >= 40) {
                                     Location impactLoc = eyeLoc.clone().add(lookDir.clone().multiply(40));
                                     
-                                    // Meteor impact
                                     player.getWorld().createExplosion(impactLoc, 3, false, true);
                                     
                                     for (Entity e : player.getWorld().getNearbyEntities(impactLoc, 5, 5, 5)) {
@@ -2128,7 +3649,6 @@ public class BookManager {
                                 
                                 Location meteorLoc = eyeLoc.clone().add(lookDir.clone().multiply(meteorDist));
                                 
-                                // Meteor trail
                                 for (int i = 0; i < 360; i += 30) {
                                     double angle = Math.toRadians(i + meteorDist * 10);
                                     double radius = 1.0;
@@ -2160,7 +3680,6 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // 29. TIME STOP ULTIMATE - ZA WARUDO (Stops time for enemies)
     private void timeUltimate(Player player, int level) {
         player.sendMessage("§b§l⏰ TIME STOP ULTIMATE: ZA WARUDO ⏰");
         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.3f);
@@ -2168,10 +3687,8 @@ public class BookManager {
         Location center = player.getLocation();
         int damage = 20 + level * 6;
         
-        // Time stop effect
         player.sendTitle("§bTHE WORLD", "§fTime has stopped!", 10, 60, 20);
         
-        // Store original velocities
         Map<Entity, Vector> velocities = new HashMap<>();
         
         for (Entity e : player.getWorld().getNearbyEntities(center, 15, 15, 15)) {
@@ -2181,21 +3698,17 @@ public class BookManager {
             }
         }
         
-        // Time resumed after delay
         new BukkitRunnable() {
             @Override
             public void run() {
-                // Damage all frozen enemies
                 for (Entity e : player.getWorld().getNearbyEntities(center, 15, 15, 15)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(damage, player);
                         
-                        // Restore velocity
                         if (velocities.containsKey(e)) {
                             e.setVelocity(velocities.get(e));
                         }
                         
-                        // Time resume effect
                         for (int i = 0; i < 10; i++) {
                             player.getWorld().spawnParticle(
                                 Particle.GLOW,
@@ -2208,10 +3721,9 @@ public class BookManager {
                 
                 player.sendTitle("§bTIME RESUMED", "§fThe world moves again", 10, 40, 20);
             }
-        }.runTaskLater(plugin, 60L); // 3 seconds
+        }.runTaskLater(plugin, 60L);
     }
     
-    // 30. REALITY WRITER ULTIMATE - NEW REALITY (Completely alters the battlefield)
     private void writerUltimate(Player player, int level) {
         player.sendMessage("§d§l📝 REALITY WRITER ULTIMATE: NEW REALITY 📝");
         player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 0.3f);
@@ -2230,12 +3742,11 @@ public class BookManager {
                     return;
                 }
                 
-                // Random reality alterations
                 if (ticks % 20 == 0) {
                     int effect = random.nextInt(4);
                     
                     switch(effect) {
-                        case 0: // Gravity flip
+                        case 0:
                             for (Entity e : player.getWorld().getNearbyEntities(center, 10, 10, 10)) {
                                 if (e instanceof LivingEntity && e != player) {
                                     e.setVelocity(new Vector(0, 2, 0));
@@ -2243,7 +3754,7 @@ public class BookManager {
                             }
                             break;
                             
-                        case 1: // Swap positions
+                        case 1:
                             List<LivingEntity> enemies = plugin.getTargetSeekingCombat().getNearbyEnemies(player, 10);
                             if (enemies.size() >= 2) {
                                 Location loc1 = enemies.get(0).getLocation();
@@ -2253,7 +3764,7 @@ public class BookManager {
                             }
                             break;
                             
-                        case 2: // Damage exchange
+                        case 2:
                             for (Entity e : player.getWorld().getNearbyEntities(center, 8, 8, 8)) {
                                 if (e instanceof LivingEntity && e != player) {
                                     ((LivingEntity) e).damage(damage / 2, player);
@@ -2261,7 +3772,7 @@ public class BookManager {
                             }
                             break;
                             
-                        case 3: // Speed change
+                        case 3:
                             for (Entity e : player.getWorld().getNearbyEntities(center, 8, 8, 8)) {
                                 if (e instanceof LivingEntity && e != player) {
                                     e.setVelocity(e.getVelocity().multiply(2));
@@ -2271,7 +3782,6 @@ public class BookManager {
                     }
                 }
                 
-                // Reality particles
                 for (int i = 0; i < 360; i += 30) {
                     double angle = Math.toRadians(i + ticks * 3);
                     double radius = 4.0;
@@ -2292,18 +3802,18 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    // ========== ADVANCED ABILITIES (Brief - Will be called from menu) ==========
-    // These are placeholders - they use the same ultimate system but with reduced power
+    // ========== ADVANCED ABILITIES (LEVEL 2) - All 30 ==========
     
     private void sunAdvanced(Player player, int level) {
         player.sendMessage("§6§l☀️ SUN BREATHING: SOLAR FLARE (Advanced) ☀️");
-        // Similar to ultimate but shorter duration and less damage
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f);
+        
         Location center = player.getLocation().add(0, 2, 0);
         int damage = 8 + level * 3;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 60; // 3 seconds
             
             @Override
             public void run() {
@@ -2339,13 +3849,14 @@ public class BookManager {
     
     private void waterAdvanced(Player player, int level) {
         player.sendMessage("§b§l💧 WATER BREATHING: TSUNAMI (Advanced) 💧");
-        // Similar pattern for all advanced abilities
+        player.playSound(player.getLocation(), Sound.ENTITY_FISHING_BOBBER_SPLASH, 1.0f, 0.8f);
+        
         Location center = player.getLocation();
         int damage = 6 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 80;
+            final int DURATION = 80; // 4 seconds
             
             @Override
             public void run() {
@@ -2381,11 +3892,14 @@ public class BookManager {
     
     private void thunderAdvanced(Player player, int level) {
         player.sendMessage("§e§l⚡ THUNDER BREATHING: LIGHTNING STORM (Advanced) ⚡");
+        player.playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1.0f, 0.8f);
+        
         Location center = player.getLocation();
+        int damage = 5 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 60; // 3 seconds
             
             @Override
             public void run() {
@@ -2398,7 +3912,7 @@ public class BookManager {
                     for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
                         if (e instanceof LivingEntity && e != player) {
                             player.getWorld().strikeLightningEffect(e.getLocation());
-                            ((LivingEntity) e).damage(5 + level, player);
+                            ((LivingEntity) e).damage(damage, player);
                         }
                     }
                 }
@@ -2409,12 +3923,15 @@ public class BookManager {
     }
     
     private void flameAdvanced(Player player, int level) {
-        player.sendMessage("§c§l🔥 FLAME BREATHING: PHOENIX (Advanced) 🔥");
+        player.sendMessage("§c§l🔥 FLAME BREATHING: FIRE WALL (Advanced) 🔥");
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 0.9f);
+        
         Location center = player.getLocation();
+        int damage = 7 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 80;
+            final int DURATION = 70; // 3.5 seconds
             
             @Override
             public void run() {
@@ -2423,17 +3940,17 @@ public class BookManager {
                     return;
                 }
                 
-                for (int i = 0; i < 360; i += 45) {
-                    double angle = Math.toRadians(i + ticks * 5);
-                    double radius = 2.5;
-                    
+                double radius = 3.0;
+                
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 4);
                     double x = center.getX() + radius * Math.cos(angle);
                     double z = center.getZ() + radius * Math.sin(angle);
                     
                     player.getWorld().spawnParticle(
                         Particle.FLAME,
                         x, center.getY() + 1, z,
-                        2, 0.1, 0.1, 0.1, 0.01
+                        3, 0.1, 0.1, 0.1, 0.02
                     );
                 }
                 
@@ -2450,12 +3967,15 @@ public class BookManager {
     }
     
     private void windAdvanced(Player player, int level) {
-        player.sendMessage("§f§l🌪️ WIND BREATHING: TORNADO (Advanced) 🌪️");
+        player.sendMessage("§f§l🌪️ WIND BREATHING: WIND BLAST (Advanced) 🌪️");
+        player.playSound(player.getLocation(), Sound.ENTITY_BREEZE_WIND_BURST, 1.0f, 1.0f);
+        
         Location center = player.getLocation();
+        int damage = 6 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 80;
+            final int DURATION = 50; // 2.5 seconds
             
             @Override
             public void run() {
@@ -2464,23 +3984,30 @@ public class BookManager {
                     return;
                 }
                 
+                double radius = 4.0;
+                
                 for (int i = 0; i < 360; i += 30) {
-                    double angle = Math.toRadians(i + ticks * 5);
-                    double radius = 3.0;
-                    
+                    double angle = Math.toRadians(i + ticks * 6);
                     double x = center.getX() + radius * Math.cos(angle);
                     double z = center.getZ() + radius * Math.sin(angle);
                     
                     player.getWorld().spawnParticle(
                         Particle.CLOUD,
-                        x, center.getY() + 1 + Math.sin(angle) * 0.5, z,
-                        2, 0.1, 0.1, 0.1, 0.01
+                        x, center.getY() + 1, z,
+                        3, 0.1, 0.1, 0.1, 0.02
+                    );
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.GUST,
+                        x, center.getY() + 1.5, z,
+                        1, 0, 0, 0, 0.05
                     );
                 }
                 
-                for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
+                for (Entity e : player.getWorld().getNearbyEntities(center, radius, 4, radius)) {
                     if (e instanceof LivingEntity && e != player) {
-                        e.setVelocity(new Vector(0, 1, 0));
+                        Vector away = e.getLocation().toVector().subtract(center.toVector()).normalize();
+                        e.setVelocity(away.multiply(0.5));
                         ((LivingEntity) e).damage(1, player);
                     }
                 }
@@ -2491,12 +4018,15 @@ public class BookManager {
     }
     
     private void stoneAdvanced(Player player, int level) {
-        player.sendMessage("§7§l⛰️ STONE BREATHING: EARTHQUAKE (Advanced) ⛰️");
+        player.sendMessage("§7§l⛰️ STONE BREATHING: ROCK SHIELD (Advanced) ⛰️");
+        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BREAK, 1.0f, 0.8f);
+        
         Location center = player.getLocation();
+        int damage = 8 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 80; // 4 seconds
             
             @Override
             public void run() {
@@ -2505,18 +4035,145 @@ public class BookManager {
                     return;
                 }
                 
-                double radius = 2.0 + ticks * 0.05;
+                double radius = 2.5;
                 
-                for (int i = 0; i < 360; i += 45) {
-                    double angle = Math.toRadians(i);
+                for (int i = 0; i < 360; i += 20) {
+                    double angle = Math.toRadians(i + ticks * 3);
                     double x = center.getX() + radius * Math.cos(angle);
                     double z = center.getZ() + radius * Math.sin(angle);
                     
                     player.getWorld().spawnParticle(
                         Particle.BLOCK,
-                        x, center.getY(), z,
+                        x, center.getY() + 1, z,
                         2, 0.1, 0.1, 0.1, 0,
                         Material.STONE.createBlockData()
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(center, 3, 3, 3)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(1, player);
+                        e.setVelocity(new Vector(0, 0.5, 0));
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void mistAdvanced(Player player, int level) {
+        player.sendMessage("§7§l🌫️ MIST BREATHING: DENSE FOG (Advanced) 🌫️");
+        player.playSound(player.getLocation(), Sound.ENTITY_PHANTOM_AMBIENT, 1.0f, 0.9f);
+        
+        Location center = player.getLocation();
+        int damage = 5 + level * 2;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 100; // 5 seconds
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    cancel();
+                    return;
+                }
+                
+                double radius = 4.0;
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i + ticks * 2);
+                    double x = center.getX() + radius * Math.cos(angle);
+                    double z = center.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.CLOUD,
+                        x, center.getY() + 1, z,
+                        4, 0.2, 0.2, 0.2, 0.02
+                    );
+                }
+                
+                for (Entity e : player.getWorld().getNearbyEntities(center, radius, 4, radius)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 1));
+                        ((LivingEntity) e).damage(1, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void beastAdvanced(Player player, int level) {
+        player.sendMessage("§6§l🐗 BEAST BREATHING: WILD CHARGE (Advanced) 🐗");
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_GROWL, 1.0f, 0.9f);
+        
+        Location center = player.getLocation();
+        int damage = 7 + level * 2;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 60; // 3 seconds
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    cancel();
+                    return;
+                }
+                
+                double angle = Math.toRadians(ticks * 15);
+                double x = center.getX() + 3 * Math.cos(angle);
+                double z = center.getZ() + 3 * Math.sin(angle);
+                
+                player.getWorld().spawnParticle(
+                    Particle.SWEEP_ATTACK,
+                    x, center.getY() + 1, z,
+                    3, 0.1, 0.1, 0.1, 0
+                );
+                
+                for (Entity e : player.getWorld().getNearbyEntities(center, 3, 3, 3)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(1, player);
+                    }
+                }
+                
+                ticks++;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void soundAdvanced(Player player, int level) {
+        player.sendMessage("§e§l🔊 SOUND BREATHING: SONIC PULSE (Advanced) 🔊");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 0.9f);
+        
+        Location center = player.getLocation();
+        int damage = 8 + level * 2;
+        
+        new BukkitRunnable() {
+            int ticks = 0;
+            final int DURATION = 50; // 2.5 seconds
+            
+            @Override
+            public void run() {
+                if (ticks >= DURATION) {
+                    cancel();
+                    return;
+                }
+                
+                double radius = ticks * 0.2;
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i);
+                    double x = center.getX() + radius * Math.cos(angle);
+                    double z = center.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SONIC_BOOM,
+                        x, center.getY() + 1, z,
+                        1, 0, 0, 0, 0
                     );
                 }
                 
@@ -2531,128 +4188,17 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    private void mistAdvanced(Player player, int level) {
-        player.sendMessage("§7§l🌫️ MIST BREATHING: FOG (Advanced) 🌫️");
-        Location center = player.getLocation();
-        
-        new BukkitRunnable() {
-            int ticks = 0;
-            final int DURATION = 100;
-            
-            @Override
-            public void run() {
-                if (ticks >= DURATION) {
-                    cancel();
-                    return;
-                }
-                
-                for (int i = 0; i < 360; i += 45) {
-                    double angle = Math.toRadians(i + ticks * 2);
-                    double radius = 4.0;
-                    
-                    double x = center.getX() + radius * Math.cos(angle);
-                    double z = center.getZ() + radius * Math.sin(angle);
-                    
-                    player.getWorld().spawnParticle(
-                        Particle.CLOUD,
-                        x, center.getY() + 1, z,
-                        3, 0.2, 0.2, 0.2, 0.01
-                    );
-                }
-                
-                for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
-                    if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 1));
-                    }
-                }
-                
-                ticks++;
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-    
-    private void beastAdvanced(Player player, int level) {
-        player.sendMessage("§6§l🐗 BEAST BREATHING: WILD RUSH (Advanced) 🐗");
-        Location center = player.getLocation();
-        
-        new BukkitRunnable() {
-            int ticks = 0;
-            final int DURATION = 60;
-            
-            @Override
-            public void run() {
-                if (ticks >= DURATION) {
-                    cancel();
-                    return;
-                }
-                
-                for (int i = 0; i < 360; i += 90) {
-                    double angle = Math.toRadians(i + ticks * 10);
-                    double radius = 3.0;
-                    
-                    double x = center.getX() + radius * Math.cos(angle);
-                    double z = center.getZ() + radius * Math.sin(angle);
-                    
-                    player.getWorld().spawnParticle(
-                        Particle.SWEEP_ATTACK,
-                        x, center.getY() + 1, z,
-                        3, 0.1, 0.1, 0.1, 0
-                    );
-                }
-                
-                for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
-                    if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(3 + level, player);
-                    }
-                }
-                
-                ticks++;
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-    
-    private void soundAdvanced(Player player, int level) {
-        player.sendMessage("§e§l🔊 SOUND BREATHING: SONIC WAVE (Advanced) 🔊");
-        Location start = player.getEyeLocation();
-        Vector direction = player.getLocation().getDirection().normalize();
-        
-        new BukkitRunnable() {
-            int distance = 0;
-            final int MAX_DISTANCE = 20;
-            
-            @Override
-            public void run() {
-                if (distance >= MAX_DISTANCE) {
-                    cancel();
-                    return;
-                }
-                
-                Location current = start.clone().add(direction.clone().multiply(distance));
-                
-                player.getWorld().spawnParticle(
-                    Particle.SONIC_BOOM,
-                    current,
-                    2, 0.2, 0.2, 0.2, 0
-                );
-                
-                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
-                    if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(5 + level, player);
-                    }
-                }
-                
-                distance += 2;
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-    
     private void serpentAdvanced(Player player, int level) {
         player.sendMessage("§a§l🐍 SERPENT BREATHING: COILING STRIKE (Advanced) 🐍");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_AMBIENT, 1.0f, 0.9f);
+        
         Location center = player.getLocation();
+        int damage = 7 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 70; // 3.5 seconds
+            double lastAngle = 0;
             
             @Override
             public void run() {
@@ -2661,11 +4207,10 @@ public class BookManager {
                     return;
                 }
                 
-                double angle = Math.toRadians(ticks * 10);
-                double radius = 2.0;
-                
-                double x = center.getX() + radius * Math.cos(angle);
-                double z = center.getZ() + radius * Math.sin(angle);
+                lastAngle += 0.3;
+                double radius = 2.5;
+                double x = center.getX() + radius * Math.cos(lastAngle);
+                double z = center.getZ() + radius * Math.sin(lastAngle);
                 
                 player.getWorld().spawnParticle(
                     Particle.SCULK_SOUL,
@@ -2685,49 +4230,15 @@ public class BookManager {
     }
     
     private void loveAdvanced(Player player, int level) {
-        player.sendMessage("§d§l💖 LOVE BREATHING: HEART BEAM (Advanced) 💖");
-        Location start = player.getEyeLocation();
-        Vector direction = player.getLocation().getDirection().normalize();
+        player.sendMessage("§d§l💖 LOVE BREATHING: HEALING AURA (Advanced) 💖");
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 0.9f);
         
-        new BukkitRunnable() {
-            int distance = 0;
-            final int MAX_DISTANCE = 20;
-            
-            @Override
-            public void run() {
-                if (distance >= MAX_DISTANCE) {
-                    cancel();
-                    return;
-                }
-                
-                Location current = start.clone().add(direction.clone().multiply(distance));
-                
-                player.getWorld().spawnParticle(
-                    Particle.HEART,
-                    current,
-                    2, 0.1, 0.1, 0.1, 0
-                );
-                
-                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
-                    if (e instanceof Player && e != player) {
-                        ((Player) e).setHealth(Math.min(((Player) e).getHealth() + level, ((Player) e).getMaxHealth()));
-                    } else if (e instanceof Monster) {
-                        ((LivingEntity) e).damage(3 + level, player);
-                    }
-                }
-                
-                distance += 2;
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-    
-    private void sovereignAdvanced(Player player, int level) {
-        player.sendMessage("§5§l👑 SHADOW SOVEREIGN: SHADOW ARMY (Advanced) 👑");
         Location center = player.getLocation();
+        int heal = level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 100;
+            final int DURATION = 80; // 4 seconds
             
             @Override
             public void run() {
@@ -2736,23 +4247,25 @@ public class BookManager {
                     return;
                 }
                 
-                for (int i = 0; i < 360; i += 60) {
-                    double angle = Math.toRadians(i + ticks * 5);
-                    double radius = 3.0;
-                    
+                double radius = 3.0;
+                
+                for (int i = 0; i < 360; i += 45) {
+                    double angle = Math.toRadians(i + ticks * 3);
                     double x = center.getX() + radius * Math.cos(angle);
                     double z = center.getZ() + radius * Math.sin(angle);
                     
                     player.getWorld().spawnParticle(
-                        Particle.SOUL,
+                        Particle.HEART,
                         x, center.getY() + 1, z,
-                        2, 0.1, 0.1, 0.1, 0.01
+                        1, 0, 0, 0, 0
                     );
                 }
                 
-                for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
-                    if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(1, player);
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getLocation().distance(center) <= 4 && p != player) {
+                        if (p.getHealth() < p.getMaxHealth()) {
+                            p.setHealth(Math.min(p.getHealth() + 1, p.getMaxHealth()));
+                        }
                     }
                 }
                 
@@ -2761,13 +4274,59 @@ public class BookManager {
         }.runTaskTimer(plugin, 0L, 1L);
     }
     
-    private void demonKingAdvanced(Player player, int level) {
-        player.sendMessage("§b§l👹 DEMON KING: FROST NOVA (Advanced) 👹");
+    private void sovereignAdvanced(Player player, int level) {
+        player.sendMessage("§5§l👑 SHADOW SOVEREIGN: SHADOW ARMY (Advanced) 👑");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.8f);
+        
         Location center = player.getLocation();
+        int damage = 6 + level * 2;
+        
+        for (int i = 0; i < 3; i++) {
+            int index = i;
+            new BukkitRunnable() {
+                int ticks = 0;
+                final int DURATION = 60; // 3 seconds
+                Location shadowLoc = center.clone().add(
+                    random.nextDouble() * 4 - 2,
+                    0,
+                    random.nextDouble() * 4 - 2
+                );
+                
+                @Override
+                public void run() {
+                    if (ticks >= DURATION) {
+                        cancel();
+                        return;
+                    }
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.SOUL,
+                        shadowLoc.clone().add(0, 1, 0),
+                        2, 0.1, 0.1, 0.1, 0.01
+                    );
+                    
+                    for (Entity e : player.getWorld().getNearbyEntities(shadowLoc, 2, 2, 2)) {
+                        if (e instanceof LivingEntity && e != player) {
+                            ((LivingEntity) e).damage(1, player);
+                        }
+                    }
+                    
+                    ticks++;
+                }
+            }.runTaskTimer(plugin, i * 10L, 1L);
+        }
+    }
+    
+    private void demonKingAdvanced(Player player, int level) {
+        player.sendMessage("§b§l👹 DEMON KING: ICE PRISON (Advanced) 👹");
+        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1.0f, 0.8f);
+        
+        Location center = player.getLocation();
+        int damage = 7 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 80; // 4 seconds
             
             @Override
             public void run() {
@@ -2776,10 +4335,10 @@ public class BookManager {
                     return;
                 }
                 
-                double radius = 1.0 + ticks * 0.1;
+                double radius = 3.0;
                 
                 for (int i = 0; i < 360; i += 30) {
-                    double angle = Math.toRadians(i);
+                    double angle = Math.toRadians(i + ticks * 3);
                     double x = center.getX() + radius * Math.cos(angle);
                     double z = center.getZ() + radius * Math.sin(angle);
                     
@@ -2790,9 +4349,9 @@ public class BookManager {
                     );
                 }
                 
-                for (Entity e : player.getWorld().getNearbyEntities(center, radius + 1, 3, radius + 1)) {
+                for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
                     if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).setFreezeTicks(40);
+                        e.setFreezeTicks(40);
                         ((LivingEntity) e).damage(1, player);
                     }
                 }
@@ -2804,51 +4363,57 @@ public class BookManager {
     
     private void beastLordAdvanced(Player player, int level) {
         player.sendMessage("§6§l🐺 BEAST LORD: WOLF PACK (Advanced) 🐺");
-        Location center = player.getLocation();
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 0.9f);
         
-        new BukkitRunnable() {
-            int ticks = 0;
-            final int DURATION = 80;
-            
-            @Override
-            public void run() {
-                if (ticks >= DURATION) {
-                    cancel();
-                    return;
-                }
+        Location center = player.getLocation();
+        int damage = 6 + level * 2;
+        
+        for (int i = 0; i < 3; i++) {
+            int index = i;
+            new BukkitRunnable() {
+                int ticks = 0;
+                final int DURATION = 70; // 3.5 seconds
+                Location wolfLoc = center.clone().add(
+                    random.nextDouble() * 5 - 2.5,
+                    0,
+                    random.nextDouble() * 5 - 2.5
+                );
                 
-                for (int i = 0; i < 360; i += 120) {
-                    double angle = Math.toRadians(i + ticks * 5);
-                    double radius = 2.5;
-                    
-                    double x = center.getX() + radius * Math.cos(angle);
-                    double z = center.getZ() + radius * Math.sin(angle);
+                @Override
+                public void run() {
+                    if (ticks >= DURATION) {
+                        cancel();
+                        return;
+                    }
                     
                     player.getWorld().spawnParticle(
                         Particle.SWEEP_ATTACK,
-                        x, center.getY() + 1, z,
+                        wolfLoc.clone().add(0, 1, 0),
                         2, 0.1, 0.1, 0.1, 0
                     );
-                }
-                
-                for (Entity e : player.getWorld().getNearbyEntities(center, 3, 3, 3)) {
-                    if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(2 + level, player);
+                    
+                    for (Entity e : player.getWorld().getNearbyEntities(wolfLoc, 2, 2, 2)) {
+                        if (e instanceof LivingEntity && e != player) {
+                            ((LivingEntity) e).damage(1, player);
+                        }
                     }
+                    
+                    ticks++;
                 }
-                
-                ticks++;
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
+            }.runTaskTimer(plugin, i * 8L, 1L);
+        }
     }
     
     private void snowAdvanced(Player player, int level) {
         player.sendMessage("§b§l❄️ SNOW FIEND: BLIZZARD (Advanced) ❄️");
+        player.playSound(player.getLocation(), Sound.BLOCK_POWDER_SNOW_BREAK, 1.0f, 0.9f);
+        
         Location center = player.getLocation();
+        int damage = 6 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 100;
+            final int DURATION = 90; // 4.5 seconds
             
             @Override
             public void run() {
@@ -2857,23 +4422,24 @@ public class BookManager {
                     return;
                 }
                 
-                for (int i = 0; i < 360; i += 45) {
-                    double angle = Math.toRadians(i + ticks * 3);
-                    double radius = 4.0;
-                    
+                double radius = 4.0;
+                
+                for (int i = 0; i < 360; i += 30) {
+                    double angle = Math.toRadians(i + ticks * 4);
                     double x = center.getX() + radius * Math.cos(angle);
                     double z = center.getZ() + radius * Math.sin(angle);
                     
                     player.getWorld().spawnParticle(
                         Particle.SNOWFLAKE,
                         x, center.getY() + 1, z,
-                        2, 0.1, 0.1, 0.1, 0
+                        3, 0.1, 0.1, 0.1, 0
                     );
                 }
                 
                 for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
                     if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).setFreezeTicks(20);
+                        e.setFreezeTicks(30);
+                        ((LivingEntity) e).damage(1, player);
                     }
                 }
                 
@@ -2884,12 +4450,15 @@ public class BookManager {
     
     private void limitlessAdvanced(Player player, int level) {
         player.sendMessage("§d§l∞ LIMITLESS: HOLLOW PURPLE (Advanced) ∞");
+        player.playSound(player.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 1.0f, 0.9f);
+        
         Location start = player.getEyeLocation();
         Vector direction = player.getLocation().getDirection().normalize();
+        int damage = 9 + level * 3;
         
         new BukkitRunnable() {
             int distance = 0;
-            final int MAX_DISTANCE = 30;
+            final int MAX_DISTANCE = 25;
             
             @Override
             public void run() {
@@ -2903,12 +4472,12 @@ public class BookManager {
                 player.getWorld().spawnParticle(
                     Particle.PORTAL,
                     current,
-                    3, 0.2, 0.2, 0.2, 0.3
+                    4, 0.2, 0.2, 0.2, 0.3
                 );
                 
                 for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
                     if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(8 + level * 2, player);
+                        ((LivingEntity) e).damage(damage, player);
                     }
                 }
                 
@@ -2919,51 +4488,57 @@ public class BookManager {
     
     private void shadowsAdvanced(Player player, int level) {
         player.sendMessage("§8§l🕷️ TEN SHADOWS: DIVINE DOGS (Advanced) 🕷️");
-        Location center = player.getLocation();
+        player.playSound(player.getLocation(), Sound.ENTITY_WOLF_HOWL, 1.0f, 0.8f);
         
-        new BukkitRunnable() {
-            int ticks = 0;
-            final int DURATION = 80;
-            
-            @Override
-            public void run() {
-                if (ticks >= DURATION) {
-                    cancel();
-                    return;
-                }
+        Location center = player.getLocation();
+        int damage = 7 + level * 2;
+        
+        for (int i = 0; i < 2; i++) {
+            int index = i;
+            new BukkitRunnable() {
+                int ticks = 0;
+                final int DURATION = 60; // 3 seconds
+                Location dogLoc = center.clone().add(
+                    random.nextDouble() * 6 - 3,
+                    0,
+                    random.nextDouble() * 6 - 3
+                );
                 
-                for (int i = 0; i < 360; i += 180) {
-                    double angle = Math.toRadians(i + ticks * 5);
-                    double radius = 3.0;
-                    
-                    double x = center.getX() + radius * Math.cos(angle);
-                    double z = center.getZ() + radius * Math.sin(angle);
+                @Override
+                public void run() {
+                    if (ticks >= DURATION) {
+                        cancel();
+                        return;
+                    }
                     
                     player.getWorld().spawnParticle(
                         Particle.SOUL_FIRE_FLAME,
-                        x, center.getY() + 1, z,
-                        3, 0.1, 0.1, 0.1, 0.01
+                        dogLoc.clone().add(0, 1, 0),
+                        2, 0.1, 0.1, 0.1, 0.01
                     );
-                }
-                
-                for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
-                    if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(3 + level, player);
+                    
+                    for (Entity e : player.getWorld().getNearbyEntities(dogLoc, 2, 2, 2)) {
+                        if (e instanceof LivingEntity && e != player) {
+                            ((LivingEntity) e).damage(1, player);
+                        }
                     }
+                    
+                    ticks++;
                 }
-                
-                ticks++;
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
+            }.runTaskTimer(plugin, i * 10L, 1L);
+        }
     }
     
     private void disasterAdvanced(Player player, int level) {
-        player.sendMessage("§c§l🔥 DISASTER FLAMES: VOLCANIC BURST (Advanced) 🔥");
+        player.sendMessage("§c§l🔥 DISASTER FLAMES: MAGMA BURST (Advanced) 🔥");
+        player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 0.8f);
+        
         Location center = player.getLocation();
+        int damage = 8 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 60; // 3 seconds
             
             @Override
             public void run() {
@@ -2973,24 +4548,22 @@ public class BookManager {
                 }
                 
                 if (ticks % 10 == 0) {
-                    for (int i = 0; i < 3; i++) {
-                        double angle = random.nextDouble() * Math.PI * 2;
-                        double radius = random.nextDouble() * 4;
-                        
-                        double x = center.getX() + radius * Math.cos(angle);
-                        double z = center.getZ() + radius * Math.sin(angle);
-                        
-                        player.getWorld().spawnParticle(
-                            Particle.FLAME,
-                            x, center.getY() + 1, z,
-                            5, 0.2, 0.2, 0.2, 0.02
-                        );
-                        
-                        for (Entity e : player.getWorld().getNearbyEntities(new Location(player.getWorld(), x, center.getY(), z), 2, 2, 2)) {
-                            if (e instanceof LivingEntity && e != player) {
-                                ((LivingEntity) e).damage(4 + level, player);
-                                e.setFireTicks(40);
-                            }
+                    double angle = random.nextDouble() * Math.PI * 2;
+                    double radius = random.nextDouble() * 4;
+                    
+                    double x = center.getX() + radius * Math.cos(angle);
+                    double z = center.getZ() + radius * Math.sin(angle);
+                    
+                    player.getWorld().spawnParticle(
+                        Particle.LAVA,
+                        x, center.getY() + 1, z,
+                        5, 0.2, 0.2, 0.2, 0
+                    );
+                    
+                    for (Entity e : player.getWorld().getNearbyEntities(new Location(player.getWorld(), x, center.getY(), z), 2, 2, 2)) {
+                        if (e instanceof LivingEntity && e != player) {
+                            ((LivingEntity) e).damage(1, player);
+                            e.setFireTicks(30);
                         }
                     }
                 }
@@ -3002,11 +4575,15 @@ public class BookManager {
     
     private void bloodAdvanced(Player player, int level) {
         player.sendMessage("§4§l🩸 BLOOD MANIPULATION: BLOOD ORBS (Advanced) 🩸");
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_HURT, 1.0f, 0.8f);
+        
         Location center = player.getLocation();
+        int damage = 7 + level * 2;
+        int heal = level;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 80;
+            final int DURATION = 70; // 3.5 seconds
             
             @Override
             public void run() {
@@ -3016,7 +4593,7 @@ public class BookManager {
                 }
                 
                 for (int i = 0; i < 360; i += 90) {
-                    double angle = Math.toRadians(i + ticks * 5);
+                    double angle = Math.toRadians(i + ticks * 4);
                     double radius = 2.5;
                     
                     double x = center.getX() + radius * Math.cos(angle);
@@ -3031,7 +4608,7 @@ public class BookManager {
                 
                 for (Entity e : player.getWorld().getNearbyEntities(center, 3, 3, 3)) {
                     if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(2, player);
+                        ((LivingEntity) e).damage(1, player);
                         player.setHealth(Math.min(player.getHealth() + 1, player.getMaxHealth()));
                     }
                 }
@@ -3042,12 +4619,14 @@ public class BookManager {
     }
     
     private void comedyAdvanced(Player player, int level) {
-        player.sendMessage("§a§l🎭 COMEDY: RANDOM CHAOS (Advanced) 🎭");
+        player.sendMessage("§a§l🎭 COMEDY: PRANKSTER (Advanced) 🎭");
+        player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 1.0f);
+        
         Location center = player.getLocation();
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 60; // 3 seconds
             
             @Override
             public void run() {
@@ -3057,26 +4636,18 @@ public class BookManager {
                 }
                 
                 if (ticks % 10 == 0) {
-                    int effect = random.nextInt(3);
+                    for (int i = 0; i < 5; i++) {
+                        player.getWorld().spawnParticle(
+                            Particle.NOTE,
+                            center.clone().add(random.nextDouble() * 5 - 2.5, random.nextDouble() * 2, random.nextDouble() * 5 - 2.5),
+                            1, 0, 0, 0, 0
+                        );
+                    }
                     
-                    switch(effect) {
-                        case 0:
-                            for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
-                                if (e instanceof LivingEntity && e != player) {
-                                    e.setVelocity(new Vector(0, 1, 0));
-                                }
-                            }
-                            break;
-                        case 1:
-                            player.getWorld().spawnParticle(
-                                Particle.NOTE,
-                                center.clone().add(0, 2, 0),
-                                20, 1, 1, 1, 0
-                            );
-                            break;
-                        case 2:
-                            player.getWorld().playSound(center, Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 1.0f);
-                            break;
+                    for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
+                        if (e instanceof LivingEntity && e != player) {
+                            e.setVelocity(new Vector(random.nextDouble() - 0.5, random.nextDouble() * 0.5, random.nextDouble() - 0.5));
+                        }
                     }
                 }
                 
@@ -3086,13 +4657,16 @@ public class BookManager {
     }
     
     private void spiritAdvanced(Player player, int level) {
-        player.sendMessage("§b§l💫 SPIRIT BOMB: ENERGY BALL (Advanced) 💫");
+        player.sendMessage("§b§l💫 SPIRIT BOMB: ENERGY SPHERE (Advanced) 💫");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 0.9f);
+        
         Location start = player.getEyeLocation();
         Vector direction = player.getLocation().getDirection().normalize();
+        int damage = 8 + level * 3;
         
         new BukkitRunnable() {
             int distance = 0;
-            final int MAX_DISTANCE = 30;
+            final int MAX_DISTANCE = 25;
             
             @Override
             public void run() {
@@ -3103,23 +4677,15 @@ public class BookManager {
                 
                 Location current = start.clone().add(direction.clone().multiply(distance));
                 
-                for (int i = 0; i < 360; i += 45) {
-                    double angle = Math.toRadians(i);
-                    double radius = 1.0;
-                    
-                    double x = current.getX() + radius * Math.cos(angle);
-                    double z = current.getZ() + radius * Math.sin(angle);
-                    
-                    player.getWorld().spawnParticle(
-                        Particle.END_ROD,
-                        x, current.getY(), z,
-                        2, 0.1, 0.1, 0.1, 0
-                    );
-                }
+                player.getWorld().spawnParticle(
+                    Particle.END_ROD,
+                    current,
+                    5, 0.2, 0.2, 0.2, 0
+                );
                 
                 for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
                     if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(6 + level * 2, player);
+                        ((LivingEntity) e).damage(damage, player);
                     }
                 }
                 
@@ -3130,12 +4696,15 @@ public class BookManager {
     
     private void kameAdvanced(Player player, int level) {
         player.sendMessage("§b§l🌊 KAMEHAMEHA: ENERGY WAVE (Advanced) 🌊");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 1.0f, 0.9f);
+        
         Location start = player.getEyeLocation();
         Vector direction = player.getLocation().getDirection().normalize();
+        int damage = 9 + level * 3;
         
         new BukkitRunnable() {
             int distance = 0;
-            final int MAX_DISTANCE = 30;
+            final int MAX_DISTANCE = 25;
             
             @Override
             public void run() {
@@ -3161,7 +4730,7 @@ public class BookManager {
                 
                 for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
                     if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(8 + level * 2, player);
+                        ((LivingEntity) e).damage(damage, player);
                     }
                 }
                 
@@ -3171,15 +4740,18 @@ public class BookManager {
     }
     
     private void instantAdvanced(Player player, int level) {
-        player.sendMessage("§e§l⚡ INSTANT TRANSMISSION: BLINK STRIKE (Advanced) ⚡");
+        player.sendMessage("§e§l⚡ INSTANT TRANSMISSION: BLINK (Advanced) ⚡");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 0.9f);
+        
+        int damage = 5 + level * 2;
+        int teleports = 3;
         
         new BukkitRunnable() {
             int count = 0;
-            final int TELEPORTS = 3 + level;
             
             @Override
             public void run() {
-                if (count >= TELEPORTS) {
+                if (count >= teleports) {
                     cancel();
                     return;
                 }
@@ -3192,7 +4764,7 @@ public class BookManager {
                     Location behind = target.getLocation().add(target.getLocation().getDirection().multiply(-2));
                     player.teleport(behind);
                     
-                    target.damage(4 + level * 2, player);
+                    target.damage(damage, player);
                     
                     player.getWorld().spawnParticle(
                         Particle.PORTAL,
@@ -3208,11 +4780,15 @@ public class BookManager {
     
     private void solarAdvanced(Player player, int level) {
         player.sendMessage("§6§l☀️ SOLAR FLARE: FLASH BANG (Advanced) ☀️");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
+        
         Location center = player.getLocation();
+        int damage = 6 + level * 2;
         
         for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
             if (e instanceof LivingEntity && e != player) {
                 ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 1));
+                ((LivingEntity) e).damage(damage, player);
             }
         }
         
@@ -3230,58 +4806,18 @@ public class BookManager {
             player.getWorld().spawnParticle(
                 Particle.FIREWORK,
                 x, center.getY() + 1, z,
-                5, 0.2, 0.2, 0.2, 0.01
+                3, 0.1, 0.1, 0.1, 0.01
             );
         }
     }
     
     private void galaxyAdvanced(Player player, int level) {
         player.sendMessage("§5§l🌌 GALAXY BREAKER: COSMIC BLAST (Advanced) 🌌");
-        Location start = player.getEyeLocation();
-        Vector direction = player.getLocation().getDirection().normalize();
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.8f);
         
-        new BukkitRunnable() {
-            int distance = 0;
-            final int MAX_DISTANCE = 30;
-            
-            @Override
-            public void run() {
-                if (distance >= MAX_DISTANCE) {
-                    cancel();
-                    return;
-                }
-                
-                Location current = start.clone().add(direction.clone().multiply(distance));
-                
-                for (int i = 0; i < 360; i += 30) {
-                    double angle = Math.toRadians(i);
-                    double radius = 1.5;
-                    
-                    double x = current.getX() + radius * Math.cos(angle);
-                    double z = current.getZ() + radius * Math.sin(angle);
-                    
-                    player.getWorld().spawnParticle(
-                        Particle.PORTAL,
-                        x, current.getY(), z,
-                        3, 0.1, 0.1, 0.1, 0.3
-                    );
-                }
-                
-                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
-                    if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(10 + level * 2, player);
-                    }
-                }
-                
-                distance += 2;
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-    
-    private void reaverAdvanced(Player player, int level) {
-        player.sendMessage("§8§l🌑 VOID REAVER: VOID SLASH (Advanced) 🌑");
         Location start = player.getEyeLocation();
         Vector direction = player.getLocation().getDirection().normalize();
+        int damage = 10 + level * 3;
         
         new BukkitRunnable() {
             int distance = 0;
@@ -3299,19 +4835,59 @@ public class BookManager {
                 player.getWorld().spawnParticle(
                     Particle.PORTAL,
                     current,
-                    5, 0.2, 0.2, 0.2, 0.4
+                    5, 0.2, 0.2, 0.2, 0.3
                 );
                 
                 for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
                     if (e instanceof LivingEntity && e != player) {
-                        ((LivingEntity) e).damage(6 + level * 2, player);
+                        ((LivingEntity) e).damage(damage, player);
+                    }
+                }
+                
+                distance += 2;
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
+    
+    private void reaverAdvanced(Player player, int level) {
+        player.sendMessage("§8§l🌑 VOID REAVER: VOID SLASH (Advanced) 🌑");
+        player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 0.8f);
+        
+        Location start = player.getEyeLocation();
+        Vector direction = player.getLocation().getDirection().normalize();
+        int damage = 8 + level * 2;
+        
+        new BukkitRunnable() {
+            int distance = 0;
+            final int MAX_DISTANCE = 20;
+            
+            @Override
+            public void run() {
+                if (distance >= MAX_DISTANCE) {
+                    cancel();
+                    return;
+                }
+                
+                Location current = start.clone().add(direction.clone().multiply(distance));
+                
+                player.getWorld().spawnParticle(
+                    Particle.PORTAL,
+                    current,
+                    4, 0.1, 0.1, 0.1, 0.4
+                );
+                
+                for (Entity e : player.getWorld().getNearbyEntities(current, 2, 2, 2)) {
+                    if (e instanceof LivingEntity && e != player) {
+                        ((LivingEntity) e).damage(damage, player);
                         
-                        Location randomLoc = e.getLocation().clone().add(
-                            random.nextDouble() * 3 - 1.5,
-                            0,
-                            random.nextDouble() * 3 - 1.5
-                        );
-                        e.teleport(randomLoc);
+                        if (random.nextInt(100) < 20) {
+                            Location randomLoc = e.getLocation().clone().add(
+                                random.nextDouble() * 3 - 1.5,
+                                0,
+                                random.nextDouble() * 3 - 1.5
+                            );
+                            e.teleport(randomLoc);
+                        }
                     }
                 }
                 
@@ -3322,11 +4898,15 @@ public class BookManager {
     
     private void eaterAdvanced(Player player, int level) {
         player.sendMessage("§2§l💀 SOUL EATER: SOUL DRAIN (Advanced) 💀");
+        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1.0f, 0.8f);
+        
         Location center = player.getLocation();
+        int damage = 6 + level * 2;
+        int heal = level;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 60; // 3 seconds
             
             @Override
             public void run() {
@@ -3335,7 +4915,7 @@ public class BookManager {
                     return;
                 }
                 
-                for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
+                for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
                     if (e instanceof LivingEntity && e != player) {
                         ((LivingEntity) e).damage(1, player);
                         player.setHealth(Math.min(player.getHealth() + 1, player.getMaxHealth()));
@@ -3343,7 +4923,7 @@ public class BookManager {
                         player.getWorld().spawnParticle(
                             Particle.SOUL,
                             e.getLocation().add(0, 1, 0),
-                            3, 0.1, 0.1, 0.1, 0.01
+                            2, 0.1, 0.1, 0.1, 0.01
                         );
                     }
                 }
@@ -3355,11 +4935,14 @@ public class BookManager {
     
     private void starfallAdvanced(Player player, int level) {
         player.sendMessage("§e§l✨ STAR FALL: METEOR SHOWER (Advanced) ✨");
+        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 0.9f);
+        
         Location center = player.getLocation();
+        int damage = 7 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 60; // 3 seconds
             
             @Override
             public void run() {
@@ -3370,7 +4953,7 @@ public class BookManager {
                 
                 if (ticks % 5 == 0) {
                     double angle = random.nextDouble() * Math.PI * 2;
-                    double radius = random.nextDouble() * 5;
+                    double radius = random.nextDouble() * 4;
                     
                     double x = center.getX() + radius * Math.cos(angle);
                     double z = center.getZ() + radius * Math.sin(angle);
@@ -3387,7 +4970,7 @@ public class BookManager {
                     
                     for (Entity e : player.getWorld().getNearbyEntities(new Location(player.getWorld(), x, center.getY(), z), 2, 2, 2)) {
                         if (e instanceof LivingEntity && e != player) {
-                            ((LivingEntity) e).damage(4 + level, player);
+                            ((LivingEntity) e).damage(damage, player);
                         }
                     }
                 }
@@ -3399,29 +4982,36 @@ public class BookManager {
     
     private void timeAdvanced(Player player, int level) {
         player.sendMessage("§b§l⏰ TIME STOP: TIME SLOW (Advanced) ⏰");
-        Location center = player.getLocation();
+        player.playSound(player.getLocation(), Sound.BLOCK_BEACON_AMBIENT, 1.0f, 0.8f);
         
-        for (Entity e : player.getWorld().getNearbyEntities(center, 6, 6, 6)) {
+        Location center = player.getLocation();
+        int damage = 7 + level * 2;
+        
+        for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
             if (e instanceof LivingEntity && e != player) {
-                ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 4));
-                ((LivingEntity) e).setVelocity(new Vector(0, 0, 0));
+                ((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 3));
+                ((LivingEntity) e).damage(damage, player);
+                e.setVelocity(new Vector(0, 0, 0));
             }
         }
         
         player.getWorld().spawnParticle(
             Particle.GLOW,
             center.clone().add(0, 2, 0),
-            50, 2, 2, 2, 0
+            30, 2, 2, 2, 0
         );
     }
     
     private void writerAdvanced(Player player, int level) {
         player.sendMessage("§d§l📝 REALITY WRITER: REWRITE (Advanced) 📝");
+        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0f, 0.9f);
+        
         Location center = player.getLocation();
+        int damage = 6 + level * 2;
         
         new BukkitRunnable() {
             int ticks = 0;
-            final int DURATION = 60;
+            final int DURATION = 60; // 3 seconds
             
             @Override
             public void run() {
@@ -3436,10 +5026,16 @@ public class BookManager {
                     3, 0.1, 0.1, 0.1, 0
                 );
                 
-                if (ticks % 20 == 0 && !player.getWorld().getNearbyEntities(center, 5, 5, 5).isEmpty()) {
-                    for (Entity e : player.getWorld().getNearbyEntities(center, 5, 5, 5)) {
+                if (ticks % 15 == 0) {
+                    for (Entity e : player.getWorld().getNearbyEntities(center, 4, 4, 4)) {
                         if (e instanceof LivingEntity && e != player) {
-                            ((LivingEntity) e).damage(3, player);
+                            ((LivingEntity) e).damage(damage, player);
+                            
+                            if (random.nextBoolean()) {
+                                e.setFireTicks(30);
+                            } else {
+                                e.setVelocity(new Vector(0, 1, 0));
+                            }
                         }
                     }
                 }
