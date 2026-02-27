@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -184,15 +185,21 @@ public class AbilityMenuManager implements Listener {
     
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
+        // Only handle our menu
         if (!event.getView().getTitle().equals(MENU_TITLE)) return;
-        if (!(event.getWhoClicked() instanceof Player)) return;
         
+        // Cancel ALL clicks in this inventory - prevents taking items
         event.setCancelled(true);
+        
+        // Make sure it's a player
+        if (!(event.getWhoClicked() instanceof Player)) return;
         
         Player player = (Player) event.getWhoClicked();
         ItemStack clicked = event.getCurrentItem();
         
-        if (clicked == null || !clicked.hasItemMeta()) return;
+        // If clicked item is null or air, do nothing
+        if (clicked == null || clicked.getType() == Material.AIR) return;
+        if (!clicked.hasItemMeta()) return;
         
         String displayName = clicked.getItemMeta().getDisplayName();
         
@@ -225,6 +232,17 @@ public class AbilityMenuManager implements Listener {
                     player.sendMessage("§c❌ You need Level 3 to use this ability!");
                 }
             }
+        }
+        // If clicked on info book or glass pane, do nothing (already cancelled)
+    }
+    
+    /**
+     * Also prevent dragging items in the menu
+     */
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        if (event.getView().getTitle().equals(MENU_TITLE)) {
+            event.setCancelled(true);
         }
     }
     
