@@ -1,10 +1,13 @@
 package com.phantom.smp.models;
 
-import org.bukkit.Material;
+import com.phantom.smp.PhantomSMP;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,6 +115,9 @@ public enum MagicBook {
     private final String description;
     private final int cooldown;
     private final String abilityKey;
+    
+    // Static instance for persistent data key
+    private static PhantomSMP plugin;
 
     MagicBook(String displayName, Material material, String description, int cooldown, String abilityKey) {
         this.displayName = displayName;
@@ -120,7 +126,17 @@ public enum MagicBook {
         this.cooldown = cooldown;
         this.abilityKey = abilityKey;
     }
+    
+    /**
+     * Initialize plugin instance (call from main class)
+     */
+    public static void init(PhantomSMP instance) {
+        plugin = instance;
+    }
 
+    /**
+     * Create a new book item with persistent data
+     */
     public ItemStack createBook() {
         ItemStack book = new ItemStack(material);
         ItemMeta meta = book.getItemMeta();
@@ -136,6 +152,13 @@ public enum MagicBook {
             "§8Ability: " + abilityKey
         ));
         
+        // CRITICAL: Add persistent data to identify books
+        if (plugin != null) {
+            NamespacedKey key = new NamespacedKey(plugin, "phantom-book");
+            meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, abilityKey);
+        }
+        
+        // Add enchantment glow
         meta.addEnchant(Enchantment.UNBREAKING, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         
@@ -143,6 +166,9 @@ public enum MagicBook {
         return book;
     }
 
+    /**
+     * Create a book with level information
+     */
     public ItemStack createBookWithLevel(int level, int kills) {
         ItemStack book = new ItemStack(material);
         ItemMeta meta = book.getItemMeta();
@@ -175,6 +201,13 @@ public enum MagicBook {
         lore.add("§8Ability: " + abilityKey);
         
         meta.setLore(lore);
+        
+        // CRITICAL: Add persistent data
+        if (plugin != null) {
+            NamespacedKey key = new NamespacedKey(plugin, "phantom-book");
+            meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, abilityKey);
+        }
+        
         meta.addEnchant(Enchantment.UNBREAKING, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         
@@ -182,6 +215,9 @@ public enum MagicBook {
         return book;
     }
 
+    /**
+     * Get level color based on level
+     */
     private String getLevelColor(int level) {
         switch(level) {
             case 1: return "§7";
@@ -191,6 +227,9 @@ public enum MagicBook {
         }
     }
 
+    /**
+     * Get level name based on level
+     */
     private String getLevelName(int level) {
         switch(level) {
             case 1: return "Initiate";
@@ -200,10 +239,16 @@ public enum MagicBook {
         }
     }
 
+    /**
+     * Get a random book
+     */
     public static MagicBook getRandomBook() {
         return values()[(int) (Math.random() * values().length)];
     }
 
+    /**
+     * Get book by ability key
+     */
     public static MagicBook getByAbilityKey(String key) {
         for (MagicBook book : values()) {
             if (book.abilityKey.equalsIgnoreCase(key)) {
@@ -212,6 +257,31 @@ public enum MagicBook {
         }
         return null;
     }
+    
+    /**
+     * CRITICAL: Check if an item is a Phantom Book using persistent data
+     */
+    public static boolean isPhantomBook(ItemStack item) {
+        if (item == null || item.getType() != Material.ENCHANTED_BOOK) return false;
+        if (!item.hasItemMeta()) return false;
+        if (plugin == null) return false;
+        
+        NamespacedKey key = new NamespacedKey(plugin, "phantom-book");
+        return item.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.STRING);
+    }
+    
+    /**
+     * Get ability key from book item
+     */
+    public static String getAbilityKeyFromItem(ItemStack item) {
+        if (!isPhantomBook(item)) return null;
+        if (plugin == null) return null;
+        
+        NamespacedKey key = new NamespacedKey(plugin, "phantom-book");
+        return item.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING);
+    }
+
+    // ========== GETTERS ==========
 
     public String getDisplayName() {
         return displayName;
@@ -227,5 +297,9 @@ public enum MagicBook {
     
     public String getDescription() {
         return description;
+    }
+    
+    public Material getMaterial() {
+        return material;
     }
 }
