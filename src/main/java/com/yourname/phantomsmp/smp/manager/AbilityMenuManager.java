@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -33,39 +34,33 @@ public class AbilityMenuManager implements Listener {
     
     @EventHandler
     public void onPlayerSneak(PlayerToggleSneakEvent event) {
-        if (!event.isSneaking()) return; // Only count when starting to sneak
+        if (!event.isSneaking()) return;
         
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
         long currentTime = System.currentTimeMillis();
         
-        // Check if player is holding a Phantom book
         if (!isHoldingPhantomBook(player)) return;
         
-        // Reset if last crouch was more than 2 seconds ago
         if (lastCrouchTime.containsKey(playerId) && 
             currentTime - lastCrouchTime.get(playerId) > 2000) {
             crouchCount.put(playerId, 0);
         }
         
-        // Increment crouch count
         int count = crouchCount.getOrDefault(playerId, 0) + 1;
         crouchCount.put(playerId, count);
         lastCrouchTime.put(playerId, currentTime);
         
-        // Show progress in action bar
         String progressBar = getProgressBar(count);
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, 
             TextComponent.fromLegacyText("§d⚡ Crouches: " + progressBar + " §f" + count + "§7/3"));
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.5f, 1.0f);
         
-        // If 3 crouches reached, open menu
         if (count >= 3) {
             crouchCount.remove(playerId);
             openAbilityMenu(player);
         }
         
-        // Schedule reset after 2 seconds
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -99,7 +94,6 @@ public class AbilityMenuManager implements Listener {
         
         int level = plugin.getLevelManager().getBookLevel(player, magicBook.getAbilityKey());
         
-        // Only open if player has level 2 or higher
         if (level < 2) {
             player.sendMessage("§c❌ You need Level 2 (Ascended) to use advanced abilities!");
             return;
@@ -107,30 +101,29 @@ public class AbilityMenuManager implements Listener {
         
         Inventory menu = Bukkit.createInventory(null, 27, MENU_TITLE);
         
-        // Level 2 Ability (always available if level >= 2)
+        // Level 2 Ability
         ItemStack ability2 = createAbilityItem(magicBook, 2, level);
         menu.setItem(11, ability2);
         
-        // Level 3 Ability (only if level >= 3)
+        // Level 3 Ability
         if (level >= 3) {
             ItemStack ability3 = createAbilityItem(magicBook, 3, level);
             menu.setItem(15, ability3);
         }
         
-        // Decorative items (glass panes)
+        // Decorative items
         ItemStack border = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta borderMeta = border.getItemMeta();
         borderMeta.setDisplayName("§r");
         border.setItemMeta(borderMeta);
         
-        // Fill empty slots with border
         for (int i = 0; i < 27; i++) {
             if (menu.getItem(i) == null) {
                 menu.setItem(i, border);
             }
         }
         
-        // Info item (center)
+        // Info item
         ItemStack info = new ItemStack(Material.BOOK);
         ItemMeta infoMeta = info.getItemMeta();
         infoMeta.setDisplayName("§6§l" + magicBook.getDisplayName());
@@ -166,7 +159,6 @@ public class AbilityMenuManager implements Listener {
         lore.add("§7Click to use the " + abilityType + " ability");
         lore.add("");
         
-        // Show if available or locked
         if (playerLevel >= abilityLevel) {
             lore.add("§a✔ Available");
             lore.add("§e⏱️ Cooldown: §f" + (book.getCooldown() * (abilityLevel == 2 ? 2 : 3)) + "s");
@@ -185,27 +177,30 @@ public class AbilityMenuManager implements Listener {
     
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        // Only handle our menu
+        // CRITICAL FIX: Check title and cancel ALL clicks immediately
         if (!event.getView().getTitle().equals(MENU_TITLE)) return;
         
-        // Cancel ALL clicks in this inventory - prevents taking items
+        // Cancel the event to prevent any item movement
         event.setCancelled(true);
         
-        // Make sure it's a player
+        // Prevent any action that could move items
+        if (event.getClickedInventory() != null && 
+            event.getClickedInventory().getType() == InventoryType.PLAYER) {
+            return; // Ignore clicks in player inventory
+        }
+        
         if (!(event.getWhoClicked() instanceof Player)) return;
         
         Player player = (Player) event.getWhoClicked();
         ItemStack clicked = event.getCurrentItem();
         
-        // If clicked item is null or air, do nothing
         if (clicked == null || clicked.getType() == Material.AIR) return;
         if (!clicked.hasItemMeta()) return;
         
         String displayName = clicked.getItemMeta().getDisplayName();
         
-        // Check if clicked on ability item
+        // Use ability based on click
         if (displayName.contains("ASCENDED")) {
-            // Use Level 2 ability
             player.closeInventory();
             ItemStack book = player.getInventory().getItemInMainHand();
             MagicBook magicBook = getBookFromItem(book);
@@ -214,12 +209,9 @@ public class AbilityMenuManager implements Listener {
                 int level = plugin.getLevelManager().getBookLevel(player, magicBook.getAbilityKey());
                 if (level >= 2) {
                     plugin.getBookManager().executeAdvancedAbility(player, magicBook, level);
-                } else {
-                    player.sendMessage("§c❌ You need Level 2 to use this ability!");
                 }
             }
         } else if (displayName.contains("GODLY")) {
-            // Use Level 3 ability
             player.closeInventory();
             ItemStack book = player.getInventory().getItemInMainHand();
             MagicBook magicBook = getBookFromItem(book);
@@ -228,17 +220,11 @@ public class AbilityMenuManager implements Listener {
                 int level = plugin.getLevelManager().getBookLevel(player, magicBook.getAbilityKey());
                 if (level >= 3) {
                     plugin.getBookManager().executeUltimateAbility(player, magicBook, level);
-                } else {
-                    player.sendMessage("§c❌ You need Level 3 to use this ability!");
                 }
             }
         }
-        // If clicked on info book or glass pane, do nothing (already cancelled)
     }
     
-    /**
-     * Also prevent dragging items in the menu
-     */
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         if (event.getView().getTitle().equals(MENU_TITLE)) {
