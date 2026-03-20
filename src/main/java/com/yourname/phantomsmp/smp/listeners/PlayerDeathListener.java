@@ -1,12 +1,10 @@
 package com.minetwice.phantomsmp.listeners;
 
 import com.minetwice.phantomsmp.PhantomSMP;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class PlayerDeathListener implements Listener {
     
@@ -29,11 +27,5 @@ public class PlayerDeathListener implements Listener {
             }
             return false;
         });
-        
-        // Ensure player keeps their book on respawn
-        if (plugin.getGemManager().hasPowerBook(player.getUniqueId())) {
-            ItemStack book = plugin.getGemManager().getPlayerBook(player.getUniqueId()).createBookItem();
-            player.getInventory().addItem(book);
-        }
     }
 }
