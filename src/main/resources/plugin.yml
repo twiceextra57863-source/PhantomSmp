@@ -3,50 +3,25 @@ version: 1.0.0
 main: com.minetwice.phantomsmp.PhantomSMP
 api-version: 1.21
 author: MineTwice
-description: 30 Unique Power Books System for SMP - Paper 1.21.4
 
 commands:
   smpstart:
-    description: Start the SMP and distribute power books
+    description: Start the SMP
     usage: /smpstart
     permission: phantomsmp.admin
   smprewind:
-    description: Remove all power books from players
+    description: Reset all books
     usage: /smprewind
     permission: phantomsmp.admin
-  books:
-    description: Open power books menu
-    usage: /books
-    permission: phantomsmp.admin
   bookgive:
-    description: Give a specific power book to a player
+    description: Give a book
     usage: /bookgive <player> <book>
     permission: phantomsmp.admin
-  trade:
-    description: Trade power books with another player
-    usage: /trade <player>
-    permission: phantomsmp.player
   bookinfo:
-    description: View power book information
-    usage: /bookinfo [player]
-    permission: phantomsmp.admin
-  setbooklevel:
-    description: Set a player's power book level
-    usage: /setbooklevel <player> <level>
-    permission: phantomsmp.admin
-  addkills:
-    description: Add kills to a player's power book
-    usage: /addkills <player> <amount>
-    permission: phantomsmp.admin
-  resetcooldowns:
-    description: Reset all cooldowns for a player
-    usage: /resetcooldowns [player]
+    description: View book info
+    usage: /bookinfo
     permission: phantomsmp.admin
 
 permissions:
   phantomsmp.admin:
-    description: Admin permissions
     default: op
-  phantomsmp.player:
-    description: Player permissions
-    default: true
