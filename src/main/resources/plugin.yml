@@ -1,72 +1,52 @@
 name: PhantomSMP
-version: 8.0.0
-main: com.phantom.smp.PhantomSMP
+version: 1.0.0
+main: com.minetwice.phantomsmp.PhantomSMP
 api-version: 1.21
-author: PhantomDev
-description: Ultimate Phantom SMP Plugin with 3-Level Book System & Epic Abilities
+author: MineTwice
+description: 30 Unique Power Books System for SMP - Paper 1.21.4
 
 commands:
   smpstart:
-    description: Start SMP timer with auto grace period
-    usage: /smpstart <seconds>
+    description: Start the SMP and distribute power books
+    usage: /smpstart
     permission: phantomsmp.admin
-  grace:
-    description: Start grace period
-    usage: /grace <seconds>
+  smprewind:
+    description: Remove all power books from players
+    usage: /smprewind
     permission: phantomsmp.admin
-  givebook:
-    description: Give magical book to player
-    usage: /givebook <player> [bookname]
+  books:
+    description: Open power books menu
+    usage: /books
     permission: phantomsmp.admin
-  giveall:
-    description: Give random book to all online players
-    usage: /giveall
-    permission: phantomsmp.admin
-  getallbooks:
-    description: Get all 30 Phantom Books
-    usage: /getallbooks
-    permission: phantomsmp.admin
-  booklist:
-    description: View all available books
-    usage: /booklist
-    permission: phantomsmp.use
-  bookinfo:
-    description: View detailed info about your book
-    usage: /bookinfo
-    permission: phantomsmp.use
-  levelbook:
-    description: Open level management GUI
-    usage: /levelbook
-    permission: phantomsmp.admin
-  randombook:
-    description: Give random magical book to player
-    usage: /randombook <player>
-    permission: phantomsmp.admin
-  reloadphantom:
-    description: Reload PhantomSMP plugin
-    usage: /reloadphantom
+  bookgive:
+    description: Give a specific power book to a player
+    usage: /bookgive <player> <book>
     permission: phantomsmp.admin
   trade:
-    description: Exchange books with another player
-    usage: /trade
-    permission: phantomsmp.use
-  self-trade:
-    description: Give your book to another player
-    usage: /self-trade
-    permission: phantomsmp.use
-  tradeaccept:
-    description: Accept a trade request
-    usage: /tradeaccept
-    permission: phantomsmp.use
-  tradedeny:
-    description: Deny a trade request
-    usage: /tradedeny
-    permission: phantomsmp.use
+    description: Trade power books with another player
+    usage: /trade <player>
+    permission: phantomsmp.player
+  bookinfo:
+    description: View power book information
+    usage: /bookinfo [player]
+    permission: phantomsmp.admin
+  setbooklevel:
+    description: Set a player's power book level
+    usage: /setbooklevel <player> <level>
+    permission: phantomsmp.admin
+  addkills:
+    description: Add kills to a player's power book
+    usage: /addkills <player> <amount>
+    permission: phantomsmp.admin
+  resetcooldowns:
+    description: Reset all cooldowns for a player
+    usage: /resetcooldowns [player]
+    permission: phantomsmp.admin
 
 permissions:
   phantomsmp.admin:
-    description: Admin permissions for PhantomSMP
+    description: Admin permissions
     default: op
-  phantomsmp.use:
-    description: Use PhantomSMP books and commands
+  phantomsmp.player:
+    description: Player permissions
     default: true
