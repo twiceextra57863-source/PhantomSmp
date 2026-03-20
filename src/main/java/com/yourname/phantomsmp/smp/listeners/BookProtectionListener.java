@@ -2,14 +2,11 @@ package com.minetwice.phantomsmp.listeners;
 
 import com.minetwice.phantomsmp.PhantomSMP;
 import com.minetwice.phantomsmp.utils.MessageUtils;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class BookProtectionListener implements Listener {
@@ -42,20 +39,6 @@ public class BookProtectionListener implements Listener {
                 event.setCancelled(true);
                 event.getWhoClicked().sendMessage(MessageUtils.colorize("&cPower books cannot be stored in containers!"));
             }
-        }
-    }
-    
-    @EventHandler
-    public void onItemSpawn(ItemSpawnEvent event) {
-        if (plugin.getGemManager().isPowerBook(event.getEntity().getItemStack())) {
-            event.setCancelled(true);
-        }
-    }
-    
-    @EventHandler
-    public void onItemDamage(PlayerItemDamageEvent event) {
-        if (plugin.getGemManager().isPowerBook(event.getItem())) {
-            event.setCancelled(true);
         }
     }
 }
