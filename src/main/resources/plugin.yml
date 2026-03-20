@@ -3,6 +3,7 @@ version: 1.0.0
 main: com.minetwice.phantomsmp.PhantomSMP
 api-version: 1.21
 author: MineTwice
+description: 30 Unique Power Books System for SMP
 
 commands:
   smpstart:
@@ -14,7 +15,7 @@ commands:
     usage: /smprewind
     permission: phantomsmp.admin
   bookgive:
-    description: Give a book
+    description: Give a power book
     usage: /bookgive <player> <book>
     permission: phantomsmp.admin
   bookinfo:
@@ -24,4 +25,5 @@ commands:
 
 permissions:
   phantomsmp.admin:
+    description: Admin permissions
     default: op
