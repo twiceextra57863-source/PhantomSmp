@@ -38,11 +38,18 @@ public class PowerBook {
         ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta meta = book.getItemMeta();
         
-        meta.setDisplayName(getColoredName());
+        // Set display name with color based on theme
+        String color = switch (theme.toLowerCase()) {
+            case "mythic" -> "§c";
+            case "ghost" -> "§7";
+            case "elemental" -> "§b";
+            default -> "§f";
+        };
+        meta.setDisplayName(color + "§l" + name);
         
         // Create lore
         List<String> lore = new ArrayList<>();
-        lore.add("§7" + getThemeColor() + "Theme: §f" + theme);
+        lore.add("§7Theme: " + color + theme);
         lore.add("");
         lore.add("§6§lABILITIES:");
         lore.add("§e▶ §fRight Click: §7" + ability1.getName());
@@ -55,12 +62,12 @@ public class PowerBook {
         lore.add("§6§lNEXT LEVEL:");
         if (level == 1) {
             lore.add("§7Need §e" + (10 - kills) + " §7more kills");
-            lore.add("§7Reward: §aStronger abilities");
+            lore.add("§7Reward: §aStronger abilities + reduced cooldown");
         } else if (level == 2) {
             lore.add("§7Need §e" + (25 - kills) + " §7more kills");
-            lore.add("§7Reward: §aMaximum power");
+            lore.add("§7Reward: §aMaximum power unlocked!");
         } else {
-            lore.add("§aMAX LEVEL REACHED!");
+            lore.add("§a✦ MAX LEVEL REACHED! ✦");
         }
         lore.add("");
         lore.add("§8§o\"The power of " + name + " flows within\"");
@@ -68,7 +75,7 @@ public class PowerBook {
         meta.setLore(lore);
         meta.setEnchantmentGlintOverride(true);
         
-        // Store data
+        // Store data in PersistentDataContainer
         meta.getPersistentDataContainer().set(
             NamespacedKey.fromString("phantomsmp:book_id", PhantomSMP.getInstance()),
             PersistentDataType.STRING, id);
@@ -84,24 +91,6 @@ public class PowerBook {
         
         book.setItemMeta(meta);
         return book;
-    }
-    
-    private String getColoredName() {
-        switch (theme.toLowerCase()) {
-            case "mythic": return "§c§l" + name;
-            case "ghost": return "§7§l" + name;
-            case "elemental": return "§b§l" + name;
-            default: return "§f§l" + name;
-        }
-    }
-    
-    private String getThemeColor() {
-        switch (theme.toLowerCase()) {
-            case "mythic": return "§c";
-            case "ghost": return "§7";
-            case "elemental": return "§b";
-            default: return "§f";
-        }
     }
     
     private String getLevelBar() {
@@ -123,36 +112,29 @@ public class PowerBook {
     
     public void addKill() {
         this.kills++;
-        int oldLevel = level;
-        
         if (level == 1 && kills >= 10) {
             level = 2;
         } else if (level == 2 && kills >= 25) {
             level = 3;
         }
-        
-        // Update lore when kills increase
-        if (level != oldLevel) {
-            // Level up animation will be handled by CombatListener
-        }
     }
     
-    public int getAbilityDamage(int baseDamage, int level) {
-        switch (this.level) {
-            case 1: return baseDamage;
-            case 2: return (int)(baseDamage * 1.5);
-            case 3: return baseDamage * 2;
-            default: return baseDamage;
-        }
+    public int getDamage(int baseDamage) {
+        return switch (level) {
+            case 1 -> baseDamage;
+            case 2 -> (int)(baseDamage * 1.5);
+            case 3 -> baseDamage * 2;
+            default -> baseDamage;
+        };
     }
     
-    public int getAbilityDuration(int baseDuration, int level) {
-        switch (this.level) {
-            case 1: return baseDuration;
-            case 2: return (int)(baseDuration * 1.3);
-            case 3: return baseDuration * 1.6;
-            default: return baseDuration;
-        }
+    public int getDuration(int baseDuration) {
+        return switch (level) {
+            case 1 -> baseDuration;
+            case 2 -> (int)(baseDuration * 1.3);
+            case 3 -> baseDuration * 1.6;
+            default -> baseDuration;
+        };
     }
     
     // Getters
